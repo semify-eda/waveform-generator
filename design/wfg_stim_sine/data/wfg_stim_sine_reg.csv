@@ -1,0 +1,14 @@
+Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
+12'h10,CTRL,,,,,,,Control register for sine wave generation unit
+,,EN,rw,cfg,0,0,1'b0,Enables stimuli generation
+12'h18,INC,,,,,,,Increment register
+,,VAL,rw,cfg,15,0,16'h1000,Increment for angle per sample (f=fs/2**16/INC). Counter is implemented as wrap-around counter.
+12'h1C,GAIN,,,,,,,Gain register
+,,VAL,rw,cfg,15,0,16'h4000,Sine wave gain in 2f14 unsigned representation. 
+12'h20,OFFSET,,,,,,,Offset register
+,,VAL,rw,cfg,15,0,16'h0000,Signed offset added after applying gain.
+12'hFF8,REGINFO,,,,,,,Register file information register
+,,DATE,r,const,19,0,20'd220223,Date 
+12'hFFC,ID,,,,,,,ID register
+,,PERIPHERAL_TYPE,r,const,7,0,8'h01,Peripheral ID
+,,VERSION,r,const,15,8,8'h01,Version

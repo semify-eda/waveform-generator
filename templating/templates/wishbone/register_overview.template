@@ -1,0 +1,8 @@
+
+{% for register in registers -%}
+{%- set address_int = register.address | int(base=16) -%}
+{%- set bits_int = register.bits | int -%}
+// 0x{{ '%0x' % address_int }} : Data signal of {{ register.name }}
+//        bit {{ bits_int - 1 }}~0 - {{ register.name }}[{{ bits_int - 1 }}:0] (Read/Write)
+//        others  - reserved
+{% endfor -%}

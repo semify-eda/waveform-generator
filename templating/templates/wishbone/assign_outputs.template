@@ -1,0 +1,8 @@
+
+{% for register in registers -%}
+    {%- set outer_loop = loop -%}
+    {%- for entry in registers[register].entries -%}
+        {%- set current_entry = registers[register].entries[entry] -%}
+        {{ 'assign {:<24} = {};'.format(register.lower()+'_'+entry.lower()+'_q_o', register.lower() + '_' + entry.lower() + '_ff') }}
+{% endfor -%}
+{%- endfor %}

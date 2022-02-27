@@ -1,0 +1,18 @@
+
+{% for register in registers -%}
+{%- set outer_loop = loop -%}
+{%- for entry in registers[register].entries -%}
+{%- set current_entry = registers[register].entries[entry] -%}
+
+{%- set delimiter = ',' -%}
+{%- if outer_loop.last and loop.last -%}
+{%- set delimiter = '' -%}
+{%- endif -%}
+
+{%- if current_entry.MSB == current_entry.LSB -%}
+{{ 'output logic         {:<24} // {}'.format(register.lower()+'_'+entry.lower()+'_q_o'+delimiter, register + '.' + entry + ' register output') }}
+{% else -%}
+{{ 'output logic [{:>2}:{:>2}] {:<24} // {}'.format(current_entry.MSB, current_entry.LSB, register.lower()+'_'+entry.lower()+'_q_o'+delimiter, register + '.' + entry + ' register output') }}
+{% endif -%}
+{%- endfor -%}
+{%- endfor %}

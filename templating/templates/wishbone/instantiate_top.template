@@ -1,0 +1,14 @@
+
+{% for register in registers -%}
+{%- set outer_loop = loop -%}
+{%- for entry in registers[register].entries -%}
+{%- set current_entry = registers[register].entries[entry] -%}
+{%- if current_entry.MSB == current_entry.LSB -%}
+{%- set name = register.lower()+"_"+entry.lower()+"_ff;" -%}
+{{ 'logic         {:<24} // {}'.format(register.lower()+'_'+entry.lower()+'_q;', register + '.' + entry + ' register output') }}
+{% else -%}
+{%- set name = "["+current_entry.MSB+":"+current_entry.LSB+"] "+register.lower()+"_"+entry.lower()+"_ff;" -%}
+{{ 'logic [{:>2}:{:>2}] {:<24} // {}'.format(current_entry.MSB, current_entry.LSB, register.lower()+'_'+entry.lower()+'_q;', register + '.' + entry + ' register output') }}
+{% endif -%}
+{%- endfor -%}
+{% endfor %}

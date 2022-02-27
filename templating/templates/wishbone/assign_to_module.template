@@ -1,0 +1,39 @@
+
+{% for register in registers -%}
+{%- set outer_loop = loop -%}
+{%- for entry in registers[register].entries -%}
+{%- set inner_loop = loop -%}
+{%- set current_entry = registers[register].entries[entry] -%}
+
+{%- if current_entry.hardware == 'cfg' -%}
+
+{#- Check if there is another cfg register after me -#}
+
+{%- set ns = namespace(iamlast=true, foundme=false) -%}      
+
+{% for other_register in registers -%}
+    {%- set other_outer_loop = loop -%}
+    {%- for other_entry in registers[other_register].entries -%}
+        {%- set other_inner_loop = loop -%}
+        
+        {%- if ns.foundme == true -%}
+            {%- if registers[other_register].entries[other_entry].hardware == 'cfg' -%}
+                {%- set ns.iamlast = false -%}
+            {%- endif -%}
+        {%- endif -%}
+        
+        {%- if register == other_register and other_entry == entry -%}
+            {%- set ns.foundme = true -%}
+        {%- endif -%}
+    {%- endfor -%}
+{%- endfor -%}
+
+{%- set delimiter = ',' -%}
+{%- if ns.iamlast == 1 -%}
+    {%- set delimiter = '' -%}
+{%- endif -%}
+
+{{ '.{:<24}({:<24}){:<2}// {}'.format(register.lower()+'_'+entry.lower()+'_q_o', register.lower()+'_'+entry.lower()+'_q', delimiter, register + '.' + entry + ' register output') }}
+{% endif -%}
+{%- endfor -%}
+{%- endfor %}

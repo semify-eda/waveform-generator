@@ -1,0 +1,8 @@
+
+{% for register in registers -%}
+    {%- set outer_loop = loop -%}
+    {%- for entry in registers[register].entries -%}
+        {%- set current_entry = registers[register].entries[entry] -%}
+        {{ '%-24s <= %s;' | format(register.lower() + '_' + entry.lower() + '_ff', current_entry.reset) }}
+{% endfor -%}
+{%- endfor %}

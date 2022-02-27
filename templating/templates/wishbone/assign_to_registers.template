@@ -1,0 +1,8 @@
+
+{% for register in registers -%}
+    {%- set outer_loop = loop -%}
+    {%- for entry in registers[register].entries -%}
+        {%- set current_entry = registers[register].entries[entry] -%}
+        {{'{:<12} {:<24} <= wbs_dat_i[{:>2}:{:>2}];'.format(registers[register].address + ':', register.lower() + '_' + entry.lower() + '_ff', current_entry.MSB, current_entry.LSB)}}
+{% endfor -%}
+{%- endfor %}
