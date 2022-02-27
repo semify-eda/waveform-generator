@@ -1,0 +1,23 @@
+name: Verible linter
+on: [push]
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: chipsalliance/verible-linter-action@main
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        config_file: 'config.rules'
+        fail_on_error: false
+        suggest_fixes: 'false'
+        paths: |
+          ./design/wfg_stim_sine/
+        extra_args: "--check_syntax=true"
+    - name: Log output
+      run: cat verible-verilog-lint.log
+    - name: Upload artifact
+      uses: actions/upload-artifact@main
+      with:
+        name: linter-log
+        path: verible-verilog-lint.log
