@@ -9,6 +9,7 @@ jobs:
       - uses: actions/checkout@main
       - name: Compile and install iverilog 
         run: |
+          sudo apt install -y gperf
           git clone https://github.com/steveicarus/iverilog.git
           cd iverilog
           sh autoconf.sh
