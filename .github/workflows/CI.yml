@@ -15,13 +15,16 @@ jobs:
           sh autoconf.sh
           ./configure
           make -j$(nproc)
-          make install
+          sudo make install
       - name: Install cocotb and modules
         run: |
+          cd ~/work/waveform-generator/waveform-generator/
           pip3 install cocotb
+          cd ~
           git clone https://github.com/wallento/cocotbext-wishbone.git
           pip3 install -e cocotbext-wishbone
       - name: Run tests
         run: |
+          cd ~/work/waveform-generator/waveform-generator/
           make templates
           make unit-tests 
