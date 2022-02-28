@@ -8,7 +8,7 @@ Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
 12'h20,OFFSET,,,,,,,Offset register
 ,,VAL,rw,cfg,15,0,16'h0000,Signed offset added after applying gain.
 12'hFF8,REGINFO,,,,,,,Register file information register
-,,DATE,r,const,19,0,20'd220223,Date 
+,,DATE,r,const,17,0,18'd210722,Date 
 12'hFFC,ID,,,,,,,ID register
 ,,PERIPHERAL_TYPE,r,const,7,0,8'h01,Peripheral ID
 ,,VERSION,r,const,15,8,8'h01,Version

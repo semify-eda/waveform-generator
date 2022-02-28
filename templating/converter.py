@@ -43,8 +43,9 @@ def main():
             print("Currently only .csv files can be converted")
             sys.exit(0)
         
-        print(in_filename)
-        print(out_filename)
+        if args.verbose:
+            print("in_filename: {}".format(in_filename))
+            print("out_filename: {}".format(out_filename))
         
         json_dict = {"registers" : {}}
 
@@ -54,7 +55,8 @@ def main():
             last_register = None
 
             for entry in csv_reader:
-                print(entry)
+                if args.verbose:
+                    print("Current entry: {}".format(entry))
                 
                 # Register
                 if entry['RegName'] != '':
@@ -72,7 +74,9 @@ def main():
                                                                         "description": entry['Description']
                                                                         }
 
-        print(json_dict)
+        if args.verbose:
+            print("Complete dictionary:")
+            print(json_dict)
         
         with open(out_filename, "w") as f_json:
             json.dump(json_dict, f_json, indent=4, sort_keys=True)

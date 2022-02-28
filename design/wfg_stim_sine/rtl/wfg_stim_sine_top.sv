@@ -35,7 +35,7 @@ module wfg_stim_sine_top #(
     logic [15: 8] id_version_q;            // ID.VERSION register output
     logic [15: 0] inc_val_q;               // INC.VAL register output
     logic [15: 0] offset_val_q;            // OFFSET.VAL register output
-    logic [19: 0] reginfo_date_q;          // REGINFO.DATE register output
+    logic [17: 0] reginfo_date_q;          // REGINFO.DATE register output
     
     //marker_template_end
 
@@ -65,8 +65,8 @@ module wfg_stim_sine_top #(
     );
 
     wfg_stim_sine stim_sine(
-        .clk                    (wb_clk_i),                      // clock signal
-        .rst_n                  (!wb_rst_i),                  // reset signal
+        .clk                    (wb_clk_i),                 // clock signal
+        .rst_n                  (!wb_rst_i),                // reset signal
         .wfg_stim_spi_tready_o  (wfg_stim_spi_tready_o),    // ready signal - AXI
         .wfg_stim_spi_tvalid_i  (wfg_stim_spi_tvalid_i),    // valid signal - AXI
         .wfg_stim_spi_tdata_i   (wfg_stim_spi_tdata_i),     // sine output - AXI

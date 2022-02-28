@@ -84,11 +84,11 @@
             "entries": {
                 "DATE": {
                     "LSB": "0",
-                    "MSB": "19",
+                    "MSB": "17",
                     "access": "r",
                     "description": "Date ",
                     "hardware": "const",
-                    "reset": "20'd220223"
+                    "reset": "18'd210722"
                 }
             }
         }

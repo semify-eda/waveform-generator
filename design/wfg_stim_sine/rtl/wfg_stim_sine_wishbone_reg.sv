@@ -30,7 +30,7 @@ module whishbone_slave #(
     output logic [15: 8] id_version_q_o,          // ID.VERSION register output
     output logic [15: 0] inc_val_q_o,             // INC.VAL register output
     output logic [15: 0] offset_val_q_o,          // OFFSET.VAL register output
-    output logic [19: 0] reginfo_date_q_o         // REGINFO.DATE register output
+    output logic [17: 0] reginfo_date_q_o         // REGINFO.DATE register output
     
     //marker_template_end
 );
@@ -46,7 +46,7 @@ module whishbone_slave #(
     logic [15: 8] id_version_ff;           // ID.VERSION FF
     logic [15: 0] inc_val_ff;              // INC.VAL FF
     logic [15: 0] offset_val_ff;           // OFFSET.VAL FF
-    logic [19: 0] reginfo_date_ff;         // REGINFO.DATE FF
+    logic [17: 0] reginfo_date_ff;         // REGINFO.DATE FF
     
     //marker_template_end
 
@@ -63,7 +63,7 @@ module whishbone_slave #(
             id_version_ff            <= 8'h01;
             inc_val_ff               <= 16'h1000;
             offset_val_ff            <= 16'h0000;
-            reginfo_date_ff          <= 20'd220223;
+            reginfo_date_ff          <= 18'd210722;
             
             //marker_template_end
         end
@@ -79,13 +79,15 @@ module whishbone_slave #(
                 //template: wishbone/assign_to_registers.template
                 //marker_template_code
                 
-                12'h10:      ctrl_en_ff               <= wbs_dat_i[ 0: 0];
-                12'h1C:      gain_val_ff              <= wbs_dat_i[15: 0];
-                12'hFFC:     id_peripheral_type_ff    <= wbs_dat_i[ 7: 0];
-                12'hFFC:     id_version_ff            <= wbs_dat_i[15: 8];
-                12'h18:      inc_val_ff               <= wbs_dat_i[15: 0];
-                12'h20:      offset_val_ff            <= wbs_dat_i[15: 0];
-                12'hFF8:     reginfo_date_ff          <= wbs_dat_i[19: 0];
+                12'h10:     ctrl_en_ff               <= wbs_dat_i[ 0: 0];
+                12'h1C:     gain_val_ff              <= wbs_dat_i[15: 0];
+                12'hFFC:    begin
+                            id_peripheral_type_ff    <= wbs_dat_i[ 7: 0];
+                            id_version_ff            <= wbs_dat_i[15: 8];
+                end
+                12'h18:     inc_val_ff               <= wbs_dat_i[15: 0];
+                12'h20:     offset_val_ff            <= wbs_dat_i[15: 0];
+                12'hFF8:    reginfo_date_ff          <= wbs_dat_i[17: 0];
                 
                 //marker_template_end
             endcase
@@ -94,19 +96,23 @@ module whishbone_slave #(
 
     // Wishbone read from slave
     always_comb begin
+        wbs_dat_o = 0;
+        
         case (wbs_adr_i)
             //marker_template_start
             //data: ../data/wfg_stim_sine_reg.json
             //template: wishbone/assign_from_registers.template
             //marker_template_code
             
-            12'h10:    wbs_dat_o[ 0: 0] = ctrl_en_ff;
-            12'h1C:    wbs_dat_o[15: 0] = gain_val_ff;
-            12'hFFC:   wbs_dat_o[ 7: 0] = id_peripheral_type_ff;
-            12'hFFC:   wbs_dat_o[15: 8] = id_version_ff;
-            12'h18:    wbs_dat_o[15: 0] = inc_val_ff;
-            12'h20:    wbs_dat_o[15: 0] = offset_val_ff;
-            12'hFF8:   wbs_dat_o[19: 0] = reginfo_date_ff;
+            12'h10:     wbs_dat_o[ 0: 0] = ctrl_en_ff;
+            12'h1C:     wbs_dat_o[15: 0] = gain_val_ff;
+            12'hFFC:    begin
+                        wbs_dat_o[ 7: 0] = id_peripheral_type_ff;
+                        wbs_dat_o[15: 8] = id_version_ff;
+            end
+            12'h18:     wbs_dat_o[15: 0] = inc_val_ff;
+            12'h20:     wbs_dat_o[15: 0] = offset_val_ff;
+            12'hFF8:    wbs_dat_o[17: 0] = reginfo_date_ff;
             
             //marker_template_end
             default: wbs_dat_o = 'X;

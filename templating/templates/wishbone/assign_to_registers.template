@@ -1,8 +1,26 @@
 
 {% for register in registers -%}
     {%- set outer_loop = loop -%}
+    
+    {{'{:<12}'.format(registers[register].address + ':')}}
+    
+{%- if registers[register].entries|length > 1 -%}
+begin
+{% endif -%}
+    
     {%- for entry in registers[register].entries -%}
         {%- set current_entry = registers[register].entries[entry] -%}
-        {{'{:<12} {:<24} <= wbs_dat_i[{:>2}:{:>2}];'.format(registers[register].address + ':', register.lower() + '_' + entry.lower() + '_ff', current_entry.MSB, current_entry.LSB)}}
-{% endfor -%}
+        
+        {%- if registers[register].entries|length > 1 -%}
+        {{'{:<12}{:<24} <= wbs_dat_i[{:>2}:{:>2}];'.format('', register.lower() + '_' + entry.lower() + '_ff', current_entry.MSB, current_entry.LSB)}}
+{% else -%}
+        {{'{:<24} <= wbs_dat_i[{:>2}:{:>2}];'.format(register.lower() + '_' + entry.lower() + '_ff', current_entry.MSB, current_entry.LSB)}}
+{% endif -%}
+{%- endfor -%}
+
+
+{%- if registers[register].entries|length > 1 -%}
+end
+{% endif -%}
+
 {%- endfor %}
