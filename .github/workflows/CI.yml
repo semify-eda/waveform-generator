@@ -5,10 +5,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
-      - run: sudo apt install iverilog -y
-      - run: pip3 install cocotb
-      - run: |
+      - name: Compile and install iverilog 
+        run: |
+          git clone https://github.com/steveicarus/iverilog.git
+          cd iverilog
+          sh autoconf.sh
+          ./configure
+          make -j$(nproc)
+          make install
+      - name: Install cocotb and modules
+        run: pip3 install cocotb
+        run: |
           git clone https://github.com/wallento/cocotbext-wishbone.git
           pip3 install -e cocotbext-wishbone
-      - run: make templates
-      - run: make unit-tests 
+      - name: Run tests
+        run: make templates
+        run: make unit-tests 
