@@ -3,6 +3,8 @@ on: [push]
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
     steps:
       - uses: actions/checkout@main
       - name: Compile and install iverilog 
@@ -14,10 +16,11 @@ jobs:
           make -j$(nproc)
           make install
       - name: Install cocotb and modules
-        run: pip3 install cocotb
         run: |
+          pip3 install cocotb
           git clone https://github.com/wallento/cocotbext-wishbone.git
           pip3 install -e cocotbext-wishbone
       - name: Run tests
-        run: make templates
-        run: make unit-tests 
+        run: |
+          make templates
+          make unit-tests 
