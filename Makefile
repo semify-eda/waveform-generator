@@ -23,6 +23,9 @@ lint:
 lint-autofix:
 	verible-verilog-lint --autofix inplace-interactive design/*/*/*.sv
 
+format:
+	verible-verilog-format --indentation_spaces 4 --verbose --module_net_variable_alignment=preserve --case_items_alignment=preserve design/*/*/*.sv --inplace
+
 clean:
 	rm -rf design/*/sim/sim_build
 	rm -rf design/*/sim/*.vcd
