@@ -29,7 +29,7 @@ module whishbone_slave #(
     output logic [ 7: 0] id_peripheral_type_q_o,  // ID.PERIPHERAL_TYPE register output
     output logic [15: 8] id_version_q_o,          // ID.VERSION register output
     output logic [15: 0] inc_val_q_o,             // INC.VAL register output
-    output logic [15: 0] offset_val_q_o,          // OFFSET.VAL register output
+    output logic [17: 0] offset_val_q_o,          // OFFSET.VAL register output
     output logic [17: 0] reginfo_date_q_o         // REGINFO.DATE register output
     
     //marker_template_end
@@ -45,7 +45,7 @@ module whishbone_slave #(
     logic [ 7: 0] id_peripheral_type_ff;   // ID.PERIPHERAL_TYPE FF
     logic [15: 8] id_version_ff;           // ID.VERSION FF
     logic [15: 0] inc_val_ff;              // INC.VAL FF
-    logic [15: 0] offset_val_ff;           // OFFSET.VAL FF
+    logic [17: 0] offset_val_ff;           // OFFSET.VAL FF
     logic [17: 0] reginfo_date_ff;         // REGINFO.DATE FF
     
     //marker_template_end
@@ -62,7 +62,7 @@ module whishbone_slave #(
             id_peripheral_type_ff    <= 8'h01;
             id_version_ff            <= 8'h01;
             inc_val_ff               <= 16'h1000;
-            offset_val_ff            <= 16'h0000;
+            offset_val_ff            <= 18'h0000;
             reginfo_date_ff          <= 18'd210722;
             
             //marker_template_end
@@ -86,7 +86,7 @@ module whishbone_slave #(
                             id_version_ff            <= wbs_dat_i[15: 8];
                 end
                 12'h18:     inc_val_ff               <= wbs_dat_i[15: 0];
-                12'h20:     offset_val_ff            <= wbs_dat_i[15: 0];
+                12'h20:     offset_val_ff            <= wbs_dat_i[17: 0];
                 12'hFF8:    reginfo_date_ff          <= wbs_dat_i[17: 0];
                 
                 //marker_template_end
@@ -111,7 +111,7 @@ module whishbone_slave #(
                         wbs_dat_o[15: 8] = id_version_ff;
             end
             12'h18:     wbs_dat_o[15: 0] = inc_val_ff;
-            12'h20:     wbs_dat_o[15: 0] = offset_val_ff;
+            12'h20:     wbs_dat_o[17: 0] = offset_val_ff;
             12'hFF8:    wbs_dat_o[17: 0] = reginfo_date_ff;
             
             //marker_template_end

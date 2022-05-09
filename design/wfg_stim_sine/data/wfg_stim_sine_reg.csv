@@ -6,7 +6,7 @@ Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
 12'h1C,GAIN,,,,,,,Gain register
 ,,VAL,rw,cfg,15,0,16'h4000,Sine wave gain in 2f14 unsigned representation. 
 12'h20,OFFSET,,,,,,,Offset register
-,,VAL,rw,cfg,15,0,16'h0000,Signed offset added after applying gain.
+,,VAL,rw,cfg,17,0,18'h0000,Signed offset added after applying gain.
 12'hFF8,REGINFO,,,,,,,Register file information register
 ,,DATE,r,const,17,0,18'd210722,Date 
 12'hFFC,ID,,,,,,,ID register

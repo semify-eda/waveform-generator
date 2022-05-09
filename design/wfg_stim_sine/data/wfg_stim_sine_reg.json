@@ -70,11 +70,11 @@
             "entries": {
                 "VAL": {
                     "LSB": "0",
-                    "MSB": "15",
+                    "MSB": "17",
                     "access": "rw",
                     "description": "Signed offset added after applying gain.",
                     "hardware": "cfg",
-                    "reset": "16'h0000"
+                    "reset": "18'h0000"
                 }
             }
         },

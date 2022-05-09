@@ -34,7 +34,7 @@ module wfg_stim_sine_top #(
     logic [ 7: 0] id_peripheral_type_q;    // ID.PERIPHERAL_TYPE register output
     logic [15: 8] id_version_q;            // ID.VERSION register output
     logic [15: 0] inc_val_q;               // INC.VAL register output
-    logic [15: 0] offset_val_q;            // OFFSET.VAL register output
+    logic [17: 0] offset_val_q;            // OFFSET.VAL register output
     logic [17: 0] reginfo_date_q;          // REGINFO.DATE register output
     
     //marker_template_end
