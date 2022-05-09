@@ -7,19 +7,30 @@ import sys
 import csv
 import json
 import argparse
+import pathlib
 from jinja2 import Environment, FileSystemLoader
 
 def dir_path(string):
-    if os.path.isdir(string):
-        return string
-    else:
-        raise argparse.ArgumentTypeError(f"{string} is not a valid directory")
-        
+    path = pathlib.Path(string)
+    
+    if not path.exists():
+        raise argparse.ArgumentTypeError(f"{path} does not exist")
+    
+    if not path.is_dir():
+        raise argparse.ArgumentTypeError(f"{path} is not a directory")
+
+    return string
+
 def file_path(string):
-    if os.path.isfile(string):
-        return string
-    else:
-        raise argparse.ArgumentTypeError(f"{string} is not a valid file")
+    path = pathlib.Path(string)
+    
+    if not path.exists():
+        raise argparse.ArgumentTypeError(f"{path} does not exist")
+    
+    if not path.is_file():
+        raise argparse.ArgumentTypeError(f"{path} is not a file")
+
+    return string
 
 def main():
     parser = argparse.ArgumentParser(description='Generate code blocks from templates inside files.')
@@ -32,20 +43,25 @@ def main():
     args = parser.parse_args()
     
     # Set file names
-    in_filenames = args.input
+    in_filenames = [pathlib.Path(input) for input in args.input]
     
     if args.output == None:
-        args.output = args.input
-    
-    out_filenames = args.output
+        out_filenames = in_filenames
+    else:
+        out_filenames = [pathlib.Path(output) for output in args.output]
     
     if args.data_dir == None:
-        args.data_dir = "./"
+        data_dir = None
+    else:
+        data_dir = pathlib.Path(args.data_dir)
 
     if args.template_dir == None:
-        args.template_dir = "./"
-
-    file_loader = FileSystemLoader(searchpath=args.template_dir)
+        template_dir = None
+    else:
+        template_dir = pathlib.Path(args.template_dir)
+        
+    # Jinja file loader
+    file_loader = FileSystemLoader(searchpath='/')
     env = Environment(loader=file_loader)
     
     for (file_cnt, in_filename) in enumerate(in_filenames):
@@ -86,9 +102,15 @@ def main():
                 continue
         
             if read_data:
-                datapath = os.path.dirname(in_filename) + "/" + line.strip().split("data:")[1].strip()
+                if data_dir:
+                    datapath = data_dir / line.strip().split("data:")[1].strip()
+                else:
+                    datapath = in_filename.parent / line.strip().split("data:")[1].strip()
                 
-                if datapath.endswith(".json"):
+                if not datapath.exists():
+                    print('Error: Data file {} does not exist'.format(datapath))
+                
+                if datapath.suffix == ".json":
                     with open(datapath, "r") as f_json:
                         data = json.load(f_json)
                 else:
@@ -100,8 +122,15 @@ def main():
                 continue
                 
             if read_template:
-                templatepath = line.strip().split("template:")[1].strip()
-                template = env.get_template(templatepath)
+                if template_dir:
+                    templatepath = template_dir / line.strip().split("template:")[1].strip()
+                else:
+                    templatepath = in_filename.parent / line.strip().split("template:")[1].strip()
+                
+                if not templatepath.exists():
+                    print('Error: Template file {} does not exist'.format(templatepath))
+                
+                template = env.get_template(str(templatepath.resolve()))
                 output_file_content += line + "\n"
                 read_template = False
                 continue

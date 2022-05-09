@@ -9,12 +9,17 @@ DATA_FILES := design/wfg_stim_sine/data/wfg_stim_sine_reg.csv
 LIBRARIES := $(DATA_FILES:.csv=.json)
 
 ${LIBRARIES}: ${DATA_FILES}
-	templating/converter.py -i $^ -o $@
+	python3 templating/converter.py -i $^ -o $@
 
 templates: ${TEMPLATED_FILES} ${LIBRARIES}
-	templating/generator.py --template_dir templating/templates -i ${TEMPLATED_FILES}
+	python3 templating/generator.py --template_dir templating/templates -i ${TEMPLATED_FILES}
 
 unit-tests:
 	cd design/wfg_stim_sine/sim; make sim
 
-.PHONY: templates unit-tests
+clean:
+	rm -rf design/*/sim/sim_build
+	rm -rf design/*/sim/*.vcd
+	rm -rf design/*/sim/*.xml
+
+.PHONY: templates unit-tests clean
