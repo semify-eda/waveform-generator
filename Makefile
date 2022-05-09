@@ -17,6 +17,12 @@ templates: ${TEMPLATED_FILES} ${LIBRARIES}
 unit-tests:
 	cd design/wfg_stim_sine/sim; make sim
 
+lint:
+	verible-verilog-lint design/*/*/*.sv
+
+lint-autofix:
+	verible-verilog-lint --autofix inplace-interactive design/*/*/*.sv
+
 clean:
 	rm -rf design/*/sim/sim_build
 	rm -rf design/*/sim/*.vcd

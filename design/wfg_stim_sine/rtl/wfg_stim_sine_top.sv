@@ -17,7 +17,7 @@ module wfg_stim_sine_top #(
     input  [(BUSW-1):0]     wbs_adr_i,
     output                  wbs_ack_o,
     output [(BUSW-1):0]     wbs_dat_o,
-    
+
     // AXI-Stream interface
     input                   wfg_stim_spi_tready_o,
     output                  wfg_stim_spi_tvalid_i,
@@ -28,7 +28,7 @@ module wfg_stim_sine_top #(
     //data: ../data/wfg_stim_sine_reg.json
     //template: wishbone/instantiate_top.template
     //marker_template_code
-    
+
     logic         ctrl_en_q;               // CTRL.EN register output
     logic [15: 0] gain_val_q;              // GAIN.VAL register output
     logic [ 7: 0] id_peripheral_type_q;    // ID.PERIPHERAL_TYPE register output
@@ -36,7 +36,7 @@ module wfg_stim_sine_top #(
     logic [15: 0] inc_val_q;               // INC.VAL register output
     logic [17: 0] offset_val_q;            // OFFSET.VAL register output
     logic [17: 0] reginfo_date_q;          // REGINFO.DATE register output
-    
+
     //marker_template_end
 
     whishbone_slave whishbone_slave (
@@ -50,17 +50,17 @@ module wfg_stim_sine_top #(
         .wbs_adr_i      (wbs_adr_i),
         .wbs_ack_o      (wbs_ack_o),
         .wbs_dat_o      (wbs_dat_o),
-        
+
         //marker_template_start
         //data: ../data/wfg_stim_sine_reg.json
         //template: wishbone/assign_to_module.template
         //marker_template_code
-        
+
         .ctrl_en_q_o             (ctrl_en_q               ), // CTRL.EN register output
         .gain_val_q_o            (gain_val_q              ), // GAIN.VAL register output
         .inc_val_q_o             (inc_val_q               ), // INC.VAL register output
         .offset_val_q_o          (offset_val_q            )  // OFFSET.VAL register output
-        
+
         //marker_template_end
     );
 

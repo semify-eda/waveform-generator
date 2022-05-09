@@ -23,7 +23,7 @@ module wfg_stim_sine_tb #(
     input               io_wbs_stb,
     output              io_wbs_ack,
     input               io_wbs_cyc,
-    
+
     // AXI-Stream interface
     input                   wfg_stim_spi_tready_o,
     output                  wfg_stim_spi_tvalid_i,
@@ -41,7 +41,7 @@ module wfg_stim_sine_tb #(
         .wbs_adr_i      (io_wbs_adr),
         .wbs_ack_o      (io_wbs_ack),
         .wbs_dat_o      (io_wbs_datrd),
-        
+
         .wfg_stim_spi_tready_o  (wfg_stim_spi_tready_o),
         .wfg_stim_spi_tvalid_i  (wfg_stim_spi_tvalid_i),
         .wfg_stim_spi_tdata_i   (wfg_stim_spi_tdata_i)
