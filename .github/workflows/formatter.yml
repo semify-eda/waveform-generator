@@ -1,0 +1,13 @@
+name: Verible formatter example
+on:
+  pull_request:
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: chipsalliance/verible-formatter-action@main
+      with:
+        paths: |
+          ./design/ --indentation_spaces 4 --module_net_variable_alignment=preserve --case_items_alignment=preserve
+        github_token: ${{ secrets.GITHUB_TOKEN }}
