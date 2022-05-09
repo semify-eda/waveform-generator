@@ -31,13 +31,27 @@ The testbench environment for the unit-tests uses `cocotb`. To install it togeth
 
 To run the individual unit tests, issue:
 
-`make unit-test`
+	make unit-test
 
-# Generate Templates
+# Template Generation
 
 To generate the registers for the wishbone bus, issue:
 
-`make templates`
+	make templates
+
+# Code Formatting
+
+To ensure consistent formatting, [verible](https://github.com/chipsalliance/verible) is used as a SystemVerilog formatter tool.
+
+	make format
+
+This will format the code according to some custom flags.
+
+# Invoke Linter
+
+To invoke the [verible](https://github.com/chipsalliance/verible) linter, run:
+
+	make lint
 
 ## License
 

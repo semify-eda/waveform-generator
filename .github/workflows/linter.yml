@@ -9,11 +9,11 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         config_file: 'config.rules'
-        fail_on_error: false
+        fail_on_error: true
         suggest_fixes: 'false'
         paths: |
-          ./design/wfg_stim_sine/
-        extra_args: "--check_syntax=true"
+          ./design/
+        extra_args: "--check_syntax=true --rules=-unpacked-dimensions-range-ordering"
     - name: Log output
       run: cat verible-verilog-lint.log
     - name: Upload artifact
