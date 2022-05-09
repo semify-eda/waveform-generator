@@ -13,19 +13,18 @@ module wfg_stim_sine (
     input  wire        [15:0] gain_val_q_i,           // sine gain/multiplier
     input  wire signed [17:0] offset_val_q_i          // sine offset
 );
-
+    parameter K = 16'h9b74;  // 0.60725*2^16, expand the decimal by 2^16 to reduce the error
     logic signed [16:0] sin_17;
     logic signed [16:0] sin_17_ff;
     logic signed [17:0] sin_18;
-    parameter K = 16'h9b74;  // 0.60725*2^16, expand the decimal by 2^16 to reduce the error
     logic signed [16:0] x0;
     logic signed [16:0] y0; // Because arithmetic shift is used, a signed type needs to be defined
     logic signed [16:0] temp1;
     logic signed [16:0] temp2; // Used as a temporary variable
     logic signed [16:0] z;
     logic signed [16:0] z_z;
-    logic [1:0] quadrant; // quadrant
-    logic [15:0]rot[15:0]; // Store the angle of each rotation
+    logic [1:0]  quadrant;  // quadrant
+    logic [15:0] rot[15:0]; // Store the angle of each rotation
     logic [31:0] i;
     logic signed [34:0] temp;
     logic [15:0] phase_in;
@@ -67,10 +66,10 @@ module wfg_stim_sine (
                 if (i == 0) begin
                     temp1 <= K;
                     temp2 <= 0;
-                    quadrant <= increment[15:14]; // The first two digits of the input indicate the quadrant
-                    z <= {
-                        3'b0, increment[13:0]
-                    };  // z is used to store the angle after transforming to the first quadrant
+                    // The first two digits of the input indicate the quadrant
+                    quadrant <= increment[15:14];
+                    // z is used to store the angle after transforming to the first quadrant
+                    z <= {3'b0, increment[13:0]};
                     i <= i + 1;
                     phase_in <= increment;
                 end else begin
@@ -83,7 +82,8 @@ module wfg_stim_sine (
                     end else begin
                         i <= i + 1;
                         valid <= 1'b0;
-                        temp1<=x0; // You need to assign the current value to temp every time you loop
+                        // You need to assign the current value to temp every time you loop
+                        temp1 <= x0;
                         temp2 <= y0;
                         z <= z_z;
                     end
@@ -94,8 +94,8 @@ module wfg_stim_sine (
 
     always_comb begin
         if (z[16] && i >= 1 && i < 17) begin
-            x0 = temp1+(temp2>>>(i-1)); // Use arithmetic shift right requires parentheses, because the priority is lower than the + sign
-            y0 = temp2 - (temp1 >>> (i - 1));
+            x0  = temp1 + (temp2 >>> (i - 1));
+            y0  = temp2 - (temp1 >>> (i - 1));
             z_z = z + rot[(i-1)];
         end else if (i >= 1 && i < 17) begin
             x0  = temp1 - (temp2 >>> (i - 1));
@@ -146,7 +146,6 @@ module wfg_stim_sine (
     // I/O assignment
     assign wfg_stim_spi_tdata_i[17:0] = sin_18[17:0];
     assign wfg_stim_spi_tvalid_i = valid;
-
 
 endmodule
 `default_nettype wire
