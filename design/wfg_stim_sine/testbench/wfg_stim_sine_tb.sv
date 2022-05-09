@@ -10,7 +10,7 @@
 `endif
 
 module wfg_stim_sine_tb #(
-    parameter BUSW = 32
+    parameter int BUSW = 32
 ) (
     // Wishbone interface signals
     input               io_wbs_clk,

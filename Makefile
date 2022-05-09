@@ -18,10 +18,10 @@ unit-tests:
 	cd design/wfg_stim_sine/sim; make sim
 
 lint:
-	verible-verilog-lint design/*/*/*.sv
+	verible-verilog-lint --rules=-unpacked-dimensions-range-ordering design/*/*/*.sv
 
 lint-autofix:
-	verible-verilog-lint --autofix inplace-interactive design/*/*/*.sv
+	verible-verilog-lint --rules=-unpacked-dimensions-range-ordering --autofix inplace-interactive design/*/*/*.sv
 
 format:
 	verible-verilog-format --indentation_spaces 4 --verbose --module_net_variable_alignment=preserve --case_items_alignment=preserve design/*/*/*.sv --inplace
@@ -31,4 +31,4 @@ clean:
 	rm -rf design/*/sim/*.vcd
 	rm -rf design/*/sim/*.xml
 
-.PHONY: templates unit-tests clean
+.PHONY: templates unit-tests lint lint-autofix format clean

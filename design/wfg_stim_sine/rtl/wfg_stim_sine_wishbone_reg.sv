@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 `default_nettype none
-module whishbone_slave #(
-    parameter BUSW = 32
+module wfg_stim_sine_wishbone_reg #(
+    parameter int BUSW = 32
 ) (
     // Wishbone Slave ports
     input                       wb_clk_i,
@@ -89,6 +89,8 @@ module whishbone_slave #(
                 12'hFF8:    reginfo_date_ff          <= wbs_dat_i[17: 0];
 
                 //marker_template_end
+                default: begin
+                end
             endcase
         end
     end
@@ -114,7 +116,7 @@ module whishbone_slave #(
             12'hFF8:    wbs_dat_o[17: 0] = reginfo_date_ff;
 
             //marker_template_end
-            default: wbs_dat_o = 'X;
+            default:    wbs_dat_o = 'X;
         endcase
     end
 

@@ -3,7 +3,7 @@
 
 `default_nettype none
 module wfg_stim_sine_top #(
-    parameter BUSW = 32
+    parameter int BUSW = 32
 ) (
     // Wishbone Slave ports
     input                 wb_clk_i,
@@ -38,7 +38,7 @@ module wfg_stim_sine_top #(
 
     //marker_template_end
 
-    whishbone_slave whishbone_slave (
+    wfg_stim_sine_wishbone_reg wfg_stim_sine_wishbone_reg (
         .wb_clk_i (wb_clk_i),
         .wb_rst_i (wb_rst_i),
         .wbs_stb_i(wbs_stb_i),

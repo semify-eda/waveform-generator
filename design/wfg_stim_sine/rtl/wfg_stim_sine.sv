@@ -13,25 +13,29 @@ module wfg_stim_sine (
     input  wire        [15:0] gain_val_q_i,           // sine gain/multiplier
     input  wire signed [17:0] offset_val_q_i          // sine offset
 );
-    parameter K = 16'h9b74;  // 0.60725*2^16, expand the decimal by 2^16 to reduce the error
+    // 0.60725*2^16, expand the decimal by 2^16 to reduce the error
+    parameter bit [15:0] K = 16'h9b74;
+    // Because arithmetic shift is used, a signed type needs to be defined
     logic signed [16:0] sin_17;
     logic signed [16:0] sin_17_ff;
     logic signed [17:0] sin_18;
     logic signed [16:0] x0;
-    logic signed [16:0] y0; // Because arithmetic shift is used, a signed type needs to be defined
+    logic signed [16:0] y0;
+    // Used as a temporary variable
     logic signed [16:0] temp1;
-    logic signed [16:0] temp2; // Used as a temporary variable
+    logic signed [16:0] temp2;
     logic signed [16:0] z;
     logic signed [16:0] z_z;
-    logic [1:0]  quadrant;  // quadrant
-    logic [15:0] rot[15:0]; // Store the angle of each rotation
+    // quadrant
+    logic [1:0]  quadrant;
+    // Store the angle of each rotation
+    logic [15:0] rot[0:15];
     logic [31:0] i;
     logic signed [34:0] temp;
     logic [15:0] phase_in;
     logic [15:0] increment;
     logic valid;
     logic signed [17:0] overflow_chk;
-
 
     always_ff @(posedge clk, negedge rst_n) begin
         // Reset
@@ -117,6 +121,9 @@ module wfg_stim_sine (
                 2'b11: begin  // The fourth quadrant
                     sin_17 = ~(x0) + 1'b1;  // -cos
                 end
+                default: begin
+                    sin_17 = 'x;
+                end
             endcase
         end
     end
@@ -131,10 +138,10 @@ module wfg_stim_sine (
         // Adding the offset value
         overflow_chk[17:0] = temp[31:14] + offset_val_q_i[17:0];
         // Underflow check
-        if ((temp[31] == 1'b1) && (offset_val_q_i[17] == 1'b1) && (overflow_chk[17] == 1'b0)) begin
+        if (temp[31] && offset_val_q_i[17] && !overflow_chk[17]) begin
             sin_18[17:0] = 18'b100000000000000000;
             // Overflow check
-        end else if ((temp[31] == 1'b0) && (offset_val_q_i[17] == 1'b0) && (overflow_chk[17] == 1'b1)) begin
+        end else if (!temp[31] && !offset_val_q_i[17] && overflow_chk[17]) begin
             sin_18[17:0] = 18'b011111111111111111;
         end else begin
             sin_18[17:0] = overflow_chk[17:0];
