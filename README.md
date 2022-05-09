@@ -1,4 +1,4 @@
-# Waveform Generator
+# Waveform Generator [![Continuous Integration](https://github.com/semify-eda/waveform-generator/actions/workflows/CI.yml/badge.svg)](https://github.com/semify-eda/waveform-generator/actions/workflows/CI.yml)
 
 This repository implements a generic Waveform Generator in SystemVerilog.
 

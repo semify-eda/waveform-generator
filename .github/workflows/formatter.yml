@@ -1,4 +1,4 @@
-name: Verible formatter example
+name: Verible formatter
 on:
   pull_request:
 jobs:
