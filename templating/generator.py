@@ -2,7 +2,6 @@
 # SPDX-FileCopyrightText: © 2022 semify <office@semify-eda.com>
 # SPDX-License-Identifier: Apache-2.0
 
-import os
 import sys
 import csv
 import json
@@ -154,7 +153,7 @@ def main():
             print(output_file_content, end='')
         
         original_output_file_content = None
-        if os.path.isfile(out_filename):
+        if out_filename.is_file():
             with open(out_filename, "r") as output_file:
                 original_output_file_content = output_file.read()
         

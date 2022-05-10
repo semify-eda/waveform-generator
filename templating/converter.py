@@ -7,18 +7,29 @@ import sys
 import csv
 import json
 import argparse
+import pathlib
 
 def dir_path(string):
-    if os.path.isdir(string):
-        return string
-    else:
-        raise argparse.ArgumentTypeError(f"{string} is not a valid directory")
-        
+    path = pathlib.Path(string)
+    
+    if not path.exists():
+        raise argparse.ArgumentTypeError(f"{path} does not exist")
+    
+    if not path.is_dir():
+        raise argparse.ArgumentTypeError(f"{path} is not a directory")
+
+    return string
+
 def file_path(string):
-    if os.path.isfile(string):
-        return string
-    else:
-        raise argparse.ArgumentTypeError(f"{string} is not a valid file")
+    path = pathlib.Path(string)
+    
+    if not path.exists():
+        raise argparse.ArgumentTypeError(f"{path} does not exist")
+    
+    if not path.is_file():
+        raise argparse.ArgumentTypeError(f"{path} is not a file")
+
+    return string
 
 def main():
     parser = argparse.ArgumentParser(description='Generate code blocks from templates inside files.')
@@ -29,17 +40,17 @@ def main():
     args = parser.parse_args()
     
     # Set file names
-    in_filenames = args.input
+    in_filenames = [pathlib.Path(input) for input in args.input]
+    out_filenames = [pathlib.Path(output) for output in args.output]
     
-    if args.output == None:
-        args.output = args.input
-    
-    out_filenames = args.output
+    if len(in_filenames) != len(out_filenames):
+        print('Error: The number of input and output files must be equal')
+        sys.exit(0)
     
     for (file_cnt, in_filename) in enumerate(in_filenames):
         out_filename = out_filenames[file_cnt]
         
-        if os.path.splitext(in_filename)[1] != ".csv":
+        if in_filename.suffix != ".csv":
             print("Currently only .csv files can be converted")
             sys.exit(0)
         
