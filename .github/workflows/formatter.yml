@@ -6,8 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: chipsalliance/verible-formatter-action@main
+    - uses: mole99/verible-formatter-action@main
       with:
-        paths: |
-          ./design/ --indentation_spaces 4 --module_net_variable_alignment=preserve --case_items_alignment=preserve
+        paths: design/wfg_drive_spi/*/*.sv design/wfg_stim_sine/*/*.sv
         github_token: ${{ secrets.GITHUB_TOKEN }}

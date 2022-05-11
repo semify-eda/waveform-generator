@@ -1,0 +1,44 @@
+Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
+12'h10,CTRL,,,,,,,ADC control register
+,,EN,rw,cfg,0,0,1'b0,SPI enable
+12'h14,CFG,,,,,,,SPI configuration register
+,,CPHA,rw,cfg,0,0,1'b0,"Clock phase
+  0: The first clock transition is the first data capture edge
+  1: The second clock transition is the first data capture edge"
+,,CPOL,rw,cfg,1,1,1'b0,"Clock polarity
+  0: CK to 0 when idle
+  1: CK to 1 when idle"
+,,MSTR,rw,cfg,2,2,1'b1,"Master selection
+  0: Slave configuration
+  1: Master configuration"
+,,LSBFIRST,rw,cfg,3,3,1'b0,"Frame format
+  0: MSB transmitted first
+  1: LSB transmitted first"
+,,DFF,rw,cfg,5,4,2'b00,"Data frame format
+  00: 8bit
+  01: 16bit
+  10: 24bit
+  11: 32bit"
+,,SSCTRL,rw,cfg,8,8,1'b0,"Slave select control
+  0: Automatically done by HW
+  1: Done by SW"
+,,SSPOL,rw,cfg,9,9,1'b0,"Slave select polarity
+  0: Active low
+  1: Active high"
+,,OECTRL,rw,cfg,11,10,2'b00,"Output enable control
+  00: Automatically done by HW
+  01: Disabled
+  10: Fixed off
+  11: Fixed on"
+12'h18,CLKCFG,,,,,,,SPI clock configuration register
+,,DIV,rw,cfg,7,0,1'b0,"SPI Clock divider.
+Divider ratio is 2*DIV+1"
+12'hFF0,TEST,,,,,,,Test register
+,,LPEN,rw,cfg,1,1,1'b0,"Internal loop back enable
+  0: Loop back disabled
+  1: Loop back enabled"
+12'hFF8,REGINFO,,,,,,,Register file information register
+,,DATE,r,const,17,0,18'd210715,Date 
+12'hFFC,ID,,,,,,,ID register
+,,PERIPHERAL_TYPE,r,const,7,0,8'h01,Peripheral ID
+,,VERSION,r,const,15,8,8'h01,Version
