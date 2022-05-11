@@ -20,9 +20,8 @@ jobs:
         run: |
           cd ~/work/waveform-generator/waveform-generator/
           pip3 install cocotb
-          cd ~
-          git clone https://github.com/wallento/cocotbext-wishbone.git
-          pip3 install -e cocotbext-wishbone
+          pip3 install cocotbext-wishbone
+          pip3 install cocotbext-axi
       - name: Run tests
         run: |
           cd ~/work/waveform-generator/waveform-generator/
