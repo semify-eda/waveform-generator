@@ -38,7 +38,8 @@ module wfg_drive_spi_tb #(
     output wire wfg_drive_spi_sclk_o,   // O; clock
     output wire wfg_drive_spi_cs_no,    // O; chip select
     output wire wfg_drive_spi_sdo_o,    // O; data out
-    output wire wfg_drive_spi_sdo_en_o  // O; data out enable
+    output wire wfg_drive_spi_sdo_en_o, // O; data out enable
+    input  wire wfg_drive_spi_sdi_i     // I; data in, dummy signal for cocotb
 );
 
     wfg_drive_spi_top wfg_drive_spi_top (

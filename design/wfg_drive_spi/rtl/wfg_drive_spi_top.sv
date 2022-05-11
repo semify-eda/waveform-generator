@@ -107,7 +107,7 @@ module wfg_drive_spi_top #(
         .ctrl_en_q_i(ctrl_en_q),  // I; SPI enable
 
         // Configuration
-        .cfg_sclk_cnt_i  (),                // I; SPI speed
+        .clkcfg_div_q_i  (clkcfg_div_q),    // I: clock divider
         .cfg_cpha_q_i    (cfg_cpha_q),      // I; Clock phase
         .cfg_cpol_q_i    (cfg_cpol_q),      // I; Clock polarity
         .cfg_mstr_q_i    (cfg_mstr_q),      // I; Master selection
@@ -115,7 +115,7 @@ module wfg_drive_spi_top #(
         .cfg_dff_q_i     (cfg_dff_q),       // I; Data frame format
         .cfg_ssctrl_q_i  (cfg_ssctrl_q),    // I; Slave select control
         .cfg_sspol_q_i   (cfg_sspol_q),     // I; Slave select polarity
-        .cfg_oectrl_q_i  (cfg_oectrl_q),    // I; Output enable conrol
+        .cfg_oectrl_q_i  (cfg_oectrl_q),    // I; Output enable control
 
         // Test
         .test_lpen_q_i(test_lpen_q),  // I; Internal loop back enable

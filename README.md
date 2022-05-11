@@ -27,6 +27,7 @@ The testbench environment for the unit-tests uses `cocotb`. To install it togeth
     pip3 install cocotb
     pip3 install cocotbext-wishbone
     pip3 install cocotbext-axi
+    pip3 install cocotbext-spi
 
 # Simulation
 

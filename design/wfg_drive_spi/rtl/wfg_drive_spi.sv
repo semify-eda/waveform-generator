@@ -5,8 +5,8 @@
 module wfg_drive_spi #(
     parameter int AXIS_DATA_WIDTH = 32
 ) (
-    input wire clk,  // I; System clock
-    input wire rst_n,  // I; active low reset
+    input wire clk,   // I; System clock
+    input wire rst_n, // I; active low reset
 
     // Core synchronisation interface
     input wire wfg_pat_sync_i,     // I; Sync pulse
@@ -22,7 +22,7 @@ module wfg_drive_spi #(
     input wire ctrl_en_q_i,  // I; SPI enable
 
     // Configuration
-    input wire [7:0] cfg_sclk_cnt_i,    // I; SPI speed
+    input wire [7:0] clkcfg_div_q_i,    // I; SPI speed
     input wire       cfg_cpha_q_i,      // I; Clock phase
     input wire       cfg_cpol_q_i,      // I; Clock polarity
     input wire       cfg_mstr_q_i,      // I; Master selection
@@ -75,17 +75,6 @@ module wfg_drive_spi #(
             sck_cnt_ff <= 8'd0;
             bit_cnt_ff <= 5'd0;
 
-            // Set transmission bit width
-            if (cfg_dff_q_i == 2'b00) begin
-                bit_width <= 6'd7;
-            end else if (cfg_dff_q_i == 2'd01) begin
-                bit_width <= 6'd15;
-            end else if (cfg_dff_q_i == 2'b10) begin
-                bit_width <= 6'd23;
-            end else if (cfg_dff_q_i == 2'b11) begin
-                bit_width <= 6'd31;
-            end
-
         end else begin
 
             if (ctrl_en_q_i) begin
@@ -95,8 +84,27 @@ module wfg_drive_spi #(
                     sck_set <= 1'b0;
                     sck_ff <= 1'b0;
                     cs_set <= 1'b1;
-                    bit_cnt_ff <= bit_width;
-                    sck_cnt_ff <= cfg_sclk_cnt_i;
+                    sck_cnt_ff <= clkcfg_div_q_i;
+
+                    case (cfg_dff_q_i)
+                        2'b00: begin
+                            bit_cnt_ff <= 6'd7;
+                            bit_width  <= 6'd7;
+                        end
+                        2'b01: begin
+                            bit_cnt_ff <= 6'd15;
+                            bit_width  <= 6'd15;
+                        end
+                        2'b10: begin
+                            bit_cnt_ff <= 6'd23;
+                            bit_width  <= 6'd23;
+                        end
+                        2'b11: begin
+                            bit_cnt_ff <= 6'd31;
+                            bit_width  <= 6'd31;
+                        end
+                        default: bit_cnt_ff <= 'x;
+                    endcase
                 end
 
                 if (cs_nff) begin
@@ -109,7 +117,7 @@ module wfg_drive_spi #(
                         sck_set <= 1'b0;
                     end else begin
                         sck_set <= 1'b1;
-                        sck_cnt_ff <= cfg_sclk_cnt_i;
+                        sck_cnt_ff <= clkcfg_div_q_i;
                         sck_ff <= ~sck_ff;
 
                         if (~bit_cnt_rdy & sck_ff) begin
@@ -152,8 +160,11 @@ module wfg_drive_spi #(
     assign wfg_drive_spi_tready_o = wfg_pat_sync_i;
     assign wfg_drive_spi_sdo_en_o = wfg_drive_spi_tvalid_i;
     assign wfg_drive_spi_cs_no = (cfg_sspol_q_i ? cs_nff : ~cs_nff);
-    assign wfg_drive_spi_sclk_o   = cs_nff ? (cfg_cpol_q_i ? ~sck_ff : sck_ff) ^ cfg_cpha_q_i : cfg_cpol_q_i;
-    assign wfg_drive_spi_sdo_o    = (cfg_lsbfirst_q_i ? data_shft_ff[0] : data_shft_ff[bit_width]) & cs_nff;
+    assign wfg_drive_spi_sclk_o   = cs_nff ?
+                                    (cfg_cpol_q_i ? ~sck_ff : sck_ff) ^ cfg_cpha_q_i
+                                    : cfg_cpol_q_i;
+    assign wfg_drive_spi_sdo_o    = (cfg_lsbfirst_q_i ? data_shft_ff[0] : data_shft_ff[bit_width])
+                                    & cs_nff;
 
 endmodule
 `default_nettype wire
