@@ -8,5 +8,5 @@ jobs:
     - uses: actions/checkout@master
     - uses: mole99/verible-formatter-action@main
       with:
-        paths: design/wfg_drive_spi/*/*.sv design/wfg_stim_sine/*/*.sv --indentation_spaces 4 --module_net_variable_alignment=preserve --case_items_alignment=preserve
+        paths: design/*/*/*.sv --indentation_spaces 4 --module_net_variable_alignment=preserve --case_items_alignment=preserve
         github_token: ${{ secrets.GITHUB_TOKEN }}
