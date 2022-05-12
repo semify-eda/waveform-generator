@@ -1,0 +1,76 @@
+{
+    "registers": {
+        "CFG": {
+            "address": "12'h14",
+            "description": "Core configuration register",
+            "entries": {
+                "SUBCYCLE": {
+                    "LSB": "8",
+                    "MSB": "23",
+                    "access": "rw",
+                    "description": "Subcycle pulse clock divider.\nCount clk until threshold is reached",
+                    "hardware": "cfg",
+                    "reset": "0"
+                },
+                "SYNC": {
+                    "LSB": "0",
+                    "MSB": "7",
+                    "access": "rw",
+                    "description": "Sync pulse clock divider.\nCount clk until threshold is reached",
+                    "hardware": "cfg",
+                    "reset": "0"
+                }
+            }
+        },
+        "CTRL": {
+            "address": "12'h10",
+            "description": "Core control register",
+            "entries": {
+                "EN": {
+                    "LSB": "0",
+                    "MSB": "0",
+                    "access": "rw",
+                    "description": "Core enable",
+                    "hardware": "cfg",
+                    "reset": "1'b0"
+                }
+            }
+        },
+        "ID": {
+            "address": "12'hFFC",
+            "description": "ID register",
+            "entries": {
+                "PERIPHERAL_TYPE": {
+                    "LSB": "0",
+                    "MSB": "7",
+                    "access": "r",
+                    "description": "Peripheral ID",
+                    "hardware": "const",
+                    "reset": "8'h01"
+                },
+                "VERSION": {
+                    "LSB": "8",
+                    "MSB": "15",
+                    "access": "r",
+                    "description": "Version",
+                    "hardware": "const",
+                    "reset": "8'h01"
+                }
+            }
+        },
+        "REGINFO": {
+            "address": "12'hFF8",
+            "description": "Register file information register",
+            "entries": {
+                "DATE": {
+                    "LSB": "0",
+                    "MSB": "17",
+                    "access": "r",
+                    "description": "Date ",
+                    "hardware": "const",
+                    "reset": "18'd210715"
+                }
+            }
+        }
+    }
+}
