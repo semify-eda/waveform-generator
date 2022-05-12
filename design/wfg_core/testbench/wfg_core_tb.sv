@@ -25,21 +25,21 @@ module wfg_core_tb #(
 
     // Core synchronisation interface
     output wire       wfg_pat_sync_o,          // O; Sync signal
-    output wire       wfg_pat_subcycle_o,      // O; Subcycle signal
+    output wire       wfg_pat_subcycle_o,     // O; Subcycle signal
     output wire       wfg_pat_start_o,         // O; Indicate start
     output wire [7:0] wfg_pat_subcycle_cnt_o,  // O; Subcycle pulse counter
-    output wire       active_o                 // O; Active indication signal
+    output wire       active_o               // O; Active indication signal
 );
 
     wfg_core_top wfg_core_top (
         .wb_clk_i (io_wbs_clk),
-        .wb_rst_i (io_wbs_rst),
-        .wbs_stb_i(io_wbs_stb),
+      .wb_rst_i (io_wbs_rst),
+            .wbs_stb_i(io_wbs_stb),
         .wbs_cyc_i(io_wbs_cyc),
         .wbs_we_i (io_wbs_we),
         .wbs_sel_i(4'b1111),
         .wbs_dat_i(io_wbs_datwr),
-        .wbs_adr_i(io_wbs_adr),
+     .wbs_adr_i(io_wbs_adr),
         .wbs_ack_o(io_wbs_ack),
         .wbs_dat_o(io_wbs_datrd),
 
