@@ -29,6 +29,10 @@ The testbench environment for the unit-tests uses `cocotb`. To install it togeth
     pip3 install cocotbext-axi
     pip3 install cocotbext-spi
 
+To have more information on assertion fails you can optionally install `pytest`: 
+
+	pip3 install pytest
+
 # Simulation
 
 To run the individual unit tests, issue:

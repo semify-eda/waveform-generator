@@ -89,7 +89,7 @@ module wfg_drive_spi_top #(
         //marker_template_end
     );
 
-    wfg_drive_spi drive_spi (
+    wfg_drive_spi wfg_drive_spi (
         .clk  (wb_clk_i),  // clock signal
         .rst_n(!wb_rst_i), // reset signal
 

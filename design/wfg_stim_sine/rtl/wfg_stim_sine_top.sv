@@ -63,7 +63,7 @@ module wfg_stim_sine_top #(
         //marker_template_end
     );
 
-    wfg_stim_sine stim_sine (
+    wfg_stim_sine wfg_stim_sine (
         .clk                  (wb_clk_i),               // clock signal
         .rst_n                (!wb_rst_i),              // reset signal
         .wfg_stim_spi_tready_o(wfg_stim_spi_tready_o),  // ready signal - AXI

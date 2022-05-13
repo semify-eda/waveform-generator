@@ -1,0 +1,13 @@
+Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
+12'h10,CTRL,,,,,,,Core control register
+,,EN,rw,cfg,0,0,1'b0,Core enable
+12'h14,CFG,,,,,,,Core configuration register
+,,SYNC,rw,cfg,7,0,0,"Sync pulse clock divider.
+Count clk until threshold is reached"
+,,SUBCYCLE,rw,cfg,23,8,0,"Subcycle pulse clock divider.
+Count clk until threshold is reached"
+12'hFF8,REGINFO,,,,,,,Register file information register
+,,DATE,r,const,17,0,18'd210715,Date 
+12'hFFC,ID,,,,,,,ID register
+,,PERIPHERAL_TYPE,r,const,7,0,8'h01,Peripheral ID
+,,VERSION,r,const,15,8,8'h01,Version

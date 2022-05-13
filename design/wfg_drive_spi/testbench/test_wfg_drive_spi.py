@@ -72,7 +72,7 @@ class SimpleSpiSlave(SpiSlaveBase):
 
 @cocotb.coroutine
 async def spi_test(dut, en, cnt, cpha, cpol, lsbfirst, dff, sspol):
-    dut._log.info(f"Configuration: en={en}, cnt={cnt}, cpha={cpha}, cpol={cpol}, lsbfirst={lsbfirst}, dff={dff}, sspol={sspol}, ")
+    dut._log.info(f"Configuration: en={en}, cnt={cnt}, cpha={cpha}, cpol={cpol}, lsbfirst={lsbfirst}, dff={dff}, sspol={sspol}")
 
     cocotb.start_soon(Clock(dut.io_wbs_clk, 1/SYSCLK*1e9, units="ns").start())
     cocotb.fork(drive_sync(dut))
