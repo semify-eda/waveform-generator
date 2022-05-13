@@ -1,21 +1,21 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Thu May 12 13:39:00 2022
+[*] Fri May 13 06:43:30 2022
 [*]
 [dumpfile] "/home/leo/Nextcloud/Fachhochschule/Bachelorarbeit/waveform-generator/design/wfg_core/sim/wfg_core_tb.vcd"
-[dumpfile_mtime] "Thu May 12 13:27:11 2022"
-[dumpfile_size] 776633
+[dumpfile_mtime] "Fri May 13 06:30:51 2022"
+[dumpfile_size] 1052480
 [savefile] "/home/leo/Nextcloud/Fachhochschule/Bachelorarbeit/waveform-generator/design/wfg_core/sim/view.gtkw"
 [timestart] 0
-[size] 3440 1371
+[size] 1776 1043
 [pos] -1 -1
-*-25.000000 51600000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-20.000000 810000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] wfg_core_tb.
 [treeopen] wfg_core_tb.wfg_core_top.
 [sst_width] 227
 [signals_width] 488
 [sst_expanded] 1
-[sst_vpaned_height] 409
+[sst_vpaned_height] 410
 @200
 -Wishbone
 @28
@@ -48,19 +48,18 @@ wfg_core_tb.wfg_core_top.wfg_core.clk
 wfg_core_tb.wfg_core_top.wfg_core.en_i
 wfg_core_tb.wfg_core_top.wfg_core.en_i_dly
 wfg_core_tb.wfg_core_top.wfg_core.rst_n
-@29
 wfg_core_tb.wfg_core_top.wfg_core.wfg_pat_start_o
 @22
 wfg_core_tb.wfg_core_top.wfg_core.subcycle_count_ff[15:0]
 @28
+wfg_core_tb.wfg_core_top.wfg_core.temp_subcycle_ff
 wfg_core_tb.wfg_core_top.wfg_core.subcycle_dly
 @22
 wfg_core_tb.wfg_core_top.wfg_core.subcycle_pls_cnt[7:0]
 wfg_core_tb.wfg_core_top.wfg_core.sync_count_ff[7:0]
 @28
-wfg_core_tb.wfg_core_top.wfg_core.sync_dly
-wfg_core_tb.wfg_core_top.wfg_core.temp_subcycle_ff
 wfg_core_tb.wfg_core_top.wfg_core.temp_sync_ff
+wfg_core_tb.wfg_core_top.wfg_core.sync_dly
 @22
 wfg_core_tb.wfg_core_top.wfg_core.wfg_pat_subcycle_cnt_o[7:0]
 @28
