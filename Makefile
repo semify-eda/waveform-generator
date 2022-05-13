@@ -22,8 +22,8 @@ templates: ${TEMPLATED_FILES} ${LIBRARIES}
 	python3 templating/generator.py --template_dir templating/templates -i ${TEMPLATED_FILES}
 
 unit-tests:
-	#cd design/wfg_stim_sine/sim; make sim
-	#cd design/wfg_drive_spi/sim; make sim
+	cd design/wfg_stim_sine/sim; make sim
+	cd design/wfg_drive_spi/sim; make sim
 	cd design/wfg_core/sim; make sim
 
 lint:

@@ -76,13 +76,13 @@ length = 2
 sync_array = []
 
 for i in range(length):
-    n = random.randint(1,10)#2**7)
+    n = random.randint(1,2**7)
     sync_array.append(n)
 
 subcycle_array = []
 
 for i in range(length):
-    n = random.randint(1,10)#2**7)
+    n = random.randint(1,2**7)
     subcycle_array.append(n)
 
 
