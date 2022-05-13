@@ -10,4 +10,4 @@ According to the configuration parameter wfg_pat_subcycle, clock cycles are coun
 
 ![Formula](formula.png)
 
-can be determined using these two parameters. The outputs of the module are subcycle and sync pulses, as well as three optional status signals (active, start pulse, subcyle counter). In the vivado implementation, the outputs are grouped as an interface.
+can be determined using these two parameters. The outputs of the module are subcycle and sync pulses, as well as three optional status signals (active, start pulse, subcyle counter).
