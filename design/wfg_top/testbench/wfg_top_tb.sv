@@ -22,8 +22,8 @@ module wfg_top_tb #(
     input               io_wbs_stb,
     output              io_wbs_ack,
     input               io_wbs_cyc,
-    
-    input  logic wfg_drive_spi_sdi_i, // for cocotb
+
+    input  logic wfg_drive_spi_sdi_i,    // for cocotb
     output logic wfg_drive_spi_sclk_o,
     output logic wfg_drive_spi_cs_no,
     output logic wfg_drive_spi_sdo_o,
@@ -40,7 +40,7 @@ module wfg_top_tb #(
         .io_wbs_stb(io_wbs_stb),
         .io_wbs_ack(io_wbs_ack),
         .io_wbs_cyc(io_wbs_cyc),
-        
+
         .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),
         .wfg_drive_spi_cs_no(wfg_drive_spi_cs_no),
         .wfg_drive_spi_sdo_o(wfg_drive_spi_sdo_o),

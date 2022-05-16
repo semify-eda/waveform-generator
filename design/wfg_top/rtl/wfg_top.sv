@@ -15,7 +15,7 @@ module wfg_top #(
     input                     io_wbs_stb,
     output logic              io_wbs_ack,    // TODO register?
     input                     io_wbs_cyc,
-    
+
     output logic wfg_drive_spi_sclk_o,
     output logic wfg_drive_spi_cs_no,
     output logic wfg_drive_spi_sdo_o,
@@ -28,7 +28,7 @@ module wfg_top #(
     logic wfg_stim_sine_sel;
     logic wfg_drive_spi_sel;
 
-    // Nothing should be assigned to the null page    
+    // Nothing should be assigned to the null page
     assign wfg_core_sel      = (io_wbs_adr[BUSW-1:4] == 28'h01);  // 0xTODO
     assign wfg_stim_sine_sel = (io_wbs_adr[BUSW-1:4] == 28'h02);  // 0xTODO
     assign wfg_drive_spi_sel = (io_wbs_adr[BUSW-1:4] == 28'h03);  // 0xTODO
