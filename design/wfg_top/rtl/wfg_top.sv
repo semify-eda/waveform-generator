@@ -14,7 +14,12 @@ module wfg_top #(
     input                     io_wbs_we,
     input                     io_wbs_stb,
     output logic              io_wbs_ack,    // TODO register?
-    input                     io_wbs_cyc
+    input                     io_wbs_cyc,
+    
+    output logic wfg_drive_spi_sclk_o,
+    output logic wfg_drive_spi_cs_no,
+    output logic wfg_drive_spi_sdo_o,
+    output logic wfg_drive_spi_sdo_en_o
 );
     // Wishbone interconnect
 
@@ -120,11 +125,6 @@ module wfg_top #(
         .wfg_stim_spi_tvalid_i(wfg_axis_tvalid),
         .wfg_stim_spi_tdata_i (wfg_axis_tdata)
     );
-
-    logic wfg_drive_spi_sclk_o;
-    logic wfg_drive_spi_cs_no;
-    logic wfg_drive_spi_sdo_o;
-    logic wfg_drive_spi_sdo_en_o;
 
     wfg_drive_spi_top wfg_drive_spi_top (
         .wb_clk_i (io_wbs_clk),
