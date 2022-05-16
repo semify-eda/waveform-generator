@@ -99,7 +99,7 @@ module wfg_drive_spi_wishbone_reg #(
                 //template: wishbone/assign_to_registers.template
                 //marker_template_code
 
-                12'h14: begin
+                4'h2: begin
                     cfg_cpha_ff     <= wbs_dat_i[0:0];
                     cfg_cpol_ff     <= wbs_dat_i[1:1];
                     cfg_dff_ff      <= wbs_dat_i[5:4];
@@ -109,14 +109,14 @@ module wfg_drive_spi_wishbone_reg #(
                     cfg_ssctrl_ff   <= wbs_dat_i[8:8];
                     cfg_sspol_ff    <= wbs_dat_i[9:9];
                 end
-                12'h18:     clkcfg_div_ff            <= wbs_dat_i[ 7: 0];
-                12'h10:     ctrl_en_ff               <= wbs_dat_i[ 0: 0];
-                12'hFFC:    begin
+                4'h3:       clkcfg_div_ff            <= wbs_dat_i[ 7: 0];
+                4'h1:       ctrl_en_ff               <= wbs_dat_i[ 0: 0];
+                4'hF:       begin
                             id_peripheral_type_ff    <= wbs_dat_i[ 7: 0];
                             id_version_ff            <= wbs_dat_i[15: 8];
                 end
-                12'hFF8:    reginfo_date_ff          <= wbs_dat_i[17: 0];
-                12'hFF0:    test_lpen_ff             <= wbs_dat_i[ 1: 1];
+                4'hE:       reginfo_date_ff          <= wbs_dat_i[17: 0];
+                4'h4:       test_lpen_ff             <= wbs_dat_i[ 1: 1];
 
                 //marker_template_end
                 default: begin
@@ -135,7 +135,7 @@ module wfg_drive_spi_wishbone_reg #(
             //template: wishbone/assign_from_registers.template
             //marker_template_code
 
-            12'h14: begin
+            4'h2: begin
                 wbs_dat_o[0:0]   = cfg_cpha_ff;
                 wbs_dat_o[1:1]   = cfg_cpol_ff;
                 wbs_dat_o[5:4]   = cfg_dff_ff;
@@ -145,14 +145,14 @@ module wfg_drive_spi_wishbone_reg #(
                 wbs_dat_o[8:8]   = cfg_ssctrl_ff;
                 wbs_dat_o[9:9]   = cfg_sspol_ff;
             end
-            12'h18:     wbs_dat_o[ 7: 0] = clkcfg_div_ff;
-            12'h10:     wbs_dat_o[ 0: 0] = ctrl_en_ff;
-            12'hFFC:    begin
+            4'h3:       wbs_dat_o[ 7: 0] = clkcfg_div_ff;
+            4'h1:       wbs_dat_o[ 0: 0] = ctrl_en_ff;
+            4'hF:       begin
                         wbs_dat_o[ 7: 0] = id_peripheral_type_ff;
                         wbs_dat_o[15: 8] = id_version_ff;
             end
-            12'hFF8:    wbs_dat_o[17: 0] = reginfo_date_ff;
-            12'hFF0:    wbs_dat_o[ 1: 1] = test_lpen_ff;
+            4'hE:       wbs_dat_o[17: 0] = reginfo_date_ff;
+            4'h4:       wbs_dat_o[ 1: 1] = test_lpen_ff;
 
             //marker_template_end
             default:    wbs_dat_o = 'X;

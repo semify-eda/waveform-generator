@@ -78,15 +78,15 @@ module wfg_stim_sine_wishbone_reg #(
                 //template: wishbone/assign_to_registers.template
                 //marker_template_code
 
-                12'h10:     ctrl_en_ff               <= wbs_dat_i[ 0: 0];
-                12'h1C:     gain_val_ff              <= wbs_dat_i[15: 0];
-                12'hFFC:    begin
+                4'h1:       ctrl_en_ff               <= wbs_dat_i[ 0: 0];
+                4'h3:       gain_val_ff              <= wbs_dat_i[15: 0];
+                4'hF:       begin
                             id_peripheral_type_ff    <= wbs_dat_i[ 7: 0];
                             id_version_ff            <= wbs_dat_i[15: 8];
                 end
-                12'h18:     inc_val_ff               <= wbs_dat_i[15: 0];
-                12'h20:     offset_val_ff            <= wbs_dat_i[17: 0];
-                12'hFF8:    reginfo_date_ff          <= wbs_dat_i[17: 0];
+                4'h2:       inc_val_ff               <= wbs_dat_i[15: 0];
+                4'h4:       offset_val_ff            <= wbs_dat_i[17: 0];
+                4'hE:       reginfo_date_ff          <= wbs_dat_i[17: 0];
 
                 //marker_template_end
                 default: begin
@@ -105,15 +105,15 @@ module wfg_stim_sine_wishbone_reg #(
             //template: wishbone/assign_from_registers.template
             //marker_template_code
 
-            12'h10:     wbs_dat_o[ 0: 0] = ctrl_en_ff;
-            12'h1C:     wbs_dat_o[15: 0] = gain_val_ff;
-            12'hFFC:    begin
+            4'h1:       wbs_dat_o[ 0: 0] = ctrl_en_ff;
+            4'h3:       wbs_dat_o[15: 0] = gain_val_ff;
+            4'hF:       begin
                         wbs_dat_o[ 7: 0] = id_peripheral_type_ff;
                         wbs_dat_o[15: 8] = id_version_ff;
             end
-            12'h18:     wbs_dat_o[15: 0] = inc_val_ff;
-            12'h20:     wbs_dat_o[17: 0] = offset_val_ff;
-            12'hFF8:    wbs_dat_o[17: 0] = reginfo_date_ff;
+            4'h2:       wbs_dat_o[15: 0] = inc_val_ff;
+            4'h4:       wbs_dat_o[17: 0] = offset_val_ff;
+            4'hE:       wbs_dat_o[17: 0] = reginfo_date_ff;
 
             //marker_template_end
             default:    wbs_dat_o = 'X;

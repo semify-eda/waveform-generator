@@ -16,22 +16,33 @@ DATA_CNT = 10
 short_per = Timer(100, units="ns")
 long_time = Timer(100, units="us")
 
-async def set_register(dut, wbs, address, data):
-    dut._log.info(f"Set register {address} : {data}")
+async def set_register(dut, wbs, peripheral_address, address, data):
+    if address > 0xF:
+        dut._log.error("Can not access peripheral registers outside 0xF")
 
-    wbRes = await wbs.send_cycle([WBOp(address, data)])
+    real_address = (peripheral_address<<4) | (address & 0xF)
+
+    dut._log.info(f"Set register {real_address} : {data}")
+
+    wbRes = await wbs.send_cycle([WBOp(real_address, data)])
     
     rvalues = [wb.datrd for wb in wbRes]
     dut._log.info(f"Returned values : {rvalues}")
 
-async def configure(dut, wbs, en, sync_count, subcycle_count):
-    await set_register(dut, wbs, 0x14, (sync_count << 0) | (subcycle_count << 8))
-    await set_register(dut, wbs, 0x10, en) # Enable core
+async def configure_core(dut, wbs, en, sync_count, subcycle_count):
+    await set_register(dut, wbs, 0x1, 0x2, (sync_count << 0) | (subcycle_count << 8))
+    await set_register(dut, wbs, 0x1, 0x1, en) # Enable
 
-@cocotb.coroutine
-async def core_test(dut, en, sync_count, subcycle_count):
-    dut._log.info(f"Configuration: sync_count={sync_count}, subcycle_count={subcycle_count}")
+async def configure_stim_sine(dut, wbs, en):
+    await set_register(dut, wbs, 0x2, 0x1, en) # Enable
 
+async def configure_drive_spi(dut, wbs, en=1, cnt=3, cpha=0, cpol=0, mstr=1, lsbfirst=0, dff=0, ssctrl=0, sspol=0, oectrl=0):
+    await set_register(dut, wbs, 0x3, 0x3, cnt) # Clock divider
+    await set_register(dut, wbs, 0x3, 0x2, (cpha<<0) | (cpol<<1) | (mstr<<2) | (lsbfirst<<3) | (dff<<4) | (ssctrl<<8) | (sspol<<9) | (oectrl<<10)) # Enable SPI
+    await set_register(dut, wbs, 0x3, 0x1, en) # Enable SPI
+
+@cocotb.test()
+async def core_test(dut):
     cocotb.start_soon(Clock(dut.io_wbs_clk, 1/SYSCLK*1e9, units="ns").start())
 
     dut._log.info("Initialize and reset model")
@@ -49,46 +60,13 @@ async def core_test(dut, en, sync_count, subcycle_count):
                               timeout=10) # in clock cycle number
 
     # Setup core
-    await configure(dut, wbs, en, sync_count, subcycle_count)
+    dut._log.info("Configure core")
+    await configure_core(dut, wbs, en=1, sync_count=16, subcycle_count=16)
+    dut._log.info("Configure stim_sine")
+    await configure_stim_sine(dut, wbs, en=1)
+    dut._log.info("Configure drive_spi")
+    await configure_drive_spi(dut, wbs, en=1, dff=3)
 
-    #await short_per
-    #await short_per
-    
-    sync_pulse_count = 0
-    clk_count = 0
-    
-    """await FallingEdge(dut.wfg_pat_sync_o)
+    await long_time
+    await short_per
 
-    for i in range ((sync_count + 1) * (subcycle_count + 1) * 3):
-        await ClockCycles(dut.io_wbs_clk, 1)
-        clk_count += 1
-   
-        if dut.wfg_pat_sync_o == 1:
-            assert ((sync_pulse_count+1) * clk_count) == ((sync_count + 1) * (subcycle_count + 1) * 2)
-            break
-            
-        if (dut.wfg_pat_subcycle_o == 1):
-            sync_pulse_count += 1
-            clk_count = 0"""
-
-length = 2
-
-sync_array = []
-
-for i in range(length):
-    n = random.randint(1,2**7)
-    sync_array.append(n)
-
-subcycle_array = []
-
-for i in range(length):
-    n = random.randint(1,2**7)
-    subcycle_array.append(n)
-
-
-factory = TestFactory(core_test)
-factory.add_option("en", [1])
-factory.add_option("sync_count", sync_array)
-factory.add_option("subcycle_count", subcycle_array)
-
-factory.generate_tests()

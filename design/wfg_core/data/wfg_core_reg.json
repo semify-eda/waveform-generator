@@ -1,7 +1,7 @@
 {
     "registers": {
         "CFG": {
-            "address": "12'h14",
+            "address": "4'h2",
             "description": "Core configuration register",
             "entries": {
                 "SUBCYCLE": {
@@ -23,7 +23,7 @@
             }
         },
         "CTRL": {
-            "address": "12'h10",
+            "address": "4'h1",
             "description": "Core control register",
             "entries": {
                 "EN": {
@@ -37,7 +37,7 @@
             }
         },
         "ID": {
-            "address": "12'hFFC",
+            "address": "4'hF",
             "description": "ID register",
             "entries": {
                 "PERIPHERAL_TYPE": {
@@ -59,7 +59,7 @@
             }
         },
         "REGINFO": {
-            "address": "12'hFF8",
+            "address": "4'hE",
             "description": "Register file information register",
             "entries": {
                 "DATE": {

@@ -2,6 +2,8 @@
 SRC := $(wildcard ../rtl/*.sv)
 SRC += $(wildcard ../testbench/*.sv)
 SRC += $(wildcard ../../wfg_core/rtl/*.sv)
+SRC += $(wildcard ../../wfg_stim_sine/rtl/*.sv)
+SRC += $(wildcard ../../wfg_drive_spi/rtl/*.sv)
 
 # defaults
 SIM ?= icarus

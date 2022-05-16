@@ -1,7 +1,7 @@
 {
     "registers": {
         "CTRL": {
-            "address": "12'h10",
+            "address": "4'h1",
             "description": "Control register for sine wave generation unit",
             "entries": {
                 "EN": {
@@ -15,7 +15,7 @@
             }
         },
         "GAIN": {
-            "address": "12'h1C",
+            "address": "4'h3",
             "description": "Gain register",
             "entries": {
                 "VAL": {
@@ -29,7 +29,7 @@
             }
         },
         "ID": {
-            "address": "12'hFFC",
+            "address": "4'hF",
             "description": "ID register",
             "entries": {
                 "PERIPHERAL_TYPE": {
@@ -51,7 +51,7 @@
             }
         },
         "INC": {
-            "address": "12'h18",
+            "address": "4'h2",
             "description": "Increment register",
             "entries": {
                 "VAL": {
@@ -65,7 +65,7 @@
             }
         },
         "OFFSET": {
-            "address": "12'h20",
+            "address": "4'h4",
             "description": "Offset register",
             "entries": {
                 "VAL": {
@@ -79,7 +79,7 @@
             }
         },
         "REGINFO": {
-            "address": "12'hFF8",
+            "address": "4'hE",
             "description": "Register file information register",
             "entries": {
                 "DATE": {
