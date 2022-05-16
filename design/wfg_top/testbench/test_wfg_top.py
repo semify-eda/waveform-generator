@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import random
-import matplotlib.pyplot as plt
-from scipy import optimize
-import numpy as np
+#import matplotlib.pyplot as plt
+#from scipy import optimize
+#import numpy as np
 import cocotb
 from cocotb.utils import get_sim_time
 from cocotb.clock import Clock
@@ -141,7 +141,7 @@ async def top_test(dut):
     await long_time
     await short_per
 
-    def test_func(x, a, b, c):
+    """def test_func(x, a, b, c):
         return a * np.sin(b * x + c)
 
     params, params_covariance = optimize.curve_fit(test_func, spi_slave.time, spi_slave.values, p0=[70000, 0.00007, -0.5])
@@ -174,31 +174,5 @@ async def top_test(dut):
     ax[1].grid()
 
     #fig.savefig("test.png")
-    plt.show()
-    
-    
-    """
-    from scipy.fft import fft, fftfreq
-    
-    fft_data = fft(y_data)
-    fft_calc = fft(y_calc)
-    fft_calc_highres = fft(y_calc_highres)
-    
-    N = len(x_data)
-    T = x_data[1] - x_data[0]
-    xf = fftfreq(N, T)[:N//2]
-    plt.plot(xf, 2.0/N * np.abs(fft_data[0:N//2]))
-    plt.grid()
-    plt.show()
-    
-    plt.plot(xf, 2.0/N * np.abs(fft_calc[0:N//2]))
-    plt.grid()
-    plt.show()
+    plt.show()"""
 
-    N = len(x_data_highres)
-    T = x_data_highres[1] - x_data_highres[0]
-    xf = fftfreq(N, T)[:N//2]
-    plt.plot(xf, 2.0/N * np.abs(fft_calc_highres[0:N//2]))
-    plt.grid()
-    plt.show()
-    """
