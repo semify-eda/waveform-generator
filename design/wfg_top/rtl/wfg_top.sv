@@ -9,7 +9,7 @@ module wfg_top #(
     input                     io_wbs_clk,
     input                     io_wbs_rst,
     input        [(BUSW-1):0] io_wbs_adr,
-    input        [(BUSW-1):0]  io_wbs_datwr,
+    input        [(BUSW-1):0] io_wbs_datwr,
     output logic [(BUSW-1):0] io_wbs_datrd,
     input                     io_wbs_we,
     input                     io_wbs_stb,

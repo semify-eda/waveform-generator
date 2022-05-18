@@ -40,9 +40,9 @@ async def set_register(dut, wbs, address, data):
     dut._log.info(f"Returned values : {rvalues}")
 
 async def configure(dut, wbs, en=1, cnt=3, cpha=0, cpol=0, mstr=1, lsbfirst=0, dff=0, ssctrl=0, sspol=0, oectrl=0):
-    await set_register(dut, wbs, 0x10, en) # Enable SPI
-    await set_register(dut, wbs, 0x18, cnt) # Clock divider
-    await set_register(dut, wbs, 0x14, (cpha<<0) | (cpol<<1) | (mstr<<2) | (lsbfirst<<3) | (dff<<4) | (ssctrl<<8) | (sspol<<9) | (oectrl<<10)) # Enable SPI
+    await set_register(dut, wbs, 0x1, en) # Enable SPI
+    await set_register(dut, wbs, 0x3, cnt) # Clock divider
+    await set_register(dut, wbs, 0x2, (cpha<<0) | (cpol<<1) | (mstr<<2) | (lsbfirst<<3) | (dff<<4) | (ssctrl<<8) | (sspol<<9) | (oectrl<<10)) # Enable SPI
 
 class SimpleSpiSlave(SpiSlaveBase):
   def __init__(self, dut, signals, config):

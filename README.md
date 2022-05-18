@@ -31,7 +31,9 @@ The testbench environment for the unit-tests uses `cocotb`. To install it togeth
 
 To plot the values during functional verification install `matplotlib`:
 
-	pip3 install matplotlib	
+	pip3 install matplotlib
+	pip3 install scipy
+	pip3 install numpy
 
 To have more information on assertion fails you can optionally install `pytest`: 
 

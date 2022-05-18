@@ -23,18 +23,12 @@ async def my_first_test(dut):
     wbs = WishboneMaster(dut, "io_wbs", dut.io_wbs_clk,
                               width=32,   # size of data bus
                               timeout=10) # in clock cycle number
-                              
-    # read at address 2,3,0,1
-    wbRes = await wbs.send_cycle([WBOp(0x10), WBOp(0x18), WBOp(0x1C), WBOp(0x20), WBOp(0xFF8), WBOp(0xFFC)])
-
-    rvalues = [wb.datrd for wb in wbRes]
-    dut._log.info(f"Returned values : {rvalues}")
     
     short_per = Timer(100, units="ns")
     await short_per
 
     # activate wfg_stim_sine
-    wbRes = await wbs.send_cycle([WBOp(0x10, 1)])
+    wbRes = await wbs.send_cycle([WBOp(0x1, 1)])
     
     rvalues = [wb.datrd for wb in wbRes]
     dut._log.info(f"Returned values : {rvalues}")

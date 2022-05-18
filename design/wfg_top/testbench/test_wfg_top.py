@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import random
-#import matplotlib.pyplot as plt
-#from scipy import optimize
-#import numpy as np
+import matplotlib.pyplot as plt
+from scipy import optimize
+import numpy as np
 import cocotb
 from cocotb.utils import get_sim_time
 from cocotb.clock import Clock
@@ -141,7 +141,7 @@ async def top_test(dut):
     await long_time
     await short_per
 
-    """def test_func(x, a, b, c):
+    def test_func(x, a, b, c):
         return a * np.sin(b * x + c)
 
     params, params_covariance = optimize.curve_fit(test_func, spi_slave.time, spi_slave.values, p0=[70000, 0.00007, -0.5])
@@ -173,6 +173,6 @@ async def top_test(dut):
     ax[1].legend(loc='best')
     ax[1].grid()
 
-    #fig.savefig("test.png")
-    plt.show()"""
+    fig.savefig("output.png")
+    #plt.show()
 
