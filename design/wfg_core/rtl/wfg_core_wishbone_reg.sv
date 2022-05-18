@@ -47,6 +47,7 @@ module wfg_core_wishbone_reg #(
 
     //marker_template_end
 
+    // Wishbone write to slave
     always_ff @(posedge wb_clk_i) begin
         if (wb_rst_i) begin
             //marker_template_start
@@ -62,13 +63,7 @@ module wfg_core_wishbone_reg #(
             reginfo_date_ff       <= 18'd210715;
 
             //marker_template_end
-        end
-    end
-
-
-    // Wishbone write to slave
-    always_ff @(posedge wb_clk_i) begin
-        if ((wbs_stb_i) && (wbs_we_i) && (wbs_cyc_i)) begin
+        end else if ((wbs_stb_i) && (wbs_we_i) && (wbs_cyc_i)) begin
             case (wbs_adr_i)
                 //marker_template_start
                 //data: ../data/wfg_core_reg.json

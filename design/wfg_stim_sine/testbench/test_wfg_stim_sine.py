@@ -40,11 +40,11 @@ async def my_first_test(dut):
     await long_time
     
     # reduce increment
-    wbRes = await wbs.send_cycle([WBOp(0x18, 0x200)])
+    wbRes = await wbs.send_cycle([WBOp(0x2, 0x200)])
     
     await long_time
     
     # reduce increment
-    wbRes = await wbs.send_cycle([WBOp(0x18, 0x50)])
+    wbRes = await wbs.send_cycle([WBOp(0x2, 0x50)])
     
     await long_time

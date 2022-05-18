@@ -146,6 +146,10 @@ async def top_test(dut):
 
     params, params_covariance = optimize.curve_fit(test_func, spi_slave.time, spi_slave.values, p0=[70000, 0.00007, -0.5])
     
+    print(params)
+    print(spi_slave.time)
+    print(spi_slave.values)
+    
     # Loosely check parameters
     assert(abs(params[0] - 6.55323083e+04) < 0.1)
     assert(abs(params[1] - 6.79379545e-05) < 0.0001)
