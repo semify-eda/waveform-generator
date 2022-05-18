@@ -36,7 +36,7 @@ lint-autofix:
 format:
 	verible-verilog-format --indentation_spaces 4 --module_net_variable_alignment=preserve --case_items_alignment=preserve design/*/*/*.sv --inplace --verbose
 
-ulx3s.json: design/*/*/*.sv fpga/ulx3s/ulx3s_top.sv
+ulx3s.json: design/*/rtl/*.sv fpga/ulx3s/ulx3s_top.sv
 	yosys -ql $(basename $@)-yosys.log -p 'synth_ecp5 -top ulx3s_top -json $@' $^
 
 ulx3s_out.config: ulx3s.json

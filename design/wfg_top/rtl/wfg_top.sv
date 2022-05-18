@@ -29,9 +29,9 @@ module wfg_top #(
     logic wfg_drive_spi_sel;
 
     // Nothing should be assigned to the null page
-    assign wfg_core_sel      = (io_wbs_adr[BUSW-1:4] == 28'h01);  // 0xTODO
-    assign wfg_stim_sine_sel = (io_wbs_adr[BUSW-1:4] == 28'h02);  // 0xTODO
-    assign wfg_drive_spi_sel = (io_wbs_adr[BUSW-1:4] == 28'h03);  // 0xTODO
+    assign wfg_core_sel      = (io_wbs_adr[BUSW-1:4] == 28'h01);  // 0x10
+    assign wfg_stim_sine_sel = (io_wbs_adr[BUSW-1:4] == 28'h02);  // 0x20
+    assign wfg_drive_spi_sel = (io_wbs_adr[BUSW-1:4] == 28'h03);  // 0x30
 
     // This will be true if nothing is selected
     logic none_sel;

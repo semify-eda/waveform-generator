@@ -4,10 +4,6 @@
 module ulx3s_top (
 	input clk_25mhz,
 
-    // On-board
-	input  ftdi_txd,
-	output logic ftdi_rxd,
-
     input [6:0] btn,
 	output logic [7:0] led
 );
@@ -26,7 +22,7 @@ module ulx3s_top (
 
     assign io_wbs_clk = clk_25mhz;
     assign io_wbs_rst = btn[0];
-    assign io_wbs_adr = btn[1];
+    assign io_wbs_adr = {btn[5], btn[4], btn[3], btn[2], btn[1], btn[0]};
     assign io_wbs_datwr = btn[2];
     assign io_wbs_we = btn[3];
     assign io_wbs_stb = btn[4];
