@@ -22,9 +22,9 @@ templates: ${TEMPLATED_FILES} ${LIBRARIES}
 	python3 templating/generator.py --template_dir templating/templates -i ${TEMPLATED_FILES}
 
 unit-tests:
-	cd design/wfg_stim_sine/sim; make sim
-	cd design/wfg_drive_spi/sim; make sim
-	cd design/wfg_core/sim; make sim
+	#cd design/wfg_stim_sine/sim; make sim
+	#cd design/wfg_drive_spi/sim; make sim
+	#cd design/wfg_core/sim; make sim
 	cd design/wfg_top/sim; make sim
 
 lint:
@@ -41,7 +41,7 @@ ulx3s.json: design/*/*/*.sv fpga/ulx3s/ulx3s_top.sv
 
 ulx3s_out.config: ulx3s.json
 	nextpnr-ecp5 --85k --json $< \
-		--lpf constraints/ulx3s_v20.lpf \
+		--lpf fpga/ulx3s/ulx3s_v20.lpf \
 		--package CABGA381 \
 		--textcfg ulx3s_out.config 
 
@@ -55,5 +55,9 @@ clean:
 	rm -rf design/*/sim/sim_build
 	rm -rf design/*/sim/*.vcd
 	rm -rf design/*/sim/*.xml
+	rm -f ulx3s_out.config
+	rm -f ulx3s-yosys.log
+	rm -f ulx3s.json
+	rm -f ulx3s.bit
 
 .PHONY: templates unit-tests lint lint-autofix format clean prog_ulx3s

@@ -17,31 +17,60 @@ module wfg_stim_sine (
     parameter bit [15:0] K = 16'h9b74;
     // Because arithmetic shift is used, a signed type needs to be defined
     logic signed [16:0] sin_17;
-    logic signed [16:0] sin_17_ff;
     logic signed [17:0] sin_18;
-    logic signed [16:0] x0;
-    logic signed [16:0] y0;
+
     // Used as a temporary variable
-    logic signed [16:0] temp1;
-    logic signed [16:0] temp2;
+    logic signed [16:0] x;
+    logic signed [16:0] y;
     logic signed [16:0] z;
-    logic signed [16:0] z_z;
+
     // quadrant
     logic [1:0]  quadrant;
+
     // Store the angle of each rotation
     logic [15:0] rot[0:15];
-    logic [31:0] i;
+    logic [31:0] iteration;
     logic signed [34:0] temp;
+
     logic [15:0] phase_in;
     logic [15:0] increment;
     logic valid;
     logic signed [17:0] overflow_chk;
 
+    typedef enum {
+        ST_IDLE,
+        ST_CALC,
+        ST_DONE
+    } wfg_stim_sine_states_t;
+
+    wfg_stim_sine_states_t cur_state;
+    wfg_stim_sine_states_t next_state;
+
     always_ff @(posedge clk, negedge rst_n) begin
-        // Reset
-        if (~rst_n) begin
-            temp1 <= K;
-            temp2 <= 0;
+        if (!rst_n) cur_state <= ST_IDLE;
+        else cur_state <= next_state;
+    end
+
+    always_comb begin
+        next_state = cur_state;
+        case (cur_state)
+            ST_IDLE: begin
+                if (ctrl_en_q_i == 1'b1) next_state = ST_CALC;
+            end
+            ST_CALC: begin
+                if (iteration == 15) next_state = ST_DONE;
+            end
+            ST_DONE: begin
+                if (wfg_stim_spi_tready_o == 1'b1) next_state = ST_IDLE;
+            end
+            default: next_state = ST_IDLE; // TODO wfg_stim_sine_states_t'('x);
+        endcase
+    end
+
+    assign increment = inc_val_q_i[15:0] + phase_in[15:0];
+
+    always_ff @(posedge clk, negedge rst_n) begin
+        if (!rst_n) begin
             rot[0] <= 16'h2000;  //45
             rot[1] <= 16'h12e4;  //26.5651
             rot[2] <= 16'h09fb;  //14.0362
@@ -58,72 +87,71 @@ module wfg_stim_sine (
             rot[13] <= 16'h0001;  //0.0070
             rot[14] <= 16'h0001;  //0.0035
             rot[15] <= 16'h0000;  //0.0018
-            phase_in <= 16'h0000;
-            valid <= 1'b0;
-            i <= 32'h00000000;
-            z <= 17'b00000000000000000;
-            sin_17_ff <= 18'b000000000000000000;
 
-            // Update phase by an increment value
+            iteration <= '0;
+            x <= K;
+            y <= '0;
+
+            phase_in <= '0;
+
+            valid <= 0;
+            z <= '0;
+            sin_17 <= '0;
+
         end else begin
-            if (ctrl_en_q_i == 1'b1) begin
-                if (i == 0) begin
-                    temp1 <= K;
-                    temp2 <= 0;
+            valid <= 0;
+
+            case (cur_state)
+                ST_IDLE: begin
+                    iteration <= 0;
+                    x <= K;
+                    y <= '0;
+
+
                     // The first two digits of the input indicate the quadrant
                     quadrant <= increment[15:14];
                     // z is used to store the angle after transforming to the first quadrant
                     z <= {3'b0, increment[13:0]};
-                    i <= i + 1;
-                    phase_in <= increment;
-                end else begin
-                    if (i > 15) begin
-                        if (wfg_stim_spi_tready_o) begin
-                            i <= 0;
-                            sin_17_ff <= sin_17;
-                        end
-                        valid <= 1'b1;
+                end
+                ST_CALC: begin
+                    iteration <= iteration + 1;  // TODO check
+
+                    if (z[16] == 1'b1) begin
+                        x <= x + (y >>> (iteration));
+                        y <= y - (x >>> (iteration));
+                        z <= z + rot[iteration];
                     end else begin
-                        i <= i + 1;
-                        valid <= 1'b0;
-                        // You need to assign the current value to temp every time you loop
-                        temp1 <= x0;
-                        temp2 <= y0;
-                        z <= z_z;
+                        x <= x - (y >>> (iteration));
+                        y <= y + (x >>> (iteration));
+                        z <= z - rot[iteration];
                     end
-                end
-            end
-        end
-    end
 
-    always_comb begin
-        if (z[16] && i >= 1 && i < 17) begin
-            x0  = temp1 + (temp2 >>> (i - 1));
-            y0  = temp2 - (temp1 >>> (i - 1));
-            z_z = z + rot[(i-1)];
-        end else if (i >= 1 && i < 17) begin
-            x0  = temp1 - (temp2 >>> (i - 1));
-            y0  = temp2 + (temp1 >>> (i - 1));
-            z_z = z - rot[(i-1)];
-        end
 
-        if (i == 32'h0000000F) begin
-            case (quadrant)
-                2'b00: begin  // The first quadrant
-                    sin_17 = y0;
                 end
-                2'b01: begin  // The second quadrant
-                    sin_17 = x0;  // cos
+                ST_DONE: begin
+                    valid <= 1;
+
+                    case (quadrant)
+                        2'b00: begin  // The first quadrant
+                            sin_17 <= y;  // sin
+                        end
+                        2'b01: begin  // The second quadrant
+                            sin_17 <= x;  // cos
+                        end
+                        2'b10: begin  // The third quadrant
+                            sin_17 <= ~(y) + 1'b1;  // -sin
+                        end
+                        2'b11: begin  // The fourth quadrant
+                            sin_17 <= ~(x) + 1'b1;  // -cos
+                        end
+                        default: begin
+                            sin_17 <= 'x;
+                        end
+                    endcase
+
+                    if (wfg_stim_spi_tready_o == 1'b1) phase_in <= increment;
                 end
-                2'b10: begin  // The third quadrant
-                    sin_17 = ~(y0) + 1'b1;  // -sin
-                end
-                2'b11: begin  // The fourth quadrant
-                    sin_17 = ~(x0) + 1'b1;  // -cos
-                end
-                default: begin
-                    sin_17 = 'x;
-                end
+                default: valid <= 'x;
             endcase
         end
     end
@@ -131,9 +159,9 @@ module wfg_stim_sine (
     always_comb begin
         // Multiplying by gain value - signed multiplication
         if (gain_val_q_i[15:0] > 16'h7FFF) begin
-            temp[34:0] = {{16{sin_17_ff[16]}}, sin_17_ff[15:0]} * {{16{1'b0}}, 16'h7FFF};
+            temp[34:0] = {{16{sin_17[16]}}, sin_17[15:0]} * {{16{1'b0}}, 16'h7FFF};
         end else begin
-            temp[34:0] = {{16{sin_17_ff[16]}}, sin_17_ff[15:0]} * {{16{1'b0}}, gain_val_q_i[15:0]};
+            temp[34:0] = {{16{sin_17[16]}}, sin_17[15:0]} * {{16{1'b0}}, gain_val_q_i[15:0]};
         end
         // Adding the offset value
         overflow_chk[17:0] = temp[31:14] + offset_val_q_i[17:0];
@@ -146,8 +174,6 @@ module wfg_stim_sine (
         end else begin
             sin_18[17:0] = overflow_chk[17:0];
         end
-        increment[15:0] = inc_val_q_i[15:0] + phase_in[15:0];
-
     end
 
     // I/O assignment
