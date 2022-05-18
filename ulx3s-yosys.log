@@ -1,0 +1,546 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.16+73 (git sha1 9c69e9f8a, clang 10.0.0-4ubuntu1 -fPIC -Os)
+
+
+-- Parsing `design/wfg_core/rtl/wfg_core.sv' using frontend ` -sv' --
+
+1. Executing Verilog-2005 frontend: design/wfg_core/rtl/wfg_core.sv
+Parsing SystemVerilog input from `design/wfg_core/rtl/wfg_core.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_core'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_core/rtl/wfg_core_top.sv' using frontend ` -sv' --
+
+2. Executing Verilog-2005 frontend: design/wfg_core/rtl/wfg_core_top.sv
+Parsing SystemVerilog input from `design/wfg_core/rtl/wfg_core_top.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_core_top'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_core/rtl/wfg_core_wishbone_reg.sv' using frontend ` -sv' --
+
+3. Executing Verilog-2005 frontend: design/wfg_core/rtl/wfg_core_wishbone_reg.sv
+Parsing SystemVerilog input from `design/wfg_core/rtl/wfg_core_wishbone_reg.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_core_wishbone_reg'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_core/testbench/wfg_core_tb.sv' using frontend ` -sv' --
+
+4. Executing Verilog-2005 frontend: design/wfg_core/testbench/wfg_core_tb.sv
+Parsing SystemVerilog input from `design/wfg_core/testbench/wfg_core_tb.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_core_tb'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_drive_spi/rtl/wfg_drive_spi.sv' using frontend ` -sv' --
+
+5. Executing Verilog-2005 frontend: design/wfg_drive_spi/rtl/wfg_drive_spi.sv
+Parsing SystemVerilog input from `design/wfg_drive_spi/rtl/wfg_drive_spi.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_drive_spi'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_drive_spi/rtl/wfg_drive_spi_top.sv' using frontend ` -sv' --
+
+6. Executing Verilog-2005 frontend: design/wfg_drive_spi/rtl/wfg_drive_spi_top.sv
+Parsing SystemVerilog input from `design/wfg_drive_spi/rtl/wfg_drive_spi_top.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_drive_spi_top'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_drive_spi/rtl/wfg_drive_spi_wishbone_reg.sv' using frontend ` -sv' --
+
+7. Executing Verilog-2005 frontend: design/wfg_drive_spi/rtl/wfg_drive_spi_wishbone_reg.sv
+Parsing SystemVerilog input from `design/wfg_drive_spi/rtl/wfg_drive_spi_wishbone_reg.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_drive_spi_wishbone_reg'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_drive_spi/testbench/wfg_drive_spi_tb.sv' using frontend ` -sv' --
+
+8. Executing Verilog-2005 frontend: design/wfg_drive_spi/testbench/wfg_drive_spi_tb.sv
+Parsing SystemVerilog input from `design/wfg_drive_spi/testbench/wfg_drive_spi_tb.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_drive_spi_tb'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_stim_sine/rtl/wfg_stim_sine.sv' using frontend ` -sv' --
+
+9. Executing Verilog-2005 frontend: design/wfg_stim_sine/rtl/wfg_stim_sine.sv
+Parsing SystemVerilog input from `design/wfg_stim_sine/rtl/wfg_stim_sine.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_stim_sine'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_stim_sine/rtl/wfg_stim_sine_top.sv' using frontend ` -sv' --
+
+10. Executing Verilog-2005 frontend: design/wfg_stim_sine/rtl/wfg_stim_sine_top.sv
+Parsing SystemVerilog input from `design/wfg_stim_sine/rtl/wfg_stim_sine_top.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_stim_sine_top'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv' using frontend ` -sv' --
+
+11. Executing Verilog-2005 frontend: design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv
+Parsing SystemVerilog input from `design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_stim_sine_wishbone_reg'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_stim_sine/testbench/wfg_stim_sine_tb.sv' using frontend ` -sv' --
+
+12. Executing Verilog-2005 frontend: design/wfg_stim_sine/testbench/wfg_stim_sine_tb.sv
+Parsing SystemVerilog input from `design/wfg_stim_sine/testbench/wfg_stim_sine_tb.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_stim_sine_tb'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_top/rtl/wfg_top.sv' using frontend ` -sv' --
+
+13. Executing Verilog-2005 frontend: design/wfg_top/rtl/wfg_top.sv
+Parsing SystemVerilog input from `design/wfg_top/rtl/wfg_top.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_top'.
+Successfully finished Verilog frontend.
+
+-- Parsing `design/wfg_top/testbench/wfg_top_tb.sv' using frontend ` -sv' --
+
+14. Executing Verilog-2005 frontend: design/wfg_top/testbench/wfg_top_tb.sv
+Parsing SystemVerilog input from `design/wfg_top/testbench/wfg_top_tb.sv' to AST representation.
+Storing AST representation for module `$abstract\wfg_top_tb'.
+Successfully finished Verilog frontend.
+
+-- Parsing `fpga/ulx3s/ulx3s_top.sv' using frontend ` -sv' --
+
+15. Executing Verilog-2005 frontend: fpga/ulx3s/ulx3s_top.sv
+Parsing SystemVerilog input from `fpga/ulx3s/ulx3s_top.sv' to AST representation.
+Storing AST representation for module `$abstract\ulx3s_top'.
+Successfully finished Verilog frontend.
+
+-- Running command `synth_ecp5 -top ulx3s_top -json ulx3s.json' --
+
+16. Executing SYNTH_ECP5 pass.
+
+16.1. Executing Verilog-2005 frontend: /home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v
+Parsing Verilog input from `/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v' to AST representation.
+Generating RTLIL representation for module `\LUT4'.
+Generating RTLIL representation for module `\$__ABC9_LUT5'.
+Generating RTLIL representation for module `\$__ABC9_LUT6'.
+Generating RTLIL representation for module `\$__ABC9_LUT7'.
+Generating RTLIL representation for module `\L6MUX21'.
+Generating RTLIL representation for module `\CCU2C'.
+Generating RTLIL representation for module `\TRELLIS_RAM16X2'.
+Generating RTLIL representation for module `\PFUMX'.
+Generating RTLIL representation for module `\TRELLIS_DPR16X4'.
+Generating RTLIL representation for module `\DPR16X4C'.
+Generating RTLIL representation for module `\LUT2'.
+Generating RTLIL representation for module `\TRELLIS_FF'.
+Generating RTLIL representation for module `\TRELLIS_IO'.
+Generating RTLIL representation for module `\INV'.
+Generating RTLIL representation for module `\TRELLIS_SLICE'.
+Generating RTLIL representation for module `\DP16KD'.
+Generating RTLIL representation for module `\FD1P3AX'.
+Generating RTLIL representation for module `\FD1P3AY'.
+Generating RTLIL representation for module `\FD1P3BX'.
+Generating RTLIL representation for module `\FD1P3DX'.
+Generating RTLIL representation for module `\FD1P3IX'.
+Generating RTLIL representation for module `\FD1P3JX'.
+Generating RTLIL representation for module `\FD1S3AX'.
+Generating RTLIL representation for module `\FD1S3AY'.
+Generating RTLIL representation for module `\FD1S3BX'.
+Generating RTLIL representation for module `\FD1S3DX'.
+Generating RTLIL representation for module `\FD1S3IX'.
+Generating RTLIL representation for module `\FD1S3JX'.
+Generating RTLIL representation for module `\IFS1P3BX'.
+Generating RTLIL representation for module `\IFS1P3DX'.
+Generating RTLIL representation for module `\IFS1P3IX'.
+Generating RTLIL representation for module `\IFS1P3JX'.
+Generating RTLIL representation for module `\OFS1P3BX'.
+Generating RTLIL representation for module `\OFS1P3DX'.
+Generating RTLIL representation for module `\OFS1P3IX'.
+Generating RTLIL representation for module `\OFS1P3JX'.
+Generating RTLIL representation for module `\IB'.
+Generating RTLIL representation for module `\IBPU'.
+Generating RTLIL representation for module `\IBPD'.
+Generating RTLIL representation for module `\OB'.
+Generating RTLIL representation for module `\OBZ'.
+Generating RTLIL representation for module `\OBZPU'.
+Generating RTLIL representation for module `\OBZPD'.
+Generating RTLIL representation for module `\OBCO'.
+Generating RTLIL representation for module `\BB'.
+Generating RTLIL representation for module `\BBPU'.
+Generating RTLIL representation for module `\BBPD'.
+Generating RTLIL representation for module `\ILVDS'.
+Generating RTLIL representation for module `\OLVDS'.
+Successfully finished Verilog frontend.
+
+16.2. Executing Verilog-2005 frontend: /home/leo/tools/lib/../share/yosys/ecp5/cells_bb.v
+Parsing Verilog input from `/home/leo/tools/lib/../share/yosys/ecp5/cells_bb.v' to AST representation.
+Generating RTLIL representation for module `\MULT18X18D'.
+Generating RTLIL representation for module `\ALU54B'.
+Generating RTLIL representation for module `\EHXPLLL'.
+Generating RTLIL representation for module `\DTR'.
+Generating RTLIL representation for module `\OSCG'.
+Generating RTLIL representation for module `\USRMCLK'.
+Generating RTLIL representation for module `\JTAGG'.
+Generating RTLIL representation for module `\DELAYF'.
+Generating RTLIL representation for module `\DELAYG'.
+Generating RTLIL representation for module `\IDDRX1F'.
+Generating RTLIL representation for module `\IDDRX2F'.
+Generating RTLIL representation for module `\IDDR71B'.
+Generating RTLIL representation for module `\IDDRX2DQA'.
+Generating RTLIL representation for module `\ODDRX1F'.
+Generating RTLIL representation for module `\ODDRX2F'.
+Generating RTLIL representation for module `\ODDR71B'.
+Generating RTLIL representation for module `\OSHX2A'.
+Generating RTLIL representation for module `\ODDRX2DQA'.
+Generating RTLIL representation for module `\ODDRX2DQSB'.
+Generating RTLIL representation for module `\TSHX2DQA'.
+Generating RTLIL representation for module `\TSHX2DQSA'.
+Generating RTLIL representation for module `\DQSBUFM'.
+Generating RTLIL representation for module `\DDRDLLA'.
+Generating RTLIL representation for module `\DLLDELD'.
+Generating RTLIL representation for module `\CLKDIVF'.
+Generating RTLIL representation for module `\ECLKSYNCB'.
+Generating RTLIL representation for module `\ECLKBRIDGECS'.
+Generating RTLIL representation for module `\DCCA'.
+Generating RTLIL representation for module `\DCSC'.
+Generating RTLIL representation for module `\DCUA'.
+Generating RTLIL representation for module `\EXTREFB'.
+Generating RTLIL representation for module `\PCSCLKDIV'.
+Generating RTLIL representation for module `\PUR'.
+Generating RTLIL representation for module `\GSR'.
+Generating RTLIL representation for module `\SGSR'.
+Generating RTLIL representation for module `\PDPW16KD'.
+Successfully finished Verilog frontend.
+
+16.3. Executing HIERARCHY pass (managing design hierarchy).
+
+16.4. Executing AST frontend in derive mode using pre-parsed AST for module `\ulx3s_top'.
+Generating RTLIL representation for module `\ulx3s_top'.
+
+16.4.1. Analyzing design hierarchy..
+Top module:  \ulx3s_top
+
+16.4.2. Executing AST frontend in derive mode using pre-parsed AST for module `\wfg_top'.
+Generating RTLIL representation for module `\wfg_top'.
+
+16.4.3. Analyzing design hierarchy..
+Top module:  \ulx3s_top
+Used module:     \wfg_top
+
+16.4.4. Executing AST frontend in derive mode using pre-parsed AST for module `\wfg_drive_spi_top'.
+Generating RTLIL representation for module `\wfg_drive_spi_top'.
+
+16.4.5. Executing AST frontend in derive mode using pre-parsed AST for module `\wfg_stim_sine_top'.
+Generating RTLIL representation for module `\wfg_stim_sine_top'.
+
+16.4.6. Executing AST frontend in derive mode using pre-parsed AST for module `\wfg_core_top'.
+Generating RTLIL representation for module `\wfg_core_top'.
+
+16.4.7. Analyzing design hierarchy..
+Top module:  \ulx3s_top
+Used module:     \wfg_top
+Used module:         \wfg_drive_spi_top
+Used module:         \wfg_stim_sine_top
+Used module:         \wfg_core_top
+
+16.4.8. Executing AST frontend in derive mode using pre-parsed AST for module `\wfg_core'.
+Generating RTLIL representation for module `\wfg_core'.
+
+16.4.9. Executing AST frontend in derive mode using pre-parsed AST for module `\wfg_core_wishbone_reg'.
+Generating RTLIL representation for module `\wfg_core_wishbone_reg'.
+
+16.4.10. Executing AST frontend in derive mode using pre-parsed AST for module `\wfg_stim_sine'.
+Generating RTLIL representation for module `\wfg_stim_sine'.
+Warning: Replacing memory \rot with list of registers. See design/wfg_stim_sine/rtl/wfg_stim_sine.sv:45
+
+16.4.11. Executing AST frontend in derive mode using pre-parsed AST for module `\wfg_stim_sine_wishbone_reg'.
+Generating RTLIL representation for module `\wfg_stim_sine_wishbone_reg'.
+
+16.4.12. Executing AST frontend in derive mode using pre-parsed AST for module `\wfg_drive_spi'.
+Generating RTLIL representation for module `\wfg_drive_spi'.
+
+16.4.13. Executing AST frontend in derive mode using pre-parsed AST for module `\wfg_drive_spi_wishbone_reg'.
+Generating RTLIL representation for module `\wfg_drive_spi_wishbone_reg'.
+
+16.4.14. Analyzing design hierarchy..
+Top module:  \ulx3s_top
+Used module:     \wfg_top
+Used module:         \wfg_drive_spi_top
+Used module:             \wfg_drive_spi
+Used module:             \wfg_drive_spi_wishbone_reg
+Used module:         \wfg_stim_sine_top
+Used module:             \wfg_stim_sine
+Used module:             \wfg_stim_sine_wishbone_reg
+Used module:         \wfg_core_top
+Used module:             \wfg_core
+Used module:             \wfg_core_wishbone_reg
+
+16.4.15. Analyzing design hierarchy..
+Top module:  \ulx3s_top
+Used module:     \wfg_top
+Used module:         \wfg_drive_spi_top
+Used module:             \wfg_drive_spi
+Used module:             \wfg_drive_spi_wishbone_reg
+Used module:         \wfg_stim_sine_top
+Used module:             \wfg_stim_sine
+Used module:             \wfg_stim_sine_wishbone_reg
+Used module:         \wfg_core_top
+Used module:             \wfg_core
+Used module:             \wfg_core_wishbone_reg
+Removing unused module `$abstract\ulx3s_top'.
+Removing unused module `$abstract\wfg_top_tb'.
+Removing unused module `$abstract\wfg_top'.
+Removing unused module `$abstract\wfg_stim_sine_tb'.
+Removing unused module `$abstract\wfg_stim_sine_wishbone_reg'.
+Removing unused module `$abstract\wfg_stim_sine_top'.
+Removing unused module `$abstract\wfg_stim_sine'.
+Removing unused module `$abstract\wfg_drive_spi_tb'.
+Removing unused module `$abstract\wfg_drive_spi_wishbone_reg'.
+Removing unused module `$abstract\wfg_drive_spi_top'.
+Removing unused module `$abstract\wfg_drive_spi'.
+Removing unused module `$abstract\wfg_core_tb'.
+Removing unused module `$abstract\wfg_core_wishbone_reg'.
+Removing unused module `$abstract\wfg_core_top'.
+Removing unused module `$abstract\wfg_core'.
+Removed 15 unused modules.
+
+16.5. Executing PROC pass (convert processes to netlists).
+
+16.5.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\TRELLIS_DPR16X4.$proc$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:213$118'.
+Cleaned up 1 empty switch.
+
+16.5.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:350$225 in module TRELLIS_FF.
+Marked 1 switch rules as full_case in process $proc$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:285$177 in module DPR16X4C.
+Marked 1 switch rules as full_case in process $proc$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:221$119 in module TRELLIS_DPR16X4.
+Marked 1 switch rules as full_case in process $proc$design/wfg_drive_spi/rtl/wfg_drive_spi_wishbone_reg.sv:163$377 in module wfg_drive_spi_wishbone_reg.
+Marked 1 switch rules as full_case in process $proc$design/wfg_drive_spi/rtl/wfg_drive_spi_wishbone_reg.sv:0$376 in module wfg_drive_spi_wishbone_reg.
+Removed 1 dead cases from process $proc$design/wfg_drive_spi/rtl/wfg_drive_spi.sv:68$350 in module wfg_drive_spi.
+Marked 4 switch rules as full_case in process $proc$design/wfg_drive_spi/rtl/wfg_drive_spi.sv:68$350 in module wfg_drive_spi.
+Marked 1 switch rules as full_case in process $proc$design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv:124$348 in module wfg_stim_sine_wishbone_reg.
+Marked 1 switch rules as full_case in process $proc$design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv:0$347 in module wfg_stim_sine_wishbone_reg.
+Marked 3 switch rules as full_case in process $proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$330 in module wfg_stim_sine.
+Removed 3 dead cases from process $proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$289 in module wfg_stim_sine.
+Marked 6 switch rules as full_case in process $proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$289 in module wfg_stim_sine.
+Marked 3 switch rules as full_case in process $proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:40$282 in module wfg_stim_sine.
+Marked 1 switch rules as full_case in process $proc$design/wfg_core/rtl/wfg_core_wishbone_reg.sv:123$278 in module wfg_core_wishbone_reg.
+Marked 1 switch rules as full_case in process $proc$design/wfg_core/rtl/wfg_core_wishbone_reg.sv:0$277 in module wfg_core_wishbone_reg.
+Marked 4 switch rules as full_case in process $proc$design/wfg_core/rtl/wfg_core.sv:39$258 in module wfg_core.
+Removed a total of 4 dead cases.
+
+16.5.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 6 redundant assignments.
+Promoted 59 assignments to connections.
+
+16.5.4. Executing PROC_INIT pass (extract init attributes).
+Found init rule in `\TRELLIS_FF.$proc$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:0$226'.
+  Set init value: \Q = 1'0
+
+16.5.5. Executing PROC_ARST pass (detect async resets in processes).
+Found async reset \rst_n in `\wfg_drive_spi.$proc$design/wfg_drive_spi/rtl/wfg_drive_spi.sv:68$350'.
+Found async reset \rst_n in `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:40$282'.
+Found async reset \rst_n in `\wfg_core.$proc$design/wfg_core/rtl/wfg_core.sv:39$258'.
+
+16.5.6. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\TRELLIS_FF.$proc$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:0$226'.
+Creating decoders for process `\TRELLIS_FF.$proc$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:350$225'.
+     1/1: $0\Q[0:0]
+Creating decoders for process `\DPR16X4C.$proc$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:0$200'.
+Creating decoders for process `\DPR16X4C.$proc$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:285$177'.
+     1/3: $1$memwr$\ram$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:287$176_EN[3:0]$183
+     2/3: $1$memwr$\ram$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:287$176_DATA[3:0]$182
+     3/3: $1$memwr$\ram$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:287$176_ADDR[3:0]$181
+Creating decoders for process `\TRELLIS_DPR16X4.$proc$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:0$143'.
+Creating decoders for process `\TRELLIS_DPR16X4.$proc$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:221$119'.
+     1/3: $1$memwr$\mem$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:223$117_EN[3:0]$125
+     2/3: $1$memwr$\mem$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:223$117_DATA[3:0]$124
+     3/3: $1$memwr$\mem$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:223$117_ADDR[3:0]$123
+Creating decoders for process `\TRELLIS_DPR16X4.$proc$/home/leo/tools/lib/../share/yosys/ecp5/cells_sim.v:213$118'.
+Creating decoders for process `\wfg_drive_spi_wishbone_reg.$proc$design/wfg_drive_spi/rtl/wfg_drive_spi_wishbone_reg.sv:163$377'.
+     1/1: $0\wbs_ack_o[0:0]
+Creating decoders for process `\wfg_drive_spi_wishbone_reg.$proc$design/wfg_drive_spi/rtl/wfg_drive_spi_wishbone_reg.sv:0$376'.
+     1/12: $1\wbs_dat_o[31:0] [31:18]
+     2/12: $1\wbs_dat_o[31:0] [9]
+     3/12: $1\wbs_dat_o[31:0] [7:6]
+     4/12: $1\wbs_dat_o[31:0] [0]
+     5/12: $1\wbs_dat_o[31:0] [1]
+     6/12: $1\wbs_dat_o[31:0] [2]
+     7/12: $1\wbs_dat_o[31:0] [17:16]
+     8/12: $1\wbs_dat_o[31:0] [15:12]
+     9/12: $1\wbs_dat_o[31:0] [11:10]
+    10/12: $1\wbs_dat_o[31:0] [8]
+    11/12: $1\wbs_dat_o[31:0] [5:4]
+    12/12: $1\wbs_dat_o[31:0] [3]
+Creating decoders for process `\wfg_drive_spi_wishbone_reg.$proc$design/wfg_drive_spi/rtl/wfg_drive_spi_wishbone_reg.sv:94$373'.
+     1/14: $1\test_lpen_ff[0:0]
+     2/14: $1\clkcfg_div_ff[7:0]
+     3/14: $1\cfg_sspol_ff[0:0]
+     4/14: $1\cfg_ssctrl_ff[0:0]
+     5/14: $1\cfg_oectrl_ff[1:0]
+     6/14: $1\cfg_mstr_ff[0:0]
+     7/14: $1\cfg_lsbfirst_ff[0:0]
+     8/14: $1\cfg_dff_ff[1:0]
+     9/14: $1\cfg_cpol_ff[0:0]
+    10/14: $1\cfg_cpha_ff[0:0]
+    11/14: $1\reginfo_date_ff[17:0]
+    12/14: $1\id_version_ff[7:0]
+    13/14: $1\id_peripheral_type_ff[7:0]
+    14/14: $1\ctrl_en_ff[0:0]
+Creating decoders for process `\wfg_drive_spi_wishbone_reg.$proc$design/wfg_drive_spi/rtl/wfg_drive_spi_wishbone_reg.sv:66$372'.
+     1/14: $0\test_lpen_ff[0:0]
+     2/14: $0\clkcfg_div_ff[7:0]
+     3/14: $0\cfg_sspol_ff[0:0]
+     4/14: $0\cfg_ssctrl_ff[0:0]
+     5/14: $0\cfg_oectrl_ff[1:0]
+     6/14: $0\cfg_mstr_ff[0:0]
+     7/14: $0\cfg_lsbfirst_ff[0:0]
+     8/14: $0\cfg_dff_ff[1:0]
+     9/14: $0\cfg_cpol_ff[0:0]
+    10/14: $0\cfg_cpha_ff[0:0]
+    11/14: $0\reginfo_date_ff[17:0]
+    12/14: $0\id_version_ff[7:0]
+    13/14: $0\id_peripheral_type_ff[7:0]
+    14/14: $0\ctrl_en_ff[0:0]
+Creating decoders for process `\wfg_drive_spi.$proc$design/wfg_drive_spi/rtl/wfg_drive_spi.sv:68$350'.
+     1/8: $0\data_shft_ff[31:0]
+     2/8: $0\bit_cnt_ff[4:0]
+     3/8: $0\sck_set[0:0]
+     4/8: $0\sck_ff[0:0]
+     5/8: $0\sck_cnt_ff[7:0]
+     6/8: $0\cs_set[0:0]
+     7/8: $0\cs_nff[0:0]
+     8/8: $0\bit_width[4:0]
+Creating decoders for process `\wfg_stim_sine_wishbone_reg.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv:124$348'.
+     1/1: $0\wbs_ack_o[0:0]
+Creating decoders for process `\wfg_stim_sine_wishbone_reg.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv:0$347'.
+     1/5: $1\wbs_dat_o[31:0] [31:18]
+     2/5: $1\wbs_dat_o[31:0] [0]
+     3/5: $1\wbs_dat_o[31:0] [17:16]
+     4/5: $1\wbs_dat_o[31:0] [7:1]
+     5/5: $1\wbs_dat_o[31:0] [15:8]
+Creating decoders for process `\wfg_stim_sine_wishbone_reg.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv:73$344'.
+     1/7: $1\offset_val_ff[17:0]
+     2/7: $1\inc_val_ff[15:0]
+     3/7: $1\gain_val_ff[15:0]
+     4/7: $1\reginfo_date_ff[17:0]
+     5/7: $1\id_version_ff[7:0]
+     6/7: $1\id_peripheral_type_ff[7:0]
+     7/7: $1\ctrl_en_ff[0:0]
+Creating decoders for process `\wfg_stim_sine_wishbone_reg.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv:52$343'.
+     1/7: $0\offset_val_ff[17:0]
+     2/7: $0\inc_val_ff[15:0]
+     3/7: $0\gain_val_ff[15:0]
+     4/7: $0\reginfo_date_ff[17:0]
+     5/7: $0\id_version_ff[7:0]
+     6/7: $0\id_peripheral_type_ff[7:0]
+     7/7: $0\ctrl_en_ff[0:0]
+Creating decoders for process `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$330'.
+     1/3: $2\sin_18[17:0]
+     2/3: $1\sin_18[17:0]
+     3/3: $1\temp[34:0]
+Creating decoders for process `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$289'.
+     1/16: $2\sin_17[16:0]
+     2/16: $1\sin_17[16:0]
+     3/16: $3$mem2reg_rd$\rot$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:107$281_DATA[15:0]$323
+     4/16: $2\z_z[16:0]
+     5/16: $2$mem2reg_rd$\rot$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:107$281_DATA[15:0]$315
+     6/16: $2$mem2reg_rd$\rot$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:107$281_ADDR[3:0]$314
+     7/16: $2\y0[16:0]
+     8/16: $2\x0[16:0]
+     9/16: $2$mem2reg_rd$\rot$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:103$280_DATA[15:0]$309
+    10/16: $1\z_z[16:0]
+    11/16: $1$mem2reg_rd$\rot$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:103$280_DATA[15:0]$299
+    12/16: $1$mem2reg_rd$\rot$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:103$280_ADDR[3:0]$298
+    13/16: $1\y0[16:0]
+    14/16: $1\x0[16:0]
+    15/16: $1$mem2reg_rd$\rot$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:107$281_DATA[15:0]$301
+    16/16: $1$mem2reg_rd$\rot$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:107$281_ADDR[3:0]$300
+Creating decoders for process `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:40$282'.
+     1/24: $0\rot[15][15:0]
+     2/24: $0\rot[14][15:0]
+     3/24: $0\rot[13][15:0]
+     4/24: $0\rot[12][15:0]
+     5/24: $0\rot[11][15:0]
+     6/24: $0\rot[10][15:0]
+     7/24: $0\rot[9][15:0]
+     8/24: $0\rot[8][15:0]
+     9/24: $0\rot[7][15:0]
+    10/24: $0\rot[6][15:0]
+    11/24: $0\rot[5][15:0]
+    12/24: $0\rot[4][15:0]
+    13/24: $0\rot[3][15:0]
+    14/24: $0\rot[2][15:0]
+    15/24: $0\rot[1][15:0]
+    16/24: $0\rot[0][15:0]
+    17/24: $0\valid[0:0]
+    18/24: $0\phase_in[15:0]
+    19/24: $0\quadrant[1:0]
+    20/24: $0\z[16:0]
+    21/24: $0\temp2[16:0]
+    22/24: $0\temp1[16:0]
+    23/24: $0\sin_17_ff[16:0]
+    24/24: $0\i[31:0]
+Creating decoders for process `\wfg_core_wishbone_reg.$proc$design/wfg_core/rtl/wfg_core_wishbone_reg.sv:123$278'.
+     1/1: $0\wbs_ack_o[0:0]
+Creating decoders for process `\wfg_core_wishbone_reg.$proc$design/wfg_core/rtl/wfg_core_wishbone_reg.sv:0$277'.
+     1/6: $1\wbs_dat_o[31:0] [31:24]
+     2/6: $1\wbs_dat_o[31:0] [7:1]
+     3/6: $1\wbs_dat_o[31:0] [0]
+     4/6: $1\wbs_dat_o[31:0] [17:16]
+     5/6: $1\wbs_dat_o[31:0] [23:18]
+     6/6: $1\wbs_dat_o[31:0] [15:8]
+Creating decoders for process `\wfg_core_wishbone_reg.$proc$design/wfg_core/rtl/wfg_core_wishbone_reg.sv:70$274'.
+     1/6: $1\reginfo_date_ff[17:0]
+     2/6: $1\id_version_ff[7:0]
+     3/6: $1\id_peripheral_type_ff[7:0]
+     4/6: $1\ctrl_en_ff[0:0]
+     5/6: $1\cfg_sync_ff[7:0]
+     6/6: $1\cfg_subcycle_ff[15:0]
+Creating decoders for process `\wfg_core_wishbone_reg.$proc$design/wfg_core/rtl/wfg_core_wishbone_reg.sv:50$273'.
+     1/6: $0\reginfo_date_ff[17:0]
+     2/6: $0\id_version_ff[7:0]
+     3/6: $0\id_peripheral_type_ff[7:0]
+     4/6: $0\ctrl_en_ff[0:0]
+     5/6: $0\cfg_sync_ff[7:0]
+     6/6: $0\cfg_subcycle_ff[15:0]
+Creating decoders for process `\wfg_core.$proc$design/wfg_core/rtl/wfg_core.sv:39$258'.
+     1/8: $0\subcycle_count_ff[15:0]
+     2/8: $0\temp_subcycle_ff[0:0]
+     3/8: $0\subcycle_pls_cnt[7:0]
+     4/8: $0\en_i_dly[0:0]
+     5/8: $0\sync_dly[0:0]
+     6/8: $0\subcycle_dly[0:0]
+     7/8: $0\temp_sync_ff[0:0]
+     8/8: $0\sync_count_ff[7:0]
+Creating decoders for process `\wfg_top.$proc$design/wfg_top/rtl/wfg_top.sv:68$242'.
+     1/1: $0\io_wbs_datrd[31:0]
+Creating decoders for process `\wfg_top.$proc$design/wfg_top/rtl/wfg_top.sv:59$239'.
+Creating decoders for process `\wfg_top.$proc$design/wfg_top/rtl/wfg_top.sv:48$238'.
+     1/1: $0\bus_err_address[0:0]
+Creating decoders for process `\wfg_top.$proc$design/wfg_top/rtl/wfg_top.sv:43$236'.
+
+16.5.7. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\wfg_drive_spi_wishbone_reg.\wbs_dat_o' from process `\wfg_drive_spi_wishbone_reg.$proc$design/wfg_drive_spi/rtl/wfg_drive_spi_wishbone_reg.sv:0$376'.
+No latch inferred for signal `\wfg_stim_sine_wishbone_reg.\wbs_dat_o' from process `\wfg_stim_sine_wishbone_reg.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv:0$347'.
+No latch inferred for signal `\wfg_stim_sine.\sin_18' from process `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$330'.
+No latch inferred for signal `\wfg_stim_sine.\temp' from process `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$330'.
+No latch inferred for signal `\wfg_stim_sine.\increment' from process `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$330'.
+No latch inferred for signal `\wfg_stim_sine.\overflow_chk' from process `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$330'.
+No latch inferred for signal `\wfg_stim_sine.$mem2reg_rd$\rot$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:103$280_ADDR' from process `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$289'.
+No latch inferred for signal `\wfg_stim_sine.$mem2reg_rd$\rot$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:103$280_DATA' from process `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$289'.
+No latch inferred for signal `\wfg_stim_sine.$mem2reg_rd$\rot$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:107$281_ADDR' from process `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$289'.
+No latch inferred for signal `\wfg_stim_sine.$mem2reg_rd$\rot$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:107$281_DATA' from process `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$289'.
+ERROR: Latch inferred for signal `\wfg_stim_sine.\sin_17' from always_comb process `\wfg_stim_sine.$proc$design/wfg_stim_sine/rtl/wfg_stim_sine.sv:0$289'.

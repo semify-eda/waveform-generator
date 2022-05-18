@@ -36,9 +36,24 @@ lint-autofix:
 format:
 	verible-verilog-format --indentation_spaces 4 --module_net_variable_alignment=preserve --case_items_alignment=preserve design/*/*/*.sv --inplace --verbose
 
+ulx3s.json: design/*/*/*.sv fpga/ulx3s/ulx3s_top.sv
+	yosys -ql $(basename $@)-yosys.log -p 'synth_ecp5 -top ulx3s_top -json $@' $^
+
+ulx3s_out.config: ulx3s.json
+	nextpnr-ecp5 --85k --json $< \
+		--lpf constraints/ulx3s_v20.lpf \
+		--package CABGA381 \
+		--textcfg ulx3s_out.config 
+
+ulx3s.bit: ulx3s_out.config
+	ecppack ulx3s_out.config ulx3s.bit
+
+prog_ulx3s: ulx3s.bit
+	openFPGALoader --board=ulx3s ulx3s.bit
+
 clean:
 	rm -rf design/*/sim/sim_build
 	rm -rf design/*/sim/*.vcd
 	rm -rf design/*/sim/*.xml
 
-.PHONY: templates unit-tests lint lint-autofix format clean
+.PHONY: templates unit-tests lint lint-autofix format clean prog_ulx3s
