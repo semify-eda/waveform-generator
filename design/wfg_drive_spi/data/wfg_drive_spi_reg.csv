@@ -1,7 +1,7 @@
 Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
-12'h10,CTRL,,,,,,,ADC control register
+4'h1,CTRL,,,,,,,ADC control register
 ,,EN,rw,cfg,0,0,1'b0,SPI enable
-12'h14,CFG,,,,,,,SPI configuration register
+4'h2,CFG,,,,,,,SPI configuration register
 ,,CPHA,rw,cfg,0,0,1'b0,"Clock phase
   0: The first clock transition is the first data capture edge
   1: The second clock transition is the first data capture edge"
@@ -30,15 +30,15 @@ Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
   01: Disabled
   10: Fixed off
   11: Fixed on"
-12'h18,CLKCFG,,,,,,,SPI clock configuration register
+4'h3,CLKCFG,,,,,,,SPI clock configuration register
 ,,DIV,rw,cfg,7,0,1'b0,"SPI Clock divider.
 Divider ratio is 2*DIV+1"
-12'hFF0,TEST,,,,,,,Test register
+4'h4,TEST,,,,,,,Test register
 ,,LPEN,rw,cfg,1,1,1'b0,"Internal loop back enable
   0: Loop back disabled
   1: Loop back enabled"
-12'hFF8,REGINFO,,,,,,,Register file information register
+4'hE,REGINFO,,,,,,,Register file information register
 ,,DATE,r,const,17,0,18'd210715,Date 
-12'hFFC,ID,,,,,,,ID register
+4'hF,ID,,,,,,,ID register
 ,,PERIPHERAL_TYPE,r,const,7,0,8'h01,Peripheral ID
 ,,VERSION,r,const,15,8,8'h01,Version

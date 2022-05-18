@@ -8,5 +8,9 @@ jobs:
     - uses: actions/checkout@master
     - uses: mole99/verible-formatter-action@main
       with:
-        paths: design/*/*/*.sv --indentation_spaces 4 --module_net_variable_alignment=preserve --case_items_alignment=preserve
+        parameters:
+          --indentation_spaces 4
+          --module_net_variable_alignment=preserve
+          --case_items_alignment=preserve
+        paths: design/*/*/*.sv
         github_token: ${{ secrets.GITHUB_TOKEN }}

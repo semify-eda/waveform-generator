@@ -25,6 +25,7 @@ unit-tests:
 	cd design/wfg_stim_sine/sim; make sim
 	cd design/wfg_drive_spi/sim; make sim
 	cd design/wfg_core/sim; make sim
+	cd design/wfg_top/sim; make sim
 
 lint:
 	verible-verilog-lint --rules=-unpacked-dimensions-range-ordering design/*/*/*.sv

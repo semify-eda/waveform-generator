@@ -23,6 +23,9 @@ jobs:
           pip3 install cocotbext-wishbone
           pip3 install cocotbext-axi
           pip3 install cocotbext-spi
+          pip3 install matplotlib
+          pip3 install scipy
+          pip3 install numpy
       - name: Run tests
         run: |
           cd ~/work/waveform-generator/waveform-generator/
