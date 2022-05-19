@@ -15,6 +15,7 @@ module wfg_stim_sine (
 );
     // 0.60725*2^16, expand the decimal by 2^16 to reduce the error
     parameter bit [15:0] K = 16'h9b74;
+
     // Because arithmetic shift is used, a signed type needs to be defined
     logic signed [16:0] sin_17;
     logic signed [17:0] sin_18;
@@ -32,9 +33,9 @@ module wfg_stim_sine (
     logic [31:0] iteration;
     logic signed [34:0] temp;
 
+    logic valid;
     logic [15:0] phase_in;
     logic [15:0] increment;
-    logic valid;
     logic signed [17:0] overflow_chk;
 
     typedef enum {
@@ -71,32 +72,37 @@ module wfg_stim_sine (
 
     always_ff @(posedge clk, negedge rst_n) begin
         if (!rst_n) begin
-            rot[0] <= 16'h2000;  //45
-            rot[1] <= 16'h12e4;  //26.5651
-            rot[2] <= 16'h09fb;  //14.0362
-            rot[3] <= 16'h0511;  //7.1250
-            rot[4] <= 16'h028b;  //3.5763
-            rot[5] <= 16'h0145;  //1.7899
-            rot[6] <= 16'h00a3;  //0.8952
-            rot[7] <= 16'h0051;  //0.4476
-            rot[8] <= 16'h0028;  //0.2238
-            rot[9] <= 16'h0014;  //0.1119
-            rot[10] <= 16'h000a;  //0.0560
-            rot[11] <= 16'h0005;  //0.0280
-            rot[12] <= 16'h0003;  //0.0140
-            rot[13] <= 16'h0001;  //0.0070
-            rot[14] <= 16'h0001;  //0.0035
-            rot[15] <= 16'h0000;  //0.0018
+            rot[0]       <= 16'h2000;  //45
+            rot[1]       <= 16'h12e4;  //26.5651
+            rot[2]       <= 16'h09fb;  //14.0362
+            rot[3]       <= 16'h0511;  //7.1250
+            rot[4]       <= 16'h028b;  //3.5763
+            rot[5]       <= 16'h0145;  //1.7899
+            rot[6]       <= 16'h00a3;  //0.8952
+            rot[7]       <= 16'h0051;  //0.4476
+            rot[8]       <= 16'h0028;  //0.2238
+            rot[9]       <= 16'h0014;  //0.1119
+            rot[10]      <= 16'h000a;  //0.0560
+            rot[11]      <= 16'h0005;  //0.0280
+            rot[12]      <= 16'h0003;  //0.0140
+            rot[13]      <= 16'h0001;  //0.0070
+            rot[14]      <= 16'h0001;  //0.0035
+            rot[15]      <= 16'h0000;  //0.0018
 
-            iteration <= '0;
-            x <= K;
-            y <= '0;
+            x            <= K;
+            y            <= '0;
+            z            <= '0;
 
-            phase_in <= '0;
+            iteration    <= '0;
+            phase_in     <= '0;
 
-            valid <= 0;
-            z <= '0;
-            sin_17 <= '0;
+            valid        <= '0;
+            sin_17       <= '0;
+            sin_18       <= '0;
+
+            quadrant     <= '0;
+            temp         <= '0;
+            overflow_chk <= '0;
 
         end else begin
             valid <= 0;
