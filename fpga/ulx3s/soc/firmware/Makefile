@@ -3,7 +3,7 @@ BUILD_DIR?=../build/radiona_ulx3s/
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak
 
-OBJECTS = donut.o crt0.o main.o
+OBJECTS = donut.o wfg.o crt0.o main.o
 
 all: firmware.bin
 

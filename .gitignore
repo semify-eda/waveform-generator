@@ -12,3 +12,7 @@ results.xml
 *.bit
 *.config
 ulx3s.json
+
+build
+*.o
+*.d

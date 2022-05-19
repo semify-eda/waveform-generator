@@ -9,6 +9,7 @@
 #include <libbase/uart.h>
 #include <libbase/console.h>
 #include <generated/csr.h>
+#include <generated/mem.h>
 
 /*-----------------------------------------------------------------------*/
 /* Uart                                                                  */
@@ -84,7 +85,8 @@ static void help(void)
 	puts("help               - Show this command");
 	puts("reboot             - Reboot CPU");
 	puts("donut              - Spinning Donut demo");
-	puts("mem                - Show memory regions");
+	puts("mem_regions        - Show memory regions");
+	puts("wfg_init           - Initialize the waveform generator");
 }
 
 /*-----------------------------------------------------------------------*/
@@ -104,10 +106,18 @@ static void donut_cmd(void)
 	donut();
 }
 
-static void mem_cmd(void)
+static void mem_regions_cmd(void)
 {
 	printf("Available memory regions:\n");
 	puts(MEM_REGIONS);
+}
+
+extern void wfg_init(void);
+
+static void wfg_init_cmd(void)
+{
+	printf("Initializing wfg...\n");
+	wfg_init();
 }
 
 /*-----------------------------------------------------------------------*/
@@ -128,8 +138,10 @@ static void console_service(void)
 		reboot_cmd();
 	else if(strcmp(token, "donut") == 0)
 		donut_cmd();
-	else if(strcmp(token, "mem") == 0)
-		donut_cmd();
+	else if(strcmp(token, "mem_regions") == 0)
+		mem_regions_cmd();
+	else if(strcmp(token, "wfg_init") == 0)
+		wfg_init_cmd();
 	prompt();
 }
 
