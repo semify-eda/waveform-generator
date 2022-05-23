@@ -13,6 +13,12 @@ import argparse
 
 from migen import *
 
+from litex_boards.platforms import radiona_ulx3s
+
+from litex.build.lattice.trellis import trellis_args, trellis_argdict
+
+from litex.soc.cores.clock import *
+
 from litex.build.generic_platform import *
 from litex.build.sim import SimPlatform
 from litex.build.sim.config import SimConfig
@@ -65,26 +71,60 @@ class Platform(SimPlatform):
     def __init__(self):
         SimPlatform.__init__(self, "SIM", _io)
 
+# CRG ----------------------------------------------------------------------------------------------
+
+class _CRG(Module):
+    def __init__(self, platform, sys_clk_freq):
+        self.rst = Signal()
+        self.clock_domains.cd_sys    = ClockDomain()
+
+        # # #
+
+        # Clk / Rst
+        clk25 = platform.request("clk25")
+        rst   = platform.request("rst")
+
+        # PLL
+        self.submodules.pll = pll = ECP5PLL()
+        self.comb += pll.reset.eq(rst | self.rst)
+        pll.register_clkin(clk25, 25e6)
+        pll.create_clkout(self.cd_sys,    sys_clk_freq)
+
+        # Prevent ESP32 from resetting FPGA
+        self.comb += platform.request("wifi_gpio0").eq(1)
+
 # Simulation SoC -----------------------------------------------------------------------------------
 
-class SimSoC(SoCCore):
+class MySoC(SoCCore):
     def __init__(self,
         with_analyzer         = False,
         with_gpio             = False,
         with_wfg              = False,
         sim_debug             = False,
         trace_reset_on        = False,
+        sys_clk_freq          = int(50e6),
+        simulate              = True,
+        device                = "LFE5U-85F",
+        revision              = "2.0",
+        toolchain             = "trellis",
         **kwargs):
-        platform     = Platform()
-        sys_clk_freq = int(1e6)
+        
+        if simulate:
+            platform = Platform()
+        else:
+            platform = radiona_ulx3s.Platform(device=device, revision=revision, toolchain=toolchain)
+
 
         # SoCCore ----------------------------------------------------------------------------------
         SoCCore.__init__(self, platform, clk_freq=sys_clk_freq,
-            ident = "LiteX Simulation",
+            ident = "LiteX SoC",
             **kwargs)
 
         # CRG --------------------------------------------------------------------------------------
-        self.submodules.crg = CRG(platform.request("sys_clk"))
+        if simulate:
+            self.submodules.crg = CRG(platform.request("sys_clk"))
+        else:
+            self.submodules.crg = _CRG(platform, sys_clk_freq)
 
         # GPIO --------------------------------------------------------------------------------------
         if with_gpio:
@@ -92,10 +132,11 @@ class SimSoC(SoCCore):
             self.irq.add("gpio", use_loc_if_exists=True)
 
         # Simulation debugging ----------------------------------------------------------------------
-        if sim_debug:
-            platform.add_debug(self, reset=1 if trace_reset_on else 0)
-        else:
-            self.comb += platform.trace.eq(1)
+        if simulate:
+            if sim_debug:
+                platform.add_debug(self, reset=1 if trace_reset_on else 0)
+            else:
+                self.comb += platform.trace.eq(1)
 
         # Analyzer ---------------------------------------------------------------------------------
         if with_analyzer:
@@ -129,10 +170,16 @@ class SimSoC(SoCCore):
             wfg = wishbone.Interface()
             self.bus.add_slave(name="wfg", slave=wfg, region=SoCRegion(origin=0x30000000, size=0x0100000)) #, cached=False)) TODO?
 
-            spi_sclk    = platform.request("spi_sclk")
-            spi_cs      = platform.request("spi_cs")
-            spi_sdo     = platform.request("spi_sdo")
-            spi_sdo_en  = platform.request("spi_sdo_en")
+            if simulate:
+                spi_sclk    = platform.request("spi_sclk")
+                spi_cs      = platform.request("spi_cs")
+                spi_sdo     = platform.request("spi_sdo")
+                spi_sdo_en  = platform.request("spi_sdo_en")
+            else:
+                spi_sclk    = platform.request("user_led", 0)
+                spi_cs      = platform.request("user_led", 1)
+                spi_sdo     = platform.request("user_led", 2)
+                spi_sdo_en  = platform.request("user_led", 3)
             
             platform.add_source("../../../design/wfg_top/rtl/wfg_top.sv")
             platform.add_source("../../../design/wfg_stim_sine/rtl/*.sv")
@@ -206,7 +253,13 @@ def sim_args(parser):
     parser.add_argument("--sim-debug",            action="store_true",     help="Add simulation debugging modules.")
     parser.add_argument("--gtkwave-savefile",     action="store_true",     help="Generate GTKWave savefile.")
     parser.add_argument("--non-interactive",      action="store_true",     help="Run simulation without user input.")
-
+    parser.add_argument("--simulate",             action="store_true",     help="Run simulation")
+    parser.add_argument("--build",                action="store_true",     help="Build design")
+    parser.add_argument("--toolchain",            default="trellis",     help="FPGA toolchain (trellis or diamond).")
+    parser.add_argument("--device",               default="LFE5U-85F",   help="FPGA device (LFE5U-12F, LFE5U-25F, LFE5U-45F or LFE5U-85F).")
+    parser.add_argument("--revision",             default="2.0",         help="Board revision (2.0 or 1.7).")
+    parser.add_argument("--sys-clk-freq",         default=50e6,          help="System clock frequency.")
+    
 def main():
     from litex.soc.integration.soc import LiteXSoCArgumentParser
     parser = LiteXSoCArgumentParser(description="LiteX SoC Simulation utility")
@@ -216,21 +269,21 @@ def main():
     soc_kwargs             = soc_core_argdict(args)
     builder_kwargs         = builder_argdict(args)
     verilator_build_kwargs = verilator_build_argdict(args)
+    trellis_args(parser) # TODO
     
-    print(soc_kwargs)
-    print(builder_kwargs)
-    print(verilator_build_kwargs)
-
-    sys_clk_freq = int(1e6)
-    sim_config   = SimConfig()
-    sim_config.add_clocker("sys_clk", freq_hz=sys_clk_freq)
+    sys_clk_freq = int(float(args.sys_clk_freq))
+    
+    if args.simulate:
+        sys_clk_freq = int(1e6) # TODO try out higher clk
+        sim_config   = SimConfig()
+        sim_config.add_clocker("sys_clk", freq_hz=sys_clk_freq)
 
     # Configuration --------------------------------------------------------------------------------
 
     cpu = CPUS.get(soc_kwargs.get("cpu_type", "vexriscv"))
 
     # UART.
-    if soc_kwargs["uart_name"] == "serial":
+    if args.simulate and soc_kwargs["uart_name"] == "serial":
         soc_kwargs["uart_name"] = "sim"
         sim_config.add_module("serial2console", "serial")
 
@@ -239,12 +292,14 @@ def main():
         soc_kwargs["integrated_rom_init"] = get_mem_data(args.rom_init, endianness=cpu.endianness)
 
     # SoC ------------------------------------------------------------------------------------------
-    soc = SimSoC(
+    soc = MySoC(
         with_analyzer      = args.with_analyzer,
         with_gpio          = args.with_gpio,
         with_wfg           = args.with_wfg,
         sim_debug          = args.sim_debug,
         trace_reset_on     = int(float(args.trace_start)) > 0 or int(float(args.trace_end)) > 0,
+        sys_clk_freq       = sys_clk_freq,
+        simulate           = args.simulate,
         **soc_kwargs)
 
     # Build/Run ------------------------------------------------------------------------------------
@@ -255,12 +310,17 @@ def main():
     builder_kwargs["csr_csv"] = "csr.csv"
     builder_kwargs["compile_software"] = False
     builder = Builder(soc, **builder_kwargs)
-    builder.build(
-        sim_config       = sim_config,
-        interactive      = not args.non_interactive,
-        pre_run_callback = pre_run_callback,
-        **verilator_build_kwargs,
-    )
+    
+    if args.simulate:
+        builder.build(
+            sim_config       = sim_config,
+            interactive      = not args.non_interactive,
+            pre_run_callback = pre_run_callback,
+            **verilator_build_kwargs,
+        )
+    elif args.build:
+        builder_kargs = trellis_argdict(args) if args.toolchain == "trellis" else {}
+        builder.build(**builder_kargs)
 
 if __name__ == "__main__":
     main()
