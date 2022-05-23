@@ -70,22 +70,31 @@ class BaseSoC(SoCCore):
         # Add a wb port for external verilog module
         wfg = wishbone.Interface()
         #self.bus.add_slave(name="wfg", slave=wfg, region=SoCRegion(origin=self.mem_map["wfg"], size=0x0100000))
-        self.bus.add_slave(name="wfg", slave=wfg, region=SoCRegion(origin=0x40000000, size=0x0100000))
+        self.bus.add_slave(name="wfg", slave=wfg, region=SoCRegion(origin=0x30000000, size=0x0100000))
         
-        spi_sclk = Signal()
-        spi_cs = Signal()
-        spi_sdo = Signal()
-        spi_sdo_en = Signal()
+        spi_sclk    = Signal()
+        spi_cs      = Signal()
+        spi_sdo     = Signal()
+        spi_sdo_en  = Signal()
+        
+        """
+        spi_sclk    = platform.request("user_led", 0)
+        spi_cs      = platform.request("user_led", 1)
+        spi_sdo     = platform.request("user_led", 2)
+        spi_sdo_en  = platform.request("user_led", 3)
+        """
         
         platform.add_source("../../../design/wfg_top/rtl/wfg_top.sv")
         platform.add_source("../../../design/wfg_stim_sine/rtl/*.sv")
         platform.add_source("../../../design/wfg_drive_spi/rtl/*.sv")
         platform.add_source("../../../design/wfg_core/rtl/*.sv")
         
+        # TODO are the least 2 bits of the bus ignored?
+        
         self.specials += Instance("wfg_top",
             i_io_wbs_clk     = self.crg.cd_sys.clk,
             i_io_wbs_rst     = self.crg.rst, # TODO polarity?
-            i_io_wbs_adr      = wfg.adr,
+            i_io_wbs_adr      = wfg.adr, # TODO mask lower bits
             i_io_wbs_datwr    = wfg.dat_w, # TODO switch?
             o_io_wbs_datrd    = wfg.dat_r,
             i_io_wbs_we       = wfg.we,
@@ -131,6 +140,7 @@ def main():
         revision               = args.revision,
         toolchain              = args.toolchain,
         sys_clk_freq           = int(float(args.sys_clk_freq)),
+        with_led_chaser=True,
         **soc_core_argdict(args))
 
     builder = Builder(soc, **builder_argdict(args))

@@ -80,7 +80,7 @@ async def configure_stim_sine(dut, wbs, en):
 
 async def configure_drive_spi(dut, wbs, en=1, cnt=3, cpha=0, cpol=0, mstr=1, lsbfirst=0, dff=0, ssctrl=0, sspol=0, oectrl=0):
     await set_register(dut, wbs, 0x3, 0x3, cnt) # Clock divider
-    await set_register(dut, wbs, 0x3, 0x2, (cpha<<0) | (cpol<<1) | (mstr<<2) | (lsbfirst<<3) | (dff<<4) | (ssctrl<<8) | (sspol<<9) | (oectrl<<10)) # Enable SPI
+    await set_register(dut, wbs, 0x3, 0x2, (cpha<<0) | (cpol<<1) | (mstr<<2) | (lsbfirst<<3) | (dff<<4) | (ssctrl<<8) | (sspol<<9) | (oectrl<<10))
     await set_register(dut, wbs, 0x3, 0x1, en) # Enable SPI
 
 @cocotb.test()

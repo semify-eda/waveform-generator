@@ -6,8 +6,10 @@ firmware/firmware.bin:
 build: firmware/firmware.bin
 	python3 ulx3s_soc.py --build
 
-upload:
-	@echo Did you build before this?
+upload: build
 	openFPGALoader --board=ulx3s build/radiona_ulx3s/gateware/radiona_ulx3s.bit
 
-.PHONY: upload build
+only-upload:
+	openFPGALoader --board=ulx3s build/radiona_ulx3s/gateware/radiona_ulx3s.bit
+
+.PHONY: upload build only-upload

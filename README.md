@@ -39,6 +39,12 @@ To have more information on assertion fails you can optionally install `pytest`:
 
 	pip3 install pytest
 
+# LiteX
+
+To automatically generate documentation about the SoC, install:
+
+	pip3 install sphinx sphinxcontrib-wavedrom
+
 # Simulation
 
 To run the individual unit tests, issue:
