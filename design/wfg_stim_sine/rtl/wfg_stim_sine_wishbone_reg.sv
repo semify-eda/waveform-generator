@@ -22,15 +22,12 @@ module wfg_stim_sine_wishbone_reg #(
     //data: ../data/wfg_stim_sine_reg.json
     //template: wishbone/register_interface.template
     //marker_template_code
-
-    output logic        ctrl_en_q_o,             // CTRL.EN register output
-    output logic [15:0] gain_val_q_o,            // GAIN.VAL register output
-    output logic [ 7:0] id_peripheral_type_q_o,  // ID.PERIPHERAL_TYPE register output
-    output logic [15:8] id_version_q_o,          // ID.VERSION register output
-    output logic [15:0] inc_val_q_o,             // INC.VAL register output
-    output logic [17:0] offset_val_q_o,          // OFFSET.VAL register output
-    output logic [17:0] reginfo_date_q_o         // REGINFO.DATE register output
-
+    
+    output logic         ctrl_en_q_o,             // CTRL.EN register output
+    output logic [15: 0] gain_val_q_o,            // GAIN.VAL register output
+    output logic [15: 0] inc_val_q_o,             // INC.VAL register output
+    output logic [17: 0] offset_val_q_o           // OFFSET.VAL register output
+    
     //marker_template_end
 );
 
@@ -38,15 +35,12 @@ module wfg_stim_sine_wishbone_reg #(
     //data: ../data/wfg_stim_sine_reg.json
     //template: wishbone/instantiate_registers.template
     //marker_template_code
-
+    
     logic         ctrl_en_ff;              // CTRL.EN FF
     logic [15: 0] gain_val_ff;             // GAIN.VAL FF
-    logic [ 7: 0] id_peripheral_type_ff;   // ID.PERIPHERAL_TYPE FF
-    logic [15: 8] id_version_ff;           // ID.VERSION FF
     logic [15: 0] inc_val_ff;              // INC.VAL FF
     logic [17: 0] offset_val_ff;           // OFFSET.VAL FF
-    logic [17: 0] reginfo_date_ff;         // REGINFO.DATE FF
-
+    
     //marker_template_end
 
     // Wishbone write to slave
@@ -56,15 +50,12 @@ module wfg_stim_sine_wishbone_reg #(
             //data: ../data/wfg_stim_sine_reg.json
             //template: wishbone/reset_registers.template
             //marker_template_code
-
-            ctrl_en_ff            <= 1'b0;
-            gain_val_ff           <= 16'h4000;
-            id_peripheral_type_ff <= 8'h01;
-            id_version_ff         <= 8'h01;
-            inc_val_ff            <= 16'h1000;
-            offset_val_ff         <= 18'h0000;
-            reginfo_date_ff       <= 18'd210722;
-
+            
+            ctrl_en_ff               <= 1'b0;
+            gain_val_ff              <= 16'h4000;
+            inc_val_ff               <= 16'h1000;
+            offset_val_ff            <= 18'h0000;
+            
             //marker_template_end
         end else if ((wbs_stb_i) && (wbs_we_i) && (wbs_cyc_i)) begin
             case (wbs_adr_i)
@@ -72,17 +63,12 @@ module wfg_stim_sine_wishbone_reg #(
                 //data: ../data/wfg_stim_sine_reg.json
                 //template: wishbone/assign_to_registers.template
                 //marker_template_code
-
-                4'h1:       ctrl_en_ff               <= wbs_dat_i[ 0: 0];
-                4'h3:       gain_val_ff              <= wbs_dat_i[15: 0];
-                4'hF:       begin
-                            id_peripheral_type_ff    <= wbs_dat_i[ 7: 0];
-                            id_version_ff            <= wbs_dat_i[15: 8];
-                end
-                4'h2:       inc_val_ff               <= wbs_dat_i[15: 0];
-                4'h4:       offset_val_ff            <= wbs_dat_i[17: 0];
-                4'hE:       reginfo_date_ff          <= wbs_dat_i[17: 0];
-
+                
+                4'h0:       ctrl_en_ff               <= wbs_dat_i[ 0: 0];
+                4'h8:       gain_val_ff              <= wbs_dat_i[15: 0];
+                4'h4:       inc_val_ff               <= wbs_dat_i[15: 0];
+                4'hC:       offset_val_ff            <= wbs_dat_i[17: 0];
+                
                 //marker_template_end
                 default: begin
                 end
@@ -99,17 +85,12 @@ module wfg_stim_sine_wishbone_reg #(
             //data: ../data/wfg_stim_sine_reg.json
             //template: wishbone/assign_from_registers.template
             //marker_template_code
-
-            4'h1:       wbs_dat_o[ 0: 0] = ctrl_en_ff;
-            4'h3:       wbs_dat_o[15: 0] = gain_val_ff;
-            4'hF:       begin
-                        wbs_dat_o[ 7: 0] = id_peripheral_type_ff;
-                        wbs_dat_o[15: 8] = id_version_ff;
-            end
-            4'h2:       wbs_dat_o[15: 0] = inc_val_ff;
-            4'h4:       wbs_dat_o[17: 0] = offset_val_ff;
-            4'hE:       wbs_dat_o[17: 0] = reginfo_date_ff;
-
+            
+            4'h0:       wbs_dat_o[ 0: 0] = ctrl_en_ff;
+            4'h8:       wbs_dat_o[15: 0] = gain_val_ff;
+            4'h4:       wbs_dat_o[15: 0] = inc_val_ff;
+            4'hC:       wbs_dat_o[17: 0] = offset_val_ff;
+            
             //marker_template_end
             default:    wbs_dat_o = 'X;
         endcase
@@ -125,15 +106,12 @@ module wfg_stim_sine_wishbone_reg #(
     //data: ../data/wfg_stim_sine_reg.json
     //template: wishbone/assign_outputs.template
     //marker_template_code
-
-    assign ctrl_en_q_o            = ctrl_en_ff;
-    assign gain_val_q_o           = gain_val_ff;
-    assign id_peripheral_type_q_o = id_peripheral_type_ff;
-    assign id_version_q_o         = id_version_ff;
-    assign inc_val_q_o            = inc_val_ff;
-    assign offset_val_q_o         = offset_val_ff;
-    assign reginfo_date_q_o       = reginfo_date_ff;
-
+    
+    assign ctrl_en_q_o              = ctrl_en_ff;
+    assign gain_val_q_o             = gain_val_ff;
+    assign inc_val_q_o              = inc_val_ff;
+    assign offset_val_q_o           = offset_val_ff;
+    
     //marker_template_end
 endmodule
 `default_nettype wire

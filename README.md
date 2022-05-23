@@ -45,6 +45,10 @@ To automatically generate documentation about the SoC, install:
 
 	pip3 install sphinx sphinxcontrib-wavedrom
 
+To trace the simulation using `--trace` you need to install:
+
+    pip3 install pyvcd
+
 # Simulation
 
 To run the individual unit tests, issue:

@@ -3,7 +3,7 @@ BUILD_DIR?=../build/sim/
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak
 
-OBJECTS = donut.o crt0.o main.o
+OBJECTS = sim_debug.o sim.o wfg.o donut.o crt0.o main.o
 
 all: firmware.bin
 

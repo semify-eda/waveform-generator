@@ -72,16 +72,16 @@ async def set_register(dut, wbs, peripheral_address, address, data):
     dut._log.info(f"Returned values : {rvalues}")
 
 async def configure_core(dut, wbs, en, sync_count, subcycle_count):
-    await set_register(dut, wbs, 0x1, 0x2, (sync_count << 0) | (subcycle_count << 8))
-    await set_register(dut, wbs, 0x1, 0x1, en) # Enable
+    await set_register(dut, wbs, 0x1, 0x4, (sync_count << 0) | (subcycle_count << 8))
+    await set_register(dut, wbs, 0x1, 0x0, en) # Enable
 
 async def configure_stim_sine(dut, wbs, en):
-    await set_register(dut, wbs, 0x2, 0x1, en) # Enable
+    await set_register(dut, wbs, 0x2, 0x0, en) # Enable
 
 async def configure_drive_spi(dut, wbs, en=1, cnt=3, cpha=0, cpol=0, mstr=1, lsbfirst=0, dff=0, ssctrl=0, sspol=0, oectrl=0):
-    await set_register(dut, wbs, 0x3, 0x3, cnt) # Clock divider
-    await set_register(dut, wbs, 0x3, 0x2, (cpha<<0) | (cpol<<1) | (mstr<<2) | (lsbfirst<<3) | (dff<<4) | (ssctrl<<8) | (sspol<<9) | (oectrl<<10))
-    await set_register(dut, wbs, 0x3, 0x1, en) # Enable SPI
+    await set_register(dut, wbs, 0x3, 0x8, cnt) # Clock divider
+    await set_register(dut, wbs, 0x3, 0x4, (cpha<<0) | (cpol<<1) | (mstr<<2) | (lsbfirst<<3) | (dff<<4) | (ssctrl<<8) | (sspol<<9) | (oectrl<<10))
+    await set_register(dut, wbs, 0x3, 0x0, en) # Enable SPI
 
 @cocotb.test()
 async def top_test(dut):

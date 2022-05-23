@@ -86,7 +86,10 @@ static void help(void)
 	puts("reboot             - Reboot CPU");
 	puts("donut              - Spinning Donut demo");
 	puts("mem_regions        - Show memory regions");
-	//puts("wfg_init           - Initialize the waveform generator");
+	puts("wfg_init           - Initialize the waveform generator");
+	puts("trace              - Toggle simulation tracing");
+	puts("finish             - Finish simulation");
+	puts("mark               - Set a debug simulation marker");
 }
 
 /*-----------------------------------------------------------------------*/
@@ -112,13 +115,17 @@ static void mem_regions_cmd(void)
 	puts(MEM_REGIONS);
 }
 
-/*extern void wfg_init(void);
+extern void wfg_init(void);
 
 static void wfg_init_cmd(void)
 {
 	printf("Initializing wfg...\n");
 	wfg_init();
-}*/
+}
+
+extern void cmd_sim_trace_handler(int nb_params, char **params);
+extern void cmd_sim_finish_handler(int nb_params, char **params);
+extern void cmd_sim_mark_handler(int nb_params, char **params);
 
 /*-----------------------------------------------------------------------*/
 /* Console service / Main                                                */
@@ -140,8 +147,14 @@ static void console_service(void)
 		donut_cmd();
 	else if(strcmp(token, "mem_regions") == 0)
 		mem_regions_cmd();
-	//else if(strcmp(token, "wfg_init") == 0)
-	//	wfg_init_cmd();
+    else if(strcmp(token, "trace") == 0)
+		cmd_sim_trace_handler(0, 0);
+	else if(strcmp(token, "finish") == 0)
+		cmd_sim_finish_handler(0, 0);
+	else if(strcmp(token, "mark") == 0)
+		cmd_sim_mark_handler(0, 0);
+	else if(strcmp(token, "wfg_init") == 0)
+		wfg_init_cmd();
 	prompt();
 }
 

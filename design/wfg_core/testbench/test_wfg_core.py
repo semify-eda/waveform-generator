@@ -25,8 +25,8 @@ async def set_register(dut, wbs, address, data):
     dut._log.info(f"Returned values : {rvalues}")
 
 async def configure(dut, wbs, en, sync_count, subcycle_count):
-    await set_register(dut, wbs, 0x2, (sync_count << 0) | (subcycle_count << 8))
-    await set_register(dut, wbs, 0x1, en) # Enable core
+    await set_register(dut, wbs, 0x4, (sync_count << 0) | (subcycle_count << 8))
+    await set_register(dut, wbs, 0x0, en) # Enable core
 
 @cocotb.coroutine
 async def core_test(dut, en, sync_count, subcycle_count):

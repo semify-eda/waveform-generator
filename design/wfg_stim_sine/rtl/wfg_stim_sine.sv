@@ -163,27 +163,29 @@ module wfg_stim_sine (
     end
 
     always_comb begin
+        temp[34:0] = {{16{sin_17[16]}}, sin_17[15:0]} * {{16{1'b0}}, gain_val_q_i[15:0]};
+    
         // Multiplying by gain value - signed multiplication
         if (gain_val_q_i[15:0] > 16'h7FFF) begin
             temp[34:0] = {{16{sin_17[16]}}, sin_17[15:0]} * {{16{1'b0}}, 16'h7FFF};
-        end else begin
-            temp[34:0] = {{16{sin_17[16]}}, sin_17[15:0]} * {{16{1'b0}}, gain_val_q_i[15:0]};
         end
+        
         // Adding the offset value
         overflow_chk[17:0] = temp[31:14] + offset_val_q_i[17:0];
+        
+        sin_18 = overflow_chk;
+        
         // Underflow check
         if (temp[31] && offset_val_q_i[17] && !overflow_chk[17]) begin
-            sin_18[17:0] = 18'b100000000000000000;
+            sin_18 = 18'b100000000000000000;
             // Overflow check
         end else if (!temp[31] && !offset_val_q_i[17] && overflow_chk[17]) begin
-            sin_18[17:0] = 18'b011111111111111111;
-        end else begin
-            sin_18[17:0] = overflow_chk[17:0];
-        end
+            sin_18 = 18'b011111111111111111;
+        end        
     end
 
     // I/O assignment
-    assign wfg_stim_spi_tdata_i[17:0] = sin_18[17:0];
+    assign wfg_stim_spi_tdata_i = sin_18;
     assign wfg_stim_spi_tvalid_i = valid;
 
 endmodule

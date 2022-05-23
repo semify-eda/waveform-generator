@@ -51,7 +51,12 @@ _io = [
         Subsignal("oe", Pins(32)),
         Subsignal("o",  Pins(32)),
         Subsignal("i",  Pins(32)),
-    )
+    ),
+    
+    ("spi_sclk", 0, Pins(1)),
+    ("spi_cs", 0, Pins(1)),
+    ("spi_sdo", 0, Pins(1)),
+    ("spi_sdo_en", 0, Pins(1)),
 ]
 
 # Platform -----------------------------------------------------------------------------------------
@@ -66,6 +71,7 @@ class SimSoC(SoCCore):
     def __init__(self,
         with_analyzer         = False,
         with_gpio             = False,
+        with_wfg              = False,
         sim_debug             = False,
         trace_reset_on        = False,
         **kwargs):
@@ -117,6 +123,38 @@ class SimSoC(SoCCore):
                 depth        = 512,
                 clock_domain = "sys",
                 csr_csv      = "analyzer.csv")
+        
+        if with_wfg:
+            # Add a wb port for external verilog module
+            wfg = wishbone.Interface()
+            self.bus.add_slave(name="wfg", slave=wfg, region=SoCRegion(origin=0x30000000, size=0x0100000)) #, cached=False)) TODO?
+
+            spi_sclk    = platform.request("spi_sclk")
+            spi_cs      = platform.request("spi_cs")
+            spi_sdo     = platform.request("spi_sdo")
+            spi_sdo_en  = platform.request("spi_sdo_en")
+            
+            platform.add_source("../../../design/wfg_top/rtl/wfg_top.sv")
+            platform.add_source("../../../design/wfg_stim_sine/rtl/*.sv")
+            platform.add_source("../../../design/wfg_drive_spi/rtl/*.sv")
+            platform.add_source("../../../design/wfg_core/rtl/*.sv")
+            
+            self.specials += Instance("wfg_top",
+                i_io_wbs_clk      = self.crg.cd_sys.clk,
+                i_io_wbs_rst      = self.crg.cd_sys.rst,
+                i_io_wbs_adr      = (wfg.adr << 2) & 0x000000FF , # add two zeros
+                i_io_wbs_datwr    = wfg.dat_w,
+                o_io_wbs_datrd    = wfg.dat_r,
+                i_io_wbs_we       = wfg.we,
+                i_io_wbs_stb      = (((wfg.adr<<2)[24:32] == 0x30) & wfg.stb),
+                o_io_wbs_ack      = wfg.ack,
+                i_io_wbs_cyc      = wfg.cyc,
+
+                o_wfg_drive_spi_sclk_o    = spi_sclk,
+                o_wfg_drive_spi_cs_no     = spi_cs,
+                o_wfg_drive_spi_sdo_o     = spi_sdo,
+                o_wfg_drive_spi_sdo_en_o  = spi_sdo_en
+            )
 
 # Build --------------------------------------------------------------------------------------------
 
@@ -164,6 +202,7 @@ def sim_args(parser):
     parser.add_argument("--rom-init",             default=None,            help="ROM init file (.bin or .json).")
     parser.add_argument("--with-analyzer",        action="store_true",     help="Enable Analyzer support.")
     parser.add_argument("--with-gpio",            action="store_true",     help="Enable Tristate GPIO (32 pins).")
+    parser.add_argument("--with-wfg",             action="store_true",     help="Enable the waveform generator module")
     parser.add_argument("--sim-debug",            action="store_true",     help="Add simulation debugging modules.")
     parser.add_argument("--gtkwave-savefile",     action="store_true",     help="Generate GTKWave savefile.")
     parser.add_argument("--non-interactive",      action="store_true",     help="Run simulation without user input.")
@@ -203,6 +242,7 @@ def main():
     soc = SimSoC(
         with_analyzer      = args.with_analyzer,
         with_gpio          = args.with_gpio,
+        with_wfg           = args.with_wfg,
         sim_debug          = args.sim_debug,
         trace_reset_on     = int(float(args.trace_start)) > 0 or int(float(args.trace_end)) > 0,
         **soc_kwargs)

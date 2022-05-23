@@ -28,7 +28,7 @@ async def my_first_test(dut):
     await short_per
 
     # activate wfg_stim_sine
-    wbRes = await wbs.send_cycle([WBOp(0x1, 1)])
+    wbRes = await wbs.send_cycle([WBOp(0x0, 1)])
     
     rvalues = [wb.datrd for wb in wbRes]
     dut._log.info(f"Returned values : {rvalues}")
@@ -40,11 +40,11 @@ async def my_first_test(dut):
     await long_time
     
     # reduce increment
-    wbRes = await wbs.send_cycle([WBOp(0x2, 0x200)])
+    wbRes = await wbs.send_cycle([WBOp(0x4, 0x200)])
     
     await long_time
     
     # reduce increment
-    wbRes = await wbs.send_cycle([WBOp(0x2, 0x50)])
+    wbRes = await wbs.send_cycle([WBOp(0x4, 0x50)])
     
     await long_time
