@@ -81,9 +81,9 @@ async def spi_test(dut, en, cnt, cpha, cpol, lsbfirst, dff, sspol):
 
     # Start reset
     dut.io_wbs_rst.value = 1
-    dut.wfg_drive_spi_axis_tdata.value = 0x00000000
-    dut.wfg_drive_spi_axis_tlast.value = 0
-    dut.wfg_drive_spi_axis_tvalid.value = 1
+    dut.wfg_axis_tdata.value = 0x00000000
+    dut.wfg_axis_tlast.value = 0
+    dut.wfg_axis_tvalid.value = 1
     
     await Timer(100, units='ns')
 
@@ -132,7 +132,7 @@ async def spi_test(dut, en, cnt, cpha, cpol, lsbfirst, dff, sspol):
     
     await RisingEdge(dut.wfg_pat_sync_i)
 
-    axis_source = AxiStreamSource(AxiStreamBus.from_prefix(dut, "wfg_drive_spi_axis"), dut.io_wbs_clk, dut.io_wbs_rst)
+    axis_source = AxiStreamSource(AxiStreamBus.from_prefix(dut, "wfg_axis"), dut.io_wbs_clk, dut.io_wbs_rst)
 
     for i in range(DATA_CNT):
     
@@ -140,17 +140,19 @@ async def spi_test(dut, en, cnt, cpha, cpol, lsbfirst, dff, sspol):
         #random_bytes = randbytes(dff + 1) # Possible in Python 3.9+
         
         dut._log.info("Sending data: 0x{}".format(random_bytes.hex()))
-
-        await axis_source.send([int.from_bytes(random_bytes, "big")])
         
+        await axis_source.send([int.from_bytes(random_bytes, "big")])
         # wait for operation to complete
         await axis_source.wait()
 
-        await FallingEdge(dut.wfg_drive_spi_sdo_en_o)
+        await RisingEdge(dut.wfg_pat_sync_i)
+
+        await short_per
         
         dut._log.info("SPI received: 0x{}".format(spi_slave.latest_value.hex()))
         
         assert random_bytes == spi_slave.latest_value
+       
     
     await short_per
 

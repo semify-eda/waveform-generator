@@ -18,9 +18,9 @@ module wfg_stim_sine_top #(
     output [  (BUSW-1):0] wbs_dat_o,
 
     // AXI-Stream interface
-    input                wfg_stim_spi_tready_o,
-    output               wfg_stim_spi_tvalid_i,
-    output signed [17:0] wfg_stim_spi_tdata_i
+    input                wfg_axis_tready_i,
+    output               wfg_axis_tvalid_o,
+    output signed [17:0] wfg_axis_tdata_o
 );
     // Registers
     //marker_template_start
@@ -63,9 +63,9 @@ module wfg_stim_sine_top #(
     wfg_stim_sine wfg_stim_sine (
         .clk                  (wb_clk_i),               // clock signal
         .rst_n                (!wb_rst_i),              // reset signal
-        .wfg_stim_spi_tready_o(wfg_stim_spi_tready_o),  // ready signal - AXI
-        .wfg_stim_spi_tvalid_i(wfg_stim_spi_tvalid_i),  // valid signal - AXI
-        .wfg_stim_spi_tdata_i (wfg_stim_spi_tdata_i),   // sine output - AXI
+        .wfg_axis_tready_i    (wfg_axis_tready_i),      // ready signal - AXI
+        .wfg_axis_tvalid_o    (wfg_axis_tvalid_o),      // valid signal - AXI
+        .wfg_axis_tdata_o     (wfg_axis_tdata_o),       // sine output  - AXI
         .ctrl_en_q_i          (ctrl_en_q),              // enable/disable simulation
         .inc_val_q_i          (inc_val_q),              // angular increment
         .gain_val_q_i         (gain_val_q),             // sine gain/multiplier

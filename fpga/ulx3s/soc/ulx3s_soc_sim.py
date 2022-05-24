@@ -34,6 +34,23 @@ from litex.soc.cores.cpu import CPUS
 
 from litescope import LiteScopeAnalyzer
 
+##############
+from migen import *
+from migen.genlib.resetsync import AsyncResetSynchronizer
+
+from litex_boards.platforms import radiona_ulx3s
+
+from litex.build.lattice.trellis import trellis_args, trellis_argdict
+
+from litex.soc.cores.clock import *
+from litex.soc.integration.soc_core import *
+from litex.soc.integration.builder import *
+from litex.soc.cores.led import LedChaser
+from litex.soc.cores.gpio import GPIOOut
+from litex.soc.interconnect import *
+from litex.soc.integration.soc import SoCRegion
+##############
+
 # IOs ----------------------------------------------------------------------------------------------
 
 _io = [
@@ -88,7 +105,7 @@ class _CRG(Module):
         self.submodules.pll = pll = ECP5PLL()
         self.comb += pll.reset.eq(rst | self.rst)
         pll.register_clkin(clk25, 25e6)
-        pll.create_clkout(self.cd_sys,    sys_clk_freq)
+        pll.create_clkout(self.cd_sys, sys_clk_freq)
 
         # Prevent ESP32 from resetting FPGA
         self.comb += platform.request("wifi_gpio0").eq(1)
@@ -98,12 +115,13 @@ class _CRG(Module):
 class MySoC(SoCCore):
     def __init__(self,
         with_analyzer         = False,
+        with_led_chaser       = False,
         with_gpio             = False,
         with_wfg              = False,
         sim_debug             = False,
         trace_reset_on        = False,
         sys_clk_freq          = int(50e6),
-        simulate              = True,
+        simulate              = False,
         device                = "LFE5U-85F",
         revision              = "2.0",
         toolchain             = "trellis",
@@ -117,7 +135,7 @@ class MySoC(SoCCore):
 
         # SoCCore ----------------------------------------------------------------------------------
         SoCCore.__init__(self, platform, clk_freq=sys_clk_freq,
-            ident = "LiteX SoC",
+            ident = "My LiteX SoC",
             **kwargs)
 
         # CRG --------------------------------------------------------------------------------------
@@ -125,6 +143,12 @@ class MySoC(SoCCore):
             self.submodules.crg = CRG(platform.request("sys_clk"))
         else:
             self.submodules.crg = _CRG(platform, sys_clk_freq)
+
+        # Leds -------------------------------------------------------------------------------------
+        if with_led_chaser: # TODO simulation
+            self.submodules.leds = LedChaser(
+                pads         = platform.request_all("user_led"),
+                sys_clk_freq = sys_clk_freq)
 
         # GPIO --------------------------------------------------------------------------------------
         if with_gpio:
@@ -176,10 +200,13 @@ class MySoC(SoCCore):
                 spi_sdo     = platform.request("spi_sdo")
                 spi_sdo_en  = platform.request("spi_sdo_en")
             else:
-                spi_sclk    = platform.request("user_led", 0)
-                spi_cs      = platform.request("user_led", 1)
-                spi_sdo     = platform.request("user_led", 2)
-                spi_sdo_en  = platform.request("user_led", 3)
+                oled_spi = self.platform.request("oled_spi")
+                oled_ctl = self.platform.request("oled_ctl")
+            
+                spi_sclk    = oled_spi.clk
+                spi_cs      = oled_ctl.csn
+                spi_sdo     = oled_spi.mosi
+                spi_sdo_en  = oled_ctl.resn
             
             platform.add_source("../../../design/wfg_top/rtl/wfg_top.sv")
             platform.add_source("../../../design/wfg_stim_sine/rtl/*.sv")
@@ -242,39 +269,49 @@ def generate_gtkw_savefile(builder, vns, trace_fst):
             dfi_group("dfi commands", ["wrdata_mask"])
             dfi_group("dfi commands", ["rddata"])
 
-def sim_args(parser):
+def add_args(parser):
     builder_args(parser)
     soc_core_args(parser)
     verilator_build_args(parser)
-    parser.add_argument("--rom-init",             default=None,            help="ROM init file (.bin or .json).")
-    parser.add_argument("--with-analyzer",        action="store_true",     help="Enable Analyzer support.")
-    parser.add_argument("--with-gpio",            action="store_true",     help="Enable Tristate GPIO (32 pins).")
-    parser.add_argument("--with-wfg",             action="store_true",     help="Enable the waveform generator module")
-    parser.add_argument("--sim-debug",            action="store_true",     help="Add simulation debugging modules.")
-    parser.add_argument("--gtkwave-savefile",     action="store_true",     help="Generate GTKWave savefile.")
-    parser.add_argument("--non-interactive",      action="store_true",     help="Run simulation without user input.")
-    parser.add_argument("--simulate",             action="store_true",     help="Run simulation")
-    parser.add_argument("--build",                action="store_true",     help="Build design")
-    parser.add_argument("--toolchain",            default="trellis",     help="FPGA toolchain (trellis or diamond).")
-    parser.add_argument("--device",               default="LFE5U-85F",   help="FPGA device (LFE5U-12F, LFE5U-25F, LFE5U-45F or LFE5U-85F).")
-    parser.add_argument("--revision",             default="2.0",         help="Board revision (2.0 or 1.7).")
-    parser.add_argument("--sys-clk-freq",         default=50e6,          help="System clock frequency.")
+
+    soc_group = parser.add_argument_group(title="SoC options")
+    soc_group.add_argument("--rom-init",             default=None,            help="ROM init file (.bin or .json).")
+    soc_group.add_argument("--with-analyzer",        action="store_true",     help="Enable Analyzer support.")
+    soc_group.add_argument("--with-led-chaser",      action="store_true",     help="Enable LED chaser.")
+    soc_group.add_argument("--with-gpio",            action="store_true",     help="Enable Tristate GPIO (32 pins).")
+    soc_group.add_argument("--with-wfg",             action="store_true",     help="Enable the waveform generator module")
+    
+    sim_group = parser.add_argument_group(title="Simulation options")
+    sim_group.add_argument("--sim-debug",            action="store_true",     help="Add simulation debugging modules.")
+    sim_group.add_argument("--gtkwave-savefile",     action="store_true",     help="Generate GTKWave savefile.")
+    sim_group.add_argument("--non-interactive",      action="store_true",     help="Run simulation without user input.")
+
+    target_group = parser.add_argument_group(title="Target options")
+    target_group.add_argument("--simulate",             action="store_true",     help="Run simulation")
+    target_group.add_argument("--build",                action="store_true",     help="Build design")
+
+    target_group.add_argument("--toolchain",            default="trellis",       help="FPGA toolchain (trellis or diamond).")
+    target_group.add_argument("--device",               default="LFE5U-85F",     help="FPGA device (LFE5U-12F, LFE5U-25F, LFE5U-45F or LFE5U-85F).")
+    target_group.add_argument("--revision",             default="2.0",           help="Board revision (2.0 or 1.7).")
+    target_group.add_argument("--sys-clk-freq",         default=50e6,            help="System clock frequency.")
     
 def main():
     from litex.soc.integration.soc import LiteXSoCArgumentParser
     parser = LiteXSoCArgumentParser(description="LiteX SoC Simulation utility")
-    sim_args(parser)
+    add_args(parser)
+    
+    trellis_args(parser)
     args = parser.parse_args()
 
     soc_kwargs             = soc_core_argdict(args)
     builder_kwargs         = builder_argdict(args)
     verilator_build_kwargs = verilator_build_argdict(args)
-    trellis_args(parser) # TODO
+    trellis_build_kwargs   = trellis_argdict(args) if args.toolchain == "trellis" else {}
     
     sys_clk_freq = int(float(args.sys_clk_freq))
     
     if args.simulate:
-        sys_clk_freq = int(1e6) # TODO try out higher clk
+        #sys_clk_freq = int(1e6) # TODO try out higher clk
         sim_config   = SimConfig()
         sim_config.add_clocker("sys_clk", freq_hz=sys_clk_freq)
 
@@ -294,6 +331,7 @@ def main():
     # SoC ------------------------------------------------------------------------------------------
     soc = MySoC(
         with_analyzer      = args.with_analyzer,
+        with_led_chaser    = args.with_led_chaser,
         with_gpio          = args.with_gpio,
         with_wfg           = args.with_wfg,
         sim_debug          = args.sim_debug,
@@ -303,15 +341,16 @@ def main():
         **soc_kwargs)
 
     # Build/Run ------------------------------------------------------------------------------------
-    def pre_run_callback(vns):
-        if args.trace:
-            generate_gtkw_savefile(builder, vns, args.trace_fst)
 
     builder_kwargs["csr_csv"] = "csr.csv"
     builder_kwargs["compile_software"] = False
     builder = Builder(soc, **builder_kwargs)
     
     if args.simulate:
+        def pre_run_callback(vns):
+            if args.trace:
+                generate_gtkw_savefile(builder, vns, args.trace_fst)
+    
         builder.build(
             sim_config       = sim_config,
             interactive      = not args.non_interactive,
@@ -319,8 +358,7 @@ def main():
             **verilator_build_kwargs,
         )
     elif args.build:
-        builder_kargs = trellis_argdict(args) if args.toolchain == "trellis" else {}
-        builder.build(**builder_kargs)
+        builder.build(**trellis_build_kwargs)
 
 if __name__ == "__main__":
     main()

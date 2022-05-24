@@ -5,9 +5,9 @@
 module wfg_stim_sine (
     input  wire               clk,                    // clock signal
     input  wire               rst_n,                  // reset signal
-    input  wire               wfg_stim_spi_tready_o,  // ready signal - AXI
-    output wire               wfg_stim_spi_tvalid_i,  // valid signal - AXI
-    output wire signed [17:0] wfg_stim_spi_tdata_i,   // sine output - AXI
+    input  wire               wfg_axis_tready_i,  // ready signal - AXI
+    output wire               wfg_axis_tvalid_o,  // valid signal - AXI
+    output wire signed [17:0] wfg_axis_tdata_o,   // sine output  - AXI
     input  wire               ctrl_en_q_i,            // enable/disable simulation
     input  wire        [15:0] inc_val_q_i,            // angular increment
     input  wire        [15:0] gain_val_q_i,           // sine gain/multiplier
@@ -62,7 +62,7 @@ module wfg_stim_sine (
                 if (iteration == 15) next_state = ST_DONE;
             end
             ST_DONE: begin
-                if (wfg_stim_spi_tready_o == 1'b1) next_state = ST_IDLE;
+                if (wfg_axis_tready_i == 1'b1) next_state = ST_IDLE;
             end
             default: next_state = ST_IDLE; // TODO wfg_stim_sine_states_t'('x);
         endcase
@@ -155,7 +155,7 @@ module wfg_stim_sine (
                         end
                     endcase
 
-                    if (wfg_stim_spi_tready_o == 1'b1) phase_in <= increment;
+                    if (wfg_axis_tready_i == 1'b1) phase_in <= increment;
                 end
                 default: valid <= 'x;
             endcase
@@ -185,8 +185,8 @@ module wfg_stim_sine (
     end
 
     // I/O assignment
-    assign wfg_stim_spi_tdata_i = sin_18;
-    assign wfg_stim_spi_tvalid_i = valid;
+    assign wfg_axis_tdata_o = sin_18;
+    assign wfg_axis_tvalid_o = valid;
 
 endmodule
 `default_nettype wire

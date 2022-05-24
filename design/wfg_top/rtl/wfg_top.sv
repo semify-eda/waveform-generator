@@ -121,9 +121,9 @@ module wfg_top #(
         .wbs_ack_o(wfg_stim_sine_ack),
         .wbs_dat_o(wfg_stim_sine_data),
 
-        .wfg_stim_spi_tready_o(wfg_axis_tready),
-        .wfg_stim_spi_tvalid_i(wfg_axis_tvalid),
-        .wfg_stim_spi_tdata_i (wfg_axis_tdata)
+        .wfg_axis_tready_i(wfg_axis_tready),
+        .wfg_axis_tvalid_o(wfg_axis_tvalid),
+        .wfg_axis_tdata_o (wfg_axis_tdata)
     );
 
     wfg_drive_spi_top wfg_drive_spi_top (
@@ -138,13 +138,13 @@ module wfg_top #(
         .wbs_ack_o(wfg_drive_spi_ack),
         .wbs_dat_o(wfg_drive_spi_data),
 
-        .wfg_pat_sync_i(wfg_pat_sync),
-        .wfg_pat_subcycle_i(wfg_pat_subcycle),
+        .wfg_pat_sync_i     (wfg_pat_sync),
+        .wfg_pat_subcycle_i (wfg_pat_subcycle),
 
-        .wfg_drive_spi_axis_tready(wfg_axis_tready),
-        .wfg_drive_spi_axis_tdata ({14'b0, wfg_axis_tdata}),
-        .wfg_drive_spi_axis_tlast (1'b0),
-        .wfg_drive_spi_axis_tvalid(wfg_axis_tvalid),
+        .wfg_axis_tready_o(wfg_axis_tready),
+        .wfg_axis_tdata_i (32'hDEADBEEF), // TODO ({14'b0, wfg_axis_tdata}),
+        .wfg_axis_tlast_i (1'b0),
+        .wfg_axis_tvalid_i(wfg_axis_tvalid),
 
         .wfg_drive_spi_sclk_o  (wfg_drive_spi_sclk_o),
         .wfg_drive_spi_cs_no   (wfg_drive_spi_cs_no),

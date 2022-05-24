@@ -23,10 +23,10 @@ module wfg_drive_spi_top #(
     input wire wfg_pat_subcycle_i, // I; subcycle_cnt
 
     // AXI-Stream interface
-    output wire wfg_drive_spi_axis_tready,
-    input wire [AXIS_DATA_WIDTH-1:0] wfg_drive_spi_axis_tdata,
-    input wire wfg_drive_spi_axis_tlast,
-    input wire wfg_drive_spi_axis_tvalid,
+    output wire wfg_axis_tready_o,
+    input wire [AXIS_DATA_WIDTH-1:0] wfg_axis_tdata_i,
+    input wire wfg_axis_tlast_i,
+    input wire wfg_axis_tvalid_i,
 
     // SPI IO interface
     output wire wfg_drive_spi_sclk_o,   // O; clock
@@ -95,10 +95,10 @@ module wfg_drive_spi_top #(
         .wfg_pat_subcycle_i(wfg_pat_subcycle_i),
 
         // AXI streaming interface
-        .wfg_drive_spi_tready_o(wfg_drive_spi_axis_tready),  // O; ready
-        .wfg_drive_spi_tvalid_i(wfg_drive_spi_axis_tvalid),  // I; valid
-        .wfg_drive_spi_tlast_i (wfg_drive_spi_axis_tlast),   // I; last
-        .wfg_drive_spi_tdata_i (wfg_drive_spi_axis_tdata),   // I; data
+        .wfg_axis_tready_o(wfg_axis_tready_o),  // O; ready
+        .wfg_axis_tvalid_i(wfg_axis_tvalid_i),  // I; valid
+        .wfg_axis_tlast_i (wfg_axis_tlast_i),   // I; last
+        .wfg_axis_tdata_i (wfg_axis_tdata_i),   // I; data
 
         // Control
         .ctrl_en_q_i(ctrl_en_q),  // I; SPI enable

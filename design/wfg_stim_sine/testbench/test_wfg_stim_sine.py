@@ -14,7 +14,7 @@ async def my_first_test(dut):
     dut._log.info("Initialize and reset model")
 
     dut.io_wbs_rst.value = 1
-    dut.wfg_stim_spi_tready_o.value = 1
+    dut.wfg_axis_tready.value = 1
     
     await Timer(100, units='ns')
 
