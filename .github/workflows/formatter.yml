@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: mole99/verible-formatter-action@main
+    - uses: chipsalliance/verible-formatter-action@main
       with:
         parameters:
           --indentation_spaces 4
