@@ -98,11 +98,8 @@ module wfg_stim_sine (
 
             valid        <= '0;
             sin_17       <= '0;
-            sin_18       <= '0;
 
             quadrant     <= '0;
-            temp         <= '0;
-            overflow_chk <= '0;
 
         end else begin
             valid <= 0;
