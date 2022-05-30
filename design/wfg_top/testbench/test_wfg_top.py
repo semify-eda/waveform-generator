@@ -154,8 +154,6 @@ async def top_test(dut):
     assert(abs(params[0] - 65532.57101443629) < 0.1)
     assert(abs(params[1] - 6.79379545e-05) < 0.0001)
     assert(abs(params[2] - -1.86659076e-01) < 0.001)
-    
-    assert(0)
 
     x_data = np.asarray(spi_slave.time)
     y_data = np.asarray(spi_slave.values)
