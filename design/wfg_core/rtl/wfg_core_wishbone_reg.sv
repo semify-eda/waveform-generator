@@ -54,7 +54,7 @@ module wfg_core_wishbone_reg #(
             ctrl_en_ff      <= 1'b0;
 
             //marker_template_end
-        end else if ((wbs_stb_i) && (wbs_we_i) && (wbs_cyc_i)) begin
+        end else if (wbs_stb_i && wbs_we_i && wbs_cyc_i) begin
             case (wbs_adr_i)
                 //marker_template_start
                 //data: ../data/wfg_core_reg.json
@@ -76,7 +76,7 @@ module wfg_core_wishbone_reg #(
 
     // Wishbone read from slave
     always_comb begin
-        wbs_dat_o = 0;
+        wbs_dat_o = '0;
 
         case (wbs_adr_i)
             //marker_template_start
@@ -98,7 +98,7 @@ module wfg_core_wishbone_reg #(
     // Acknowledgement
     always_ff @(posedge wb_clk_i) begin
         if (wb_rst_i) wbs_ack_o <= 1'b0;
-        else wbs_ack_o <= ((wbs_stb_i) && (wbs_cyc_i));
+        else wbs_ack_o <= wbs_stb_i && wbs_cyc_i;
     end
 
     //marker_template_start

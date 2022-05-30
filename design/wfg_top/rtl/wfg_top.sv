@@ -55,8 +55,8 @@ module wfg_top #(
     logic wfg_stim_sine_ack;
     logic wfg_drive_spi_ack;
 
-    always @(posedge io_wbs_clk) begin
-        io_wbs_ack <= (wfg_core_ack) || (wfg_stim_sine_ack) || (wfg_drive_spi_ack);
+    always_comb begin
+        io_wbs_ack = (wfg_core_ack) || (wfg_stim_sine_ack) || (wfg_drive_spi_ack);
     end
 
     // Return data
@@ -73,7 +73,7 @@ module wfg_top #(
             wfg_drive_spi_ack:
                 io_wbs_datrd <= wfg_drive_spi_data;
             default:
-                io_wbs_datrd <= 32'b0;
+                io_wbs_datrd <= '0;
         endcase
     end
 
