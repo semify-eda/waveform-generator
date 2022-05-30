@@ -18,8 +18,7 @@ module wfg_top #(
 
     output logic wfg_drive_spi_sclk_o,
     output logic wfg_drive_spi_cs_no,
-    output logic wfg_drive_spi_sdo_o,
-    output logic wfg_drive_spi_sdo_en_o
+    output logic wfg_drive_spi_sdo_o
 );
     // Wishbone interconnect
 
@@ -29,9 +28,9 @@ module wfg_top #(
     logic wfg_drive_spi_sel;
 
     // Nothing should be assigned to the null page
-    assign wfg_core_sel      = (io_wbs_adr[BUSW-1:4] == 28'h01);  // 0xTODO
-    assign wfg_stim_sine_sel = (io_wbs_adr[BUSW-1:4] == 28'h02);  // 0xTODO
-    assign wfg_drive_spi_sel = (io_wbs_adr[BUSW-1:4] == 28'h03);  // 0xTODO
+    assign wfg_core_sel      = (io_wbs_adr[BUSW-1:4] == 28'h01);  // 0x10
+    assign wfg_stim_sine_sel = (io_wbs_adr[BUSW-1:4] == 28'h02);  // 0x20
+    assign wfg_drive_spi_sel = (io_wbs_adr[BUSW-1:4] == 28'h03);  // 0x30
 
     // This will be true if nothing is selected
     logic none_sel;
@@ -121,9 +120,9 @@ module wfg_top #(
         .wbs_ack_o(wfg_stim_sine_ack),
         .wbs_dat_o(wfg_stim_sine_data),
 
-        .wfg_stim_spi_tready_o(wfg_axis_tready),
-        .wfg_stim_spi_tvalid_i(wfg_axis_tvalid),
-        .wfg_stim_spi_tdata_i (wfg_axis_tdata)
+        .wfg_axis_tready_i(wfg_axis_tready),
+        .wfg_axis_tvalid_o(wfg_axis_tvalid),
+        .wfg_axis_tdata_o (wfg_axis_tdata)
     );
 
     wfg_drive_spi_top wfg_drive_spi_top (
@@ -138,18 +137,17 @@ module wfg_top #(
         .wbs_ack_o(wfg_drive_spi_ack),
         .wbs_dat_o(wfg_drive_spi_data),
 
-        .wfg_pat_sync_i(wfg_pat_sync),
+        .wfg_pat_sync_i    (wfg_pat_sync),
         .wfg_pat_subcycle_i(wfg_pat_subcycle),
 
-        .wfg_drive_spi_axis_tready(wfg_axis_tready),
-        .wfg_drive_spi_axis_tdata ({14'b0, wfg_axis_tdata}),
-        .wfg_drive_spi_axis_tlast (1'b0),
-        .wfg_drive_spi_axis_tvalid(wfg_axis_tvalid),
+        .wfg_axis_tready_o(wfg_axis_tready),
+        .wfg_axis_tdata_i ({14'b0, wfg_axis_tdata}),  // TODO (32'hDEADBEEF),
+        .wfg_axis_tlast_i (1'b0),
+        .wfg_axis_tvalid_i(wfg_axis_tvalid),
 
-        .wfg_drive_spi_sclk_o  (wfg_drive_spi_sclk_o),
-        .wfg_drive_spi_cs_no   (wfg_drive_spi_cs_no),
-        .wfg_drive_spi_sdo_o   (wfg_drive_spi_sdo_o),
-        .wfg_drive_spi_sdo_en_o(wfg_drive_spi_sdo_en_o)
+        .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),
+        .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),
+        .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o)
     );
 
 endmodule

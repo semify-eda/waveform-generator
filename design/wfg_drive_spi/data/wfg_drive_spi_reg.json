@@ -1,7 +1,7 @@
 {
     "registers": {
         "CFG": {
-            "address": "4'h2",
+            "address": "4'h4",
             "description": "SPI configuration register",
             "entries": {
                 "CPHA": {
@@ -71,7 +71,7 @@
             }
         },
         "CLKCFG": {
-            "address": "4'h3",
+            "address": "4'h8",
             "description": "SPI clock configuration register",
             "entries": {
                 "DIV": {
@@ -80,12 +80,12 @@
                     "access": "rw",
                     "description": "SPI Clock divider.\nDivider ratio is 2*DIV+1",
                     "hardware": "cfg",
-                    "reset": "1'b0"
+                    "reset": "0"
                 }
             }
         },
         "CTRL": {
-            "address": "4'h1",
+            "address": "4'h0",
             "description": "ADC control register",
             "entries": {
                 "EN": {
@@ -98,44 +98,8 @@
                 }
             }
         },
-        "ID": {
-            "address": "4'hF",
-            "description": "ID register",
-            "entries": {
-                "PERIPHERAL_TYPE": {
-                    "LSB": "0",
-                    "MSB": "7",
-                    "access": "r",
-                    "description": "Peripheral ID",
-                    "hardware": "const",
-                    "reset": "8'h01"
-                },
-                "VERSION": {
-                    "LSB": "8",
-                    "MSB": "15",
-                    "access": "r",
-                    "description": "Version",
-                    "hardware": "const",
-                    "reset": "8'h01"
-                }
-            }
-        },
-        "REGINFO": {
-            "address": "4'hE",
-            "description": "Register file information register",
-            "entries": {
-                "DATE": {
-                    "LSB": "0",
-                    "MSB": "17",
-                    "access": "r",
-                    "description": "Date ",
-                    "hardware": "const",
-                    "reset": "18'd210715"
-                }
-            }
-        },
         "TEST": {
-            "address": "4'h4",
+            "address": "4'hC",
             "description": "Test register",
             "entries": {
                 "LPEN": {

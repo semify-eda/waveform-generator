@@ -8,3 +8,11 @@
 
 results.xml
 .~lock.*
+*.log
+*.bit
+*.config
+ulx3s.json
+
+build
+*.o
+*.d

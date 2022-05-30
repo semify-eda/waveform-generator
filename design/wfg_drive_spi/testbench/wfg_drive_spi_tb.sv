@@ -29,17 +29,16 @@ module wfg_drive_spi_tb #(
     input logic wgf_pat_subcycle_i, // I; Single cycle pulse for read access
 
     // AXI-Stream interface
-    output wire                        wfg_drive_spi_axis_tready,  // O; ready
-    input  logic                       wfg_drive_spi_axis_tvalid,  // I; valid
-    input  logic                       wfg_drive_spi_axis_tlast,   // I; last
-    input  logic [AXIS_DATA_WIDTH-1:0] wfg_drive_spi_axis_tdata,   // I; data
+    output wire                        wfg_axis_tready,  // O; ready
+    input  logic                       wfg_axis_tvalid,  // I; valid
+    input  logic                       wfg_axis_tlast,   // I; last
+    input  logic [AXIS_DATA_WIDTH-1:0] wfg_axis_tdata,   // I; data
 
     // SPI IO interface
-    output wire wfg_drive_spi_sclk_o,   // O; clock
-    output wire wfg_drive_spi_cs_no,    // O; chip select
-    output wire wfg_drive_spi_sdo_o,    // O; data out
-    output wire wfg_drive_spi_sdo_en_o, // O; data out enable
-    input  wire wfg_drive_spi_sdi_i     // I; data in, dummy signal for cocotb
+    output wire wfg_drive_spi_sclk_o,  // O; clock
+    output wire wfg_drive_spi_cs_no,   // O; chip select
+    output wire wfg_drive_spi_sdo_o,   // O; data out
+    input  wire wfg_drive_spi_sdi_i    // I; data in, dummy signal for cocotb
 );
 
     wfg_drive_spi_top wfg_drive_spi_top (
@@ -57,15 +56,14 @@ module wfg_drive_spi_tb #(
         .wfg_pat_sync_i(wfg_pat_sync_i),
         .wfg_pat_subcycle_i(wgf_pat_subcycle_i),
 
-        .wfg_drive_spi_axis_tready(wfg_drive_spi_axis_tready),
-        .wfg_drive_spi_axis_tdata (wfg_drive_spi_axis_tdata),
-        .wfg_drive_spi_axis_tlast (wfg_drive_spi_axis_tlast),
-        .wfg_drive_spi_axis_tvalid(wfg_drive_spi_axis_tvalid),
+        .wfg_axis_tready_o(wfg_axis_tready),
+        .wfg_axis_tdata_i (wfg_axis_tdata),
+        .wfg_axis_tlast_i (wfg_axis_tlast),
+        .wfg_axis_tvalid_i(wfg_axis_tvalid),
 
-        .wfg_drive_spi_sclk_o  (wfg_drive_spi_sclk_o),
-        .wfg_drive_spi_cs_no   (wfg_drive_spi_cs_no),
-        .wfg_drive_spi_sdo_o   (wfg_drive_spi_sdo_o),
-        .wfg_drive_spi_sdo_en_o(wfg_drive_spi_sdo_en_o)
+        .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),
+        .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),
+        .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o)
     );
 
     // Dump waves

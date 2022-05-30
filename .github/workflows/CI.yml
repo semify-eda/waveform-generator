@@ -31,3 +31,6 @@ jobs:
           cd ~/work/waveform-generator/waveform-generator/
           make templates
           make unit-tests 
+      - name: Report failures
+        run: |
+          ! grep failure design/*/sim/results.xml

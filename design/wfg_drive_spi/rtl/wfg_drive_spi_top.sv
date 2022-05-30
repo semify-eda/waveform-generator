@@ -23,16 +23,15 @@ module wfg_drive_spi_top #(
     input wire wfg_pat_subcycle_i, // I; subcycle_cnt
 
     // AXI-Stream interface
-    output wire wfg_drive_spi_axis_tready,
-    input wire [AXIS_DATA_WIDTH-1:0] wfg_drive_spi_axis_tdata,
-    input wire wfg_drive_spi_axis_tlast,
-    input wire wfg_drive_spi_axis_tvalid,
+    output wire wfg_axis_tready_o,
+    input wire [AXIS_DATA_WIDTH-1:0] wfg_axis_tdata_i,
+    input wire wfg_axis_tlast_i,
+    input wire wfg_axis_tvalid_i,
 
     // SPI IO interface
-    output wire wfg_drive_spi_sclk_o,   // O; clock
-    output wire wfg_drive_spi_cs_no,    // O; chip select
-    output wire wfg_drive_spi_sdo_o,    // O; data out
-    output wire wfg_drive_spi_sdo_en_o  // O; data out enable
+    output wire wfg_drive_spi_sclk_o,  // O; clock
+    output wire wfg_drive_spi_cs_no,   // O; chip select
+    output wire wfg_drive_spi_sdo_o    // O; data out
 );
     // Registers
     //marker_template_start
@@ -50,9 +49,6 @@ module wfg_drive_spi_top #(
     logic         cfg_sspol_q;             // CFG.SSPOL register output
     logic [ 7: 0] clkcfg_div_q;            // CLKCFG.DIV register output
     logic         ctrl_en_q;               // CTRL.EN register output
-    logic [ 7: 0] id_peripheral_type_q;    // ID.PERIPHERAL_TYPE register output
-    logic [15: 8] id_version_q;            // ID.VERSION register output
-    logic [17: 0] reginfo_date_q;          // REGINFO.DATE register output
     logic         test_lpen_q;             // TEST.LPEN register output
 
     //marker_template_end
@@ -98,10 +94,10 @@ module wfg_drive_spi_top #(
         .wfg_pat_subcycle_i(wfg_pat_subcycle_i),
 
         // AXI streaming interface
-        .wfg_drive_spi_tready_o(wfg_drive_spi_axis_tready),  // O; ready
-        .wfg_drive_spi_tvalid_i(wfg_drive_spi_axis_tvalid),  // I; valid
-        .wfg_drive_spi_tlast_i (wfg_drive_spi_axis_tlast),   // I; last
-        .wfg_drive_spi_tdata_i (wfg_drive_spi_axis_tdata),   // I; data
+        .wfg_axis_tready_o(wfg_axis_tready_o),  // O; ready
+        .wfg_axis_tvalid_i(wfg_axis_tvalid_i),  // I; valid
+        .wfg_axis_tlast_i (wfg_axis_tlast_i),   // I; last
+        .wfg_axis_tdata_i (wfg_axis_tdata_i),   // I; data
 
         // Control
         .ctrl_en_q_i(ctrl_en_q),  // I; SPI enable
@@ -121,10 +117,9 @@ module wfg_drive_spi_top #(
         .test_lpen_q_i(test_lpen_q),  // I; Internal loop back enable
 
         // SPI IO interface
-        .wfg_drive_spi_sclk_o  (wfg_drive_spi_sclk_o),   // O; clock
-        .wfg_drive_spi_cs_no   (wfg_drive_spi_cs_no),    // O; chip select
-        .wfg_drive_spi_sdo_o   (wfg_drive_spi_sdo_o),    // O; data out
-        .wfg_drive_spi_sdo_en_o(wfg_drive_spi_sdo_en_o)  // O; data out enable
+        .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),  // O; clock
+        .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),   // O; chip select
+        .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o)    // O; data out
     );
 
 endmodule

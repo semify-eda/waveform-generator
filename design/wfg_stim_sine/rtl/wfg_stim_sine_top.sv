@@ -18,9 +18,9 @@ module wfg_stim_sine_top #(
     output [  (BUSW-1):0] wbs_dat_o,
 
     // AXI-Stream interface
-    input                wfg_stim_spi_tready_o,
-    output               wfg_stim_spi_tvalid_i,
-    output signed [17:0] wfg_stim_spi_tdata_i
+    input                wfg_axis_tready_i,
+    output               wfg_axis_tvalid_o,
+    output signed [17:0] wfg_axis_tdata_o
 );
     // Registers
     //marker_template_start
@@ -30,11 +30,8 @@ module wfg_stim_sine_top #(
 
     logic         ctrl_en_q;               // CTRL.EN register output
     logic [15: 0] gain_val_q;              // GAIN.VAL register output
-    logic [ 7: 0] id_peripheral_type_q;    // ID.PERIPHERAL_TYPE register output
-    logic [15: 8] id_version_q;            // ID.VERSION register output
     logic [15: 0] inc_val_q;               // INC.VAL register output
     logic [17: 0] offset_val_q;            // OFFSET.VAL register output
-    logic [17: 0] reginfo_date_q;          // REGINFO.DATE register output
 
     //marker_template_end
 
@@ -64,15 +61,15 @@ module wfg_stim_sine_top #(
     );
 
     wfg_stim_sine wfg_stim_sine (
-        .clk                  (wb_clk_i),               // clock signal
-        .rst_n                (!wb_rst_i),              // reset signal
-        .wfg_stim_spi_tready_o(wfg_stim_spi_tready_o),  // ready signal - AXI
-        .wfg_stim_spi_tvalid_i(wfg_stim_spi_tvalid_i),  // valid signal - AXI
-        .wfg_stim_spi_tdata_i (wfg_stim_spi_tdata_i),   // sine output - AXI
-        .ctrl_en_q_i          (ctrl_en_q),              // enable/disable simulation
-        .inc_val_q_i          (inc_val_q),              // angular increment
-        .gain_val_q_i         (gain_val_q),             // sine gain/multiplier
-        .offset_val_q_i       (offset_val_q)            // sine offset
+        .clk              (wb_clk_i),           // clock signal
+        .rst_n            (!wb_rst_i),          // reset signal
+        .wfg_axis_tready_i(wfg_axis_tready_i),  // ready signal - AXI
+        .wfg_axis_tvalid_o(wfg_axis_tvalid_o),  // valid signal - AXI
+        .wfg_axis_tdata_o (wfg_axis_tdata_o),   // sine output  - AXI
+        .ctrl_en_q_i      (ctrl_en_q),          // enable/disable simulation
+        .inc_val_q_i      (inc_val_q),          // angular increment
+        .gain_val_q_i     (gain_val_q),         // sine gain/multiplier
+        .offset_val_q_i   (offset_val_q)        // sine offset
     );
 
 endmodule

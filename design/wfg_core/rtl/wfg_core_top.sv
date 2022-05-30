@@ -33,9 +33,6 @@ module wfg_core_top #(
     logic [23: 8] cfg_subcycle_q;          // CFG.SUBCYCLE register output
     logic [ 7: 0] cfg_sync_q;              // CFG.SYNC register output
     logic         ctrl_en_q;               // CTRL.EN register output
-    logic [ 7: 0] id_peripheral_type_q;    // ID.PERIPHERAL_TYPE register output
-    logic [15: 8] id_version_q;            // ID.VERSION register output
-    logic [17: 0] reginfo_date_q;          // REGINFO.DATE register output
 
     //marker_template_end
 

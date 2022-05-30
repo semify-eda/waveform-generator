@@ -1,0 +1,150 @@
+// SPDX-FileCopyrightText: © 2022 semify <office@semify-eda.com>
+// SPDX-License-Identifier: Apache-2.0
+
+`default_nettype none
+module wfg_drive_spi #(
+    parameter int AXIS_DATA_WIDTH = 32
+) (
+    input wire clk,   // I; System clock
+    input wire rst_n, // I; active low reset
+
+    // Core synchronisation interface
+    input wire wfg_pat_sync_i,     // I; Sync pulse
+    input wire wfg_pat_subcycle_i, // I; Subcycle pulse
+
+    // AXI streaming interface
+    output wire                       wfg_axis_tready_o,  // O; ready
+    input  wire                       wfg_axis_tvalid_i,  // I; valid
+    input  wire                       wfg_axis_tlast_i,   // I; last
+    input  wire [AXIS_DATA_WIDTH-1:0] wfg_axis_tdata_i,   // I; data
+
+    // Control
+    input wire ctrl_en_q_i,  // I; SPI enable
+
+    // Configuration
+    input wire [7:0] clkcfg_div_q_i,    // I; SPI speed
+    input wire       cfg_cpha_q_i,      // I; Clock phase
+    input wire       cfg_cpol_q_i,      // I; Clock polarity
+    input wire       cfg_mstr_q_i,      // I; Master selection
+    input wire       cfg_lsbfirst_q_i,  // I; Frame format
+    input wire [1:0] cfg_dff_q_i,       // I; Data frame format
+    input wire       cfg_ssctrl_q_i,    // I; Slave select control
+    input wire       cfg_sspol_q_i,     // I; Slave select polarity
+    input wire [1:0] cfg_oectrl_q_i,    // I; Output enable conrol
+
+    // Test
+    input wire test_lpen_q_i,  // I; Internal loop back enable
+
+    // register info
+
+    // ID
+
+    // SPI IO interface
+    output wire wfg_drive_spi_sclk_o,   // O; clock
+    output wire wfg_drive_spi_cs_no,    // O; chip select
+    output wire wfg_drive_spi_sdo_o,    // O; data out
+    output wire wfg_drive_spi_sdo_en_o  // O; data out enable
+);
+
+    // -------------------------------------------------------------------------
+    // Definition
+    // -------------------------------------------------------------------------
+
+    logic [4:0]  bit_width;     // L; SPI transmission bitwidth
+    logic        cs;            // L; Internal CS
+    logic [7:0]  sck_cnt_ff;    // L; SCK Counter FF
+    logic        sck_ff;        // L; Internal SCK
+    logic [4:0]  bit_cnt_ff;    // L; Count transmitted bits
+    logic        bit_cnt_rdy;   // L; Transmission finished
+    logic [31:0] data_shft_ff;  // L; MOSI shift reg
+    logic        sspol;
+
+    // -------------------------------------------------------------------------
+    // Implementation
+    // -------------------------------------------------------------------------
+
+    always @(posedge clk, negedge rst_n) begin
+        if (~rst_n) begin
+
+            cs         <= '0;
+            sck_ff     <= '0;
+            sck_cnt_ff <= '0;
+            bit_cnt_ff <= '0;
+            sspol      <= '0;
+
+        end else begin
+
+            if (ctrl_en_q_i) begin
+
+                // Sync reset
+                if (wfg_pat_sync_i && wfg_axis_tvalid_i) begin
+                    sck_ff <= 1'b0;
+                    sck_cnt_ff <= clkcfg_div_q_i;
+                    sspol <= cfg_sspol_q_i;
+                    
+                    case (cfg_dff_q_i)
+                        2'b00: begin
+                            bit_cnt_ff <= 6'd7;
+                            bit_width  <= 6'd7;
+                        end
+                        2'b01: begin
+                            bit_cnt_ff <= 6'd15;
+                            bit_width  <= 6'd15;
+                        end
+                        2'b10: begin
+                            bit_cnt_ff <= 6'd23;
+                            bit_width  <= 6'd23;
+                        end
+                        2'b11: begin
+                            bit_cnt_ff <= 6'd31;
+                            bit_width  <= 6'd31;
+                        end
+                        default: bit_cnt_ff <= 'x;
+                    endcase
+
+                    cs <= 1'b1;
+                    data_shft_ff <= wfg_axis_tdata_i;
+
+                end
+
+                if (cs) begin
+
+                    // SCK count
+                    if (sck_cnt_ff > 0) begin
+                        sck_cnt_ff <= sck_cnt_ff - 1'b1;
+                    end else begin
+                        sck_ff <= ~sck_ff;
+
+                        if (bit_cnt_ff > 0 && sck_ff) begin
+                            bit_cnt_ff <= bit_cnt_ff - 1'b1;
+                            if (cfg_lsbfirst_q_i) begin
+                                data_shft_ff <= {1'b0, data_shft_ff[31:1]};
+                            end else if (~cfg_lsbfirst_q_i) begin
+                                data_shft_ff <= {data_shft_ff[30:0], 1'b0};
+                            end
+                        end
+                    end
+
+                    if (bit_cnt_ff == 0 && sck_ff && sck_cnt_ff == 0) begin
+                        cs <= 1'b0;
+                    end
+                end
+            end
+        end
+    end
+
+    // -------------------------------------------------------------------------
+    // Outputs
+    // -------------------------------------------------------------------------
+
+    assign wfg_axis_tready_o        = wfg_pat_sync_i;
+    assign wfg_drive_spi_sdo_en_o   = wfg_axis_tvalid_i;
+    assign wfg_drive_spi_cs_no      = (sspol ? cs : ~cs);
+    assign wfg_drive_spi_sclk_o   = sck_ff;/*cs ?
+                                    (cfg_cpol_q_i ? ~sck_ff : sck_ff) ^ cfg_cpha_q_i
+                                    : cfg_cpol_q_i;*/
+    assign wfg_drive_spi_sdo_o    = (cfg_lsbfirst_q_i ? data_shft_ff[0] : data_shft_ff[bit_width])
+                                    & cs;
+
+endmodule
+`default_nettype wire

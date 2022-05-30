@@ -24,9 +24,9 @@ module wfg_stim_sine_tb #(
     input               io_wbs_cyc,
 
     // AXI-Stream interface
-    input                wfg_stim_spi_tready_o,
-    output               wfg_stim_spi_tvalid_i,
-    output signed [17:0] wfg_stim_spi_tdata_i
+    input                wfg_axis_tready,
+    output               wfg_axis_tvalid,
+    output signed [17:0] wfg_axis_tdata
 );
 
     wfg_stim_sine_top wfg_stim_sine_top (
@@ -41,9 +41,9 @@ module wfg_stim_sine_tb #(
         .wbs_ack_o(io_wbs_ack),
         .wbs_dat_o(io_wbs_datrd),
 
-        .wfg_stim_spi_tready_o(wfg_stim_spi_tready_o),
-        .wfg_stim_spi_tvalid_i(wfg_stim_spi_tvalid_i),
-        .wfg_stim_spi_tdata_i (wfg_stim_spi_tdata_i)
+        .wfg_axis_tready_i(wfg_axis_tready),
+        .wfg_axis_tvalid_o(wfg_axis_tvalid),
+        .wfg_axis_tdata_o (wfg_axis_tdata)
     );
 
     // Dump waves
