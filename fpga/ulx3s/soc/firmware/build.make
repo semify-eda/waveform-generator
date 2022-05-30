@@ -3,9 +3,9 @@ BUILD_DIR?=../build/radiona_ulx3s/
 include $(BUILD_DIR)/software/include/generated/variables.mak
 include $(SOC_DIRECTORY)/software/common.mak
 
-OBJECTS = donut.o wfg.o crt0.o main.o
+OBJECTS = sim_debug.o sim.o wfg.o donut.o crt0.o main.o
 
-all: firmware.bin
+all: firmware_build.bin
 
 %.bin: %.elf
 	$(OBJCOPY) -O binary $< $@
@@ -13,7 +13,7 @@ all: firmware.bin
 
 vpath %.a $(PACKAGES:%=../%)
 
-firmware.elf: $(OBJECTS)
+firmware_build.elf: $(OBJECTS)
 	$(CC) $(LDFLAGS) -T linker.ld -N -o $@ \
 		$(OBJECTS) \
 		$(PACKAGES:%=-L$(BUILD_DIR)/software/%) \
@@ -38,6 +38,6 @@ VPATH = $(BIOS_DIRECTORY):$(BIOS_DIRECTORY)/cmds:$(CPU_DIRECTORY)
 	$(assemble)
 
 clean:
-	$(RM) $(OBJECTS) firmware.elf firmware.bin .*~ *~ *.d
+	$(RM) $(OBJECTS) firmware_build.elf firmware_build.bin .*~ *~ *.d
 
 .PHONY: all clean

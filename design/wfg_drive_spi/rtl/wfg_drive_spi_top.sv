@@ -31,15 +31,14 @@ module wfg_drive_spi_top #(
     // SPI IO interface
     output wire wfg_drive_spi_sclk_o,   // O; clock
     output wire wfg_drive_spi_cs_no,    // O; chip select
-    output wire wfg_drive_spi_sdo_o,    // O; data out
-    output wire wfg_drive_spi_sdo_en_o  // O; data out enable
+    output wire wfg_drive_spi_sdo_o     // O; data out
 );
     // Registers
     //marker_template_start
     //data: ../data/wfg_drive_spi_reg.json
     //template: wishbone/instantiate_top.template
     //marker_template_code
-    
+
     logic         cfg_cpha_q;              // CFG.CPHA register output
     logic         cfg_cpol_q;              // CFG.CPOL register output
     logic [ 5: 4] cfg_dff_q;               // CFG.DFF register output
@@ -51,7 +50,7 @@ module wfg_drive_spi_top #(
     logic [ 7: 0] clkcfg_div_q;            // CLKCFG.DIV register output
     logic         ctrl_en_q;               // CTRL.EN register output
     logic         test_lpen_q;             // TEST.LPEN register output
-    
+
     //marker_template_end
 
     wfg_drive_spi_wishbone_reg wfg_drive_spi_wishbone_reg (
@@ -70,7 +69,7 @@ module wfg_drive_spi_top #(
         //data: ../data/wfg_drive_spi_reg.json
         //template: wishbone/assign_to_module.template
         //marker_template_code
-        
+
         .cfg_cpha_q_o            (cfg_cpha_q              ), // CFG.CPHA register output
         .cfg_cpol_q_o            (cfg_cpol_q              ), // CFG.CPOL register output
         .cfg_dff_q_o             (cfg_dff_q               ), // CFG.DFF register output
@@ -82,7 +81,7 @@ module wfg_drive_spi_top #(
         .clkcfg_div_q_o          (clkcfg_div_q            ), // CLKCFG.DIV register output
         .ctrl_en_q_o             (ctrl_en_q               ), // CTRL.EN register output
         .test_lpen_q_o           (test_lpen_q             )  // TEST.LPEN register output
-        
+
         //marker_template_end
     );
 
@@ -120,8 +119,7 @@ module wfg_drive_spi_top #(
         // SPI IO interface
         .wfg_drive_spi_sclk_o  (wfg_drive_spi_sclk_o),   // O; clock
         .wfg_drive_spi_cs_no   (wfg_drive_spi_cs_no),    // O; chip select
-        .wfg_drive_spi_sdo_o   (wfg_drive_spi_sdo_o),    // O; data out
-        .wfg_drive_spi_sdo_en_o(wfg_drive_spi_sdo_en_o)  // O; data out enable
+        .wfg_drive_spi_sdo_o   (wfg_drive_spi_sdo_o)    // O; data out
     );
 
 endmodule

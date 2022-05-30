@@ -30,7 +30,7 @@ module wfg_stim_sine (
 
     // Store the angle of each rotation
     logic [15:0] rot[0:15];
-    logic [31:0] iteration;
+    logic [3:0] iteration;
     logic signed [34:0] temp;
 
     logic valid;
@@ -164,24 +164,24 @@ module wfg_stim_sine (
 
     always_comb begin
         temp[34:0] = {{16{sin_17[16]}}, sin_17[15:0]} * {{16{1'b0}}, gain_val_q_i[15:0]};
-    
+
         // Multiplying by gain value - signed multiplication
         if (gain_val_q_i[15:0] > 16'h7FFF) begin
             temp[34:0] = {{16{sin_17[16]}}, sin_17[15:0]} * {{16{1'b0}}, 16'h7FFF};
         end
-        
+
         // Adding the offset value
         overflow_chk[17:0] = temp[31:14] + offset_val_q_i[17:0];
-        
+
         sin_18 = overflow_chk;
-        
+
         // Underflow check
         if (temp[31] && offset_val_q_i[17] && !overflow_chk[17]) begin
             sin_18 = 18'b100000000000000000;
             // Overflow check
         end else if (!temp[31] && !offset_val_q_i[17] && overflow_chk[17]) begin
             sin_18 = 18'b011111111111111111;
-        end        
+        end
     end
 
     // I/O assignment

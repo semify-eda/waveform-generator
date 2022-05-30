@@ -31,7 +31,7 @@ Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
   10: Fixed off
   11: Fixed on"
 4'h8,CLKCFG,,,,,,,SPI clock configuration register
-,,DIV,rw,cfg,7,0,1'b0,"SPI Clock divider.
+,,DIV,rw,cfg,7,0,0,"SPI Clock divider.
 Divider ratio is 2*DIV+1"
 4'hC,TEST,,,,,,,Test register
 ,,LPEN,rw,cfg,1,1,1'b0,"Internal loop back enable

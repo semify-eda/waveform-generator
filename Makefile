@@ -22,13 +22,16 @@ templates: ${TEMPLATED_FILES} ${LIBRARIES}
 	python3 templating/generator.py --template_dir templating/templates -i ${TEMPLATED_FILES}
 
 unit-tests:
-	cd design/wfg_stim_sine/sim; make sim
-	cd design/wfg_drive_spi/sim; make sim
-	cd design/wfg_core/sim; make sim
+	#cd design/wfg_stim_sine/sim; make sim
+	#cd design/wfg_drive_spi/sim; make sim
+	#cd design/wfg_core/sim; make sim
 	cd design/wfg_top/sim; make sim
 
 lint:
 	verible-verilog-lint --rules=-unpacked-dimensions-range-ordering design/*/*/*.sv
+
+lint-verilator:
+	verilator --lint-only -Wall design/wfg_drive_spi/rtl/*.sv
 
 lint-autofix:
 	verible-verilog-lint --rules=-unpacked-dimensions-range-ordering --autofix inplace-interactive design/*/*/*.sv

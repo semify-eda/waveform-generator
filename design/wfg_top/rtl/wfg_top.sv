@@ -18,8 +18,7 @@ module wfg_top #(
 
     output logic wfg_drive_spi_sclk_o,
     output logic wfg_drive_spi_cs_no,
-    output logic wfg_drive_spi_sdo_o,
-    output logic wfg_drive_spi_sdo_en_o
+    output logic wfg_drive_spi_sdo_o
 );
     // Wishbone interconnect
 
@@ -142,14 +141,13 @@ module wfg_top #(
         .wfg_pat_subcycle_i (wfg_pat_subcycle),
 
         .wfg_axis_tready_o(wfg_axis_tready),
-        .wfg_axis_tdata_i (32'hDEADBEEF), // TODO ({14'b0, wfg_axis_tdata}),
+        .wfg_axis_tdata_i ({14'b0, wfg_axis_tdata}), // TODO (32'hDEADBEEF),
         .wfg_axis_tlast_i (1'b0),
         .wfg_axis_tvalid_i(wfg_axis_tvalid),
 
         .wfg_drive_spi_sclk_o  (wfg_drive_spi_sclk_o),
         .wfg_drive_spi_cs_no   (wfg_drive_spi_cs_no),
-        .wfg_drive_spi_sdo_o   (wfg_drive_spi_sdo_o),
-        .wfg_drive_spi_sdo_en_o(wfg_drive_spi_sdo_en_o)
+        .wfg_drive_spi_sdo_o   (wfg_drive_spi_sdo_o)
     );
 
 endmodule

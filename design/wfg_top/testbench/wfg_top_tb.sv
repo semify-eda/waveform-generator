@@ -26,8 +26,7 @@ module wfg_top_tb #(
     input  logic wfg_drive_spi_sdi_i,    // for cocotb
     output logic wfg_drive_spi_sclk_o,
     output logic wfg_drive_spi_cs_no,
-    output logic wfg_drive_spi_sdo_o,
-    output logic wfg_drive_spi_sdo_en_o
+    output logic wfg_drive_spi_sdo_o
 );
 
     wfg_top wfg_top (
@@ -43,8 +42,7 @@ module wfg_top_tb #(
 
         .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),
         .wfg_drive_spi_cs_no(wfg_drive_spi_cs_no),
-        .wfg_drive_spi_sdo_o(wfg_drive_spi_sdo_o),
-        .wfg_drive_spi_sdo_en_o(wfg_drive_spi_sdo_en_o)
+        .wfg_drive_spi_sdo_o(wfg_drive_spi_sdo_o)
     );
 
     // Dump waves

@@ -80,7 +80,7 @@
                     "access": "rw",
                     "description": "SPI Clock divider.\nDivider ratio is 2*DIV+1",
                     "hardware": "cfg",
-                    "reset": "1'b0"
+                    "reset": "0"
                 }
             }
         },

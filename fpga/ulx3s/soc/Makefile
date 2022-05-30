@@ -1,11 +1,22 @@
 default: build
 
-firmware/firmware.bin:
-	cd firmware; make
+firmware/firmware_sim.bin:
+	cd firmware; make -f sim.make clean; make -f sim.make
 
-build:
-	#python3 ulx3s_soc.py --build
-	python3 ulx3s_soc_sim.py --rom-init=firmware_build/firmware.bin --with-led-chaser --with-wfg --build
+firmware/firmware_build.bin:
+	cd firmware; make -f build.make clean; make -f build.make
+
+sim-prebuild:
+	python3 ulx3s_soc.py --with-analyzer --sim-debug --gtkwave-savefile --trace --trace-fst --with-wfg --simulate
+
+sim: firmware/firmware_sim.bin
+	python3 ulx3s_soc.py --rom-init=firmware/firmware_sim.bin --with-analyzer --sim-debug --gtkwave-savefile --trace --trace-fst --with-wfg --simulate
+
+build-prebuild:
+	python3 ulx3s_soc.py --with-led-chaser --with-wfg --build
+
+build: firmware/firmware_build.bin
+	python3 ulx3s_soc.py --rom-init=firmware/firmware_build.bin --with-led-chaser --with-wfg --build
 
 upload: build
 	openFPGALoader --board=ulx3s build/radiona_ulx3s/gateware/radiona_ulx3s.bit
@@ -13,10 +24,7 @@ upload: build
 only-upload:
 	openFPGALoader --board=ulx3s build/radiona_ulx3s/gateware/radiona_ulx3s.bit
 
-sim:
-	python3 ulx3s_soc_sim.py --rom-init=firmware_sim/firmware.bin --with-analyzer --sim-debug --gtkwave-savefile --trace --trace-fst --with-wfg --simulate
-
 view:
 	gtkwave build/sim/gateware/sim.fst --save build/sim/gateware/sim.gtkw 
 
-.PHONY: upload build only-upload
+.PHONY: sim build upload only-upload view firmware/firmware_build.bin firmware/firmware_sim.bin

@@ -1,0 +1,75 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Mon May 30 07:45:21 2022
+[*]
+[dumpfile] "/home/leo/Nextcloud/Fachhochschule/Bachelorarbeit/waveform-generator/design/wfg_top/sim/wfg_top_tb.vcd"
+[dumpfile_mtime] "Mon May 30 07:43:16 2022"
+[dumpfile_size] 992395
+[savefile] "/home/leo/Nextcloud/Fachhochschule/Bachelorarbeit/waveform-generator/design/wfg_top/sim/view.gtkw"
+[timestart] 0
+[size] 1920 1043
+[pos] -1971 -83
+*-24.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] wfg_top_tb.
+[treeopen] wfg_top_tb.wfg_top.
+[treeopen] wfg_top_tb.wfg_top.wfg_stim_sine_top.
+[sst_width] 284
+[signals_width] 206
+[sst_expanded] 1
+[sst_vpaned_height] 295
+@28
+wfg_top_tb.io_wbs_ack
+@22
+wfg_top_tb.io_wbs_adr[31:0]
+@28
+wfg_top_tb.io_wbs_clk
+wfg_top_tb.io_wbs_cyc
+@22
+wfg_top_tb.io_wbs_datrd[31:0]
+wfg_top_tb.io_wbs_datwr[31:0]
+@28
+wfg_top_tb.io_wbs_rst
+wfg_top_tb.io_wbs_stb
+wfg_top_tb.io_wbs_we
+wfg_top_tb.wfg_drive_spi_cs_no
+wfg_top_tb.wfg_drive_spi_sclk_o
+wfg_top_tb.wfg_drive_spi_sdi_i
+wfg_top_tb.wfg_drive_spi_sdo_o
+@200
+-Stim Sine
+@29
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.clk
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.ctrl_en_q_i
+@421
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.cur_state
+@23
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.gain_val_q_i[15:0]
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.inc_val_q_i[15:0]
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.increment[15:0]
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.iteration[31:0]
+@421
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.next_state
+@23
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.offset_val_q_i[17:0]
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.overflow_chk[17:0]
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.phase_in[15:0]
+@29
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.quadrant[1:0]
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.rst_n
+@23
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.sin_17[16:0]
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.sin_18[17:0]
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.temp[34:0]
+@29
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.valid
+@23
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.wfg_axis_tdata_o[17:0]
+@29
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.wfg_axis_tready_i
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.wfg_axis_tvalid_o
+@23
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.x[16:0]
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.y[16:0]
+wfg_top_tb.wfg_top.wfg_stim_sine_top.wfg_stim_sine.z[16:0]
+[pattern_trace] 1
+[pattern_trace] 0

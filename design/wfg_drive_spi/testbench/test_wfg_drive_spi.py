@@ -130,7 +130,7 @@ async def spi_test(dut, en, cnt, cpha, cpol, lsbfirst, dff, sspol):
     await short_per
     await short_per
     
-    await RisingEdge(dut.wfg_pat_sync_i)
+    #await RisingEdge(dut.wfg_pat_sync_i)
 
     axis_source = AxiStreamSource(AxiStreamBus.from_prefix(dut, "wfg_axis"), dut.io_wbs_clk, dut.io_wbs_rst)
 
