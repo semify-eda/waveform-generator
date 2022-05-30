@@ -29,9 +29,9 @@ module wfg_drive_spi_top #(
     input wire wfg_axis_tvalid_i,
 
     // SPI IO interface
-    output wire wfg_drive_spi_sclk_o,   // O; clock
-    output wire wfg_drive_spi_cs_no,    // O; chip select
-    output wire wfg_drive_spi_sdo_o     // O; data out
+    output wire wfg_drive_spi_sclk_o,  // O; clock
+    output wire wfg_drive_spi_cs_no,   // O; chip select
+    output wire wfg_drive_spi_sdo_o    // O; data out
 );
     // Registers
     //marker_template_start
@@ -70,17 +70,17 @@ module wfg_drive_spi_top #(
         //template: wishbone/assign_to_module.template
         //marker_template_code
 
-        .cfg_cpha_q_o            (cfg_cpha_q              ), // CFG.CPHA register output
-        .cfg_cpol_q_o            (cfg_cpol_q              ), // CFG.CPOL register output
-        .cfg_dff_q_o             (cfg_dff_q               ), // CFG.DFF register output
-        .cfg_lsbfirst_q_o        (cfg_lsbfirst_q          ), // CFG.LSBFIRST register output
-        .cfg_mstr_q_o            (cfg_mstr_q              ), // CFG.MSTR register output
-        .cfg_oectrl_q_o          (cfg_oectrl_q            ), // CFG.OECTRL register output
-        .cfg_ssctrl_q_o          (cfg_ssctrl_q            ), // CFG.SSCTRL register output
-        .cfg_sspol_q_o           (cfg_sspol_q             ), // CFG.SSPOL register output
-        .clkcfg_div_q_o          (clkcfg_div_q            ), // CLKCFG.DIV register output
-        .ctrl_en_q_o             (ctrl_en_q               ), // CTRL.EN register output
-        .test_lpen_q_o           (test_lpen_q             )  // TEST.LPEN register output
+        .cfg_cpha_q_o    (cfg_cpha_q),      // CFG.CPHA register output
+        .cfg_cpol_q_o    (cfg_cpol_q),      // CFG.CPOL register output
+        .cfg_dff_q_o     (cfg_dff_q),       // CFG.DFF register output
+        .cfg_lsbfirst_q_o(cfg_lsbfirst_q),  // CFG.LSBFIRST register output
+        .cfg_mstr_q_o    (cfg_mstr_q),      // CFG.MSTR register output
+        .cfg_oectrl_q_o  (cfg_oectrl_q),    // CFG.OECTRL register output
+        .cfg_ssctrl_q_o  (cfg_ssctrl_q),    // CFG.SSCTRL register output
+        .cfg_sspol_q_o   (cfg_sspol_q),     // CFG.SSPOL register output
+        .clkcfg_div_q_o  (clkcfg_div_q),    // CLKCFG.DIV register output
+        .ctrl_en_q_o     (ctrl_en_q),       // CTRL.EN register output
+        .test_lpen_q_o   (test_lpen_q)      // TEST.LPEN register output
 
         //marker_template_end
     );
@@ -117,9 +117,9 @@ module wfg_drive_spi_top #(
         .test_lpen_q_i(test_lpen_q),  // I; Internal loop back enable
 
         // SPI IO interface
-        .wfg_drive_spi_sclk_o  (wfg_drive_spi_sclk_o),   // O; clock
-        .wfg_drive_spi_cs_no   (wfg_drive_spi_cs_no),    // O; chip select
-        .wfg_drive_spi_sdo_o   (wfg_drive_spi_sdo_o)    // O; data out
+        .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),  // O; clock
+        .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),   // O; chip select
+        .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o)    // O; data out
     );
 
 endmodule

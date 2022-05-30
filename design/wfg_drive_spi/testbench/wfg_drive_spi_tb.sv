@@ -35,10 +35,10 @@ module wfg_drive_spi_tb #(
     input  logic [AXIS_DATA_WIDTH-1:0] wfg_axis_tdata,   // I; data
 
     // SPI IO interface
-    output wire wfg_drive_spi_sclk_o,   // O; clock
-    output wire wfg_drive_spi_cs_no,    // O; chip select
-    output wire wfg_drive_spi_sdo_o,    // O; data out
-    input  wire wfg_drive_spi_sdi_i     // I; data in, dummy signal for cocotb
+    output wire wfg_drive_spi_sclk_o,  // O; clock
+    output wire wfg_drive_spi_cs_no,   // O; chip select
+    output wire wfg_drive_spi_sdo_o,   // O; data out
+    input  wire wfg_drive_spi_sdi_i    // I; data in, dummy signal for cocotb
 );
 
     wfg_drive_spi_top wfg_drive_spi_top (
@@ -61,9 +61,9 @@ module wfg_drive_spi_tb #(
         .wfg_axis_tlast_i (wfg_axis_tlast),
         .wfg_axis_tvalid_i(wfg_axis_tvalid),
 
-        .wfg_drive_spi_sclk_o  (wfg_drive_spi_sclk_o),
-        .wfg_drive_spi_cs_no   (wfg_drive_spi_cs_no),
-        .wfg_drive_spi_sdo_o   (wfg_drive_spi_sdo_o)
+        .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),
+        .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),
+        .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o)
     );
 
     // Dump waves

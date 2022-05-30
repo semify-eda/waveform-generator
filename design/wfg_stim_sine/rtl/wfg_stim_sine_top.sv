@@ -52,24 +52,24 @@ module wfg_stim_sine_top #(
         //template: wishbone/assign_to_module.template
         //marker_template_code
 
-        .ctrl_en_q_o             (ctrl_en_q               ), // CTRL.EN register output
-        .gain_val_q_o            (gain_val_q              ), // GAIN.VAL register output
-        .inc_val_q_o             (inc_val_q               ), // INC.VAL register output
-        .offset_val_q_o          (offset_val_q            )  // OFFSET.VAL register output
+        .ctrl_en_q_o   (ctrl_en_q),    // CTRL.EN register output
+        .gain_val_q_o  (gain_val_q),   // GAIN.VAL register output
+        .inc_val_q_o   (inc_val_q),    // INC.VAL register output
+        .offset_val_q_o(offset_val_q)  // OFFSET.VAL register output
 
         //marker_template_end
     );
 
     wfg_stim_sine wfg_stim_sine (
-        .clk                  (wb_clk_i),               // clock signal
-        .rst_n                (!wb_rst_i),              // reset signal
-        .wfg_axis_tready_i    (wfg_axis_tready_i),      // ready signal - AXI
-        .wfg_axis_tvalid_o    (wfg_axis_tvalid_o),      // valid signal - AXI
-        .wfg_axis_tdata_o     (wfg_axis_tdata_o),       // sine output  - AXI
-        .ctrl_en_q_i          (ctrl_en_q),              // enable/disable simulation
-        .inc_val_q_i          (inc_val_q),              // angular increment
-        .gain_val_q_i         (gain_val_q),             // sine gain/multiplier
-        .offset_val_q_i       (offset_val_q)            // sine offset
+        .clk              (wb_clk_i),           // clock signal
+        .rst_n            (!wb_rst_i),          // reset signal
+        .wfg_axis_tready_i(wfg_axis_tready_i),  // ready signal - AXI
+        .wfg_axis_tvalid_o(wfg_axis_tvalid_o),  // valid signal - AXI
+        .wfg_axis_tdata_o (wfg_axis_tdata_o),   // sine output  - AXI
+        .ctrl_en_q_i      (ctrl_en_q),          // enable/disable simulation
+        .inc_val_q_i      (inc_val_q),          // angular increment
+        .gain_val_q_i     (gain_val_q),         // sine gain/multiplier
+        .offset_val_q_i   (offset_val_q)        // sine offset
     );
 
 endmodule

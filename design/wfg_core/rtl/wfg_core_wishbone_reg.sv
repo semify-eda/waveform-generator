@@ -23,9 +23,9 @@ module wfg_core_wishbone_reg #(
     //template: wishbone/register_interface.template
     //marker_template_code
 
-    output logic [23: 8] cfg_subcycle_q_o,        // CFG.SUBCYCLE register output
-    output logic [ 7: 0] cfg_sync_q_o,            // CFG.SYNC register output
-    output logic         ctrl_en_q_o              // CTRL.EN register output
+    output logic [23:8] cfg_subcycle_q_o,  // CFG.SUBCYCLE register output
+    output logic [ 7:0] cfg_sync_q_o,      // CFG.SYNC register output
+    output logic        ctrl_en_q_o        // CTRL.EN register output
 
     //marker_template_end
 );
@@ -49,9 +49,9 @@ module wfg_core_wishbone_reg #(
             //template: wishbone/reset_registers.template
             //marker_template_code
 
-            cfg_subcycle_ff          <= 0;
-            cfg_sync_ff              <= 0;
-            ctrl_en_ff               <= 1'b0;
+            cfg_subcycle_ff <= 0;
+            cfg_sync_ff     <= 0;
+            ctrl_en_ff      <= 1'b0;
 
             //marker_template_end
         end else if ((wbs_stb_i) && (wbs_we_i) && (wbs_cyc_i)) begin
@@ -61,9 +61,9 @@ module wfg_core_wishbone_reg #(
                 //template: wishbone/assign_to_registers.template
                 //marker_template_code
 
-                4'h4:       begin
-                            cfg_subcycle_ff          <= wbs_dat_i[23: 8];
-                            cfg_sync_ff              <= wbs_dat_i[ 7: 0];
+                4'h4: begin
+                    cfg_subcycle_ff <= wbs_dat_i[23:8];
+                    cfg_sync_ff     <= wbs_dat_i[7:0];
                 end
                 4'h0:       ctrl_en_ff               <= wbs_dat_i[ 0: 0];
 
@@ -84,9 +84,9 @@ module wfg_core_wishbone_reg #(
             //template: wishbone/assign_from_registers.template
             //marker_template_code
 
-            4'h4:       begin
-                        wbs_dat_o[23: 8] = cfg_subcycle_ff;
-                        wbs_dat_o[ 7: 0] = cfg_sync_ff;
+            4'h4: begin
+                wbs_dat_o[23:8] = cfg_subcycle_ff;
+                wbs_dat_o[7:0]  = cfg_sync_ff;
             end
             4'h0:       wbs_dat_o[ 0: 0] = ctrl_en_ff;
 
@@ -106,9 +106,9 @@ module wfg_core_wishbone_reg #(
     //template: wishbone/assign_outputs.template
     //marker_template_code
 
-    assign cfg_subcycle_q_o         = cfg_subcycle_ff;
-    assign cfg_sync_q_o             = cfg_sync_ff;
-    assign ctrl_en_q_o              = ctrl_en_ff;
+    assign cfg_subcycle_q_o = cfg_subcycle_ff;
+    assign cfg_sync_q_o     = cfg_sync_ff;
+    assign ctrl_en_q_o      = ctrl_en_ff;
 
     //marker_template_end
 endmodule

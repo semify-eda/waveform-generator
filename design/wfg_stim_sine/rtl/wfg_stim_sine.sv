@@ -3,15 +3,15 @@
 
 `default_nettype none
 module wfg_stim_sine (
-    input  wire               clk,                    // clock signal
-    input  wire               rst_n,                  // reset signal
+    input  wire               clk,                // clock signal
+    input  wire               rst_n,              // reset signal
     input  wire               wfg_axis_tready_i,  // ready signal - AXI
     output wire               wfg_axis_tvalid_o,  // valid signal - AXI
     output wire signed [17:0] wfg_axis_tdata_o,   // sine output  - AXI
-    input  wire               ctrl_en_q_i,            // enable/disable simulation
-    input  wire        [15:0] inc_val_q_i,            // angular increment
-    input  wire        [15:0] gain_val_q_i,           // sine gain/multiplier
-    input  wire signed [17:0] offset_val_q_i          // sine offset
+    input  wire               ctrl_en_q_i,        // enable/disable simulation
+    input  wire        [15:0] inc_val_q_i,        // angular increment
+    input  wire        [15:0] gain_val_q_i,       // sine gain/multiplier
+    input  wire signed [17:0] offset_val_q_i      // sine offset
 );
     // 0.60725*2^16, expand the decimal by 2^16 to reduce the error
     parameter bit [15:0] K = 16'h9b74;
@@ -185,7 +185,7 @@ module wfg_stim_sine (
     end
 
     // I/O assignment
-    assign wfg_axis_tdata_o = sin_18;
+    assign wfg_axis_tdata_o  = sin_18;
     assign wfg_axis_tvalid_o = valid;
 
 endmodule

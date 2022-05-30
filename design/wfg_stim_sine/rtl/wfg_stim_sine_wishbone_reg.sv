@@ -23,10 +23,10 @@ module wfg_stim_sine_wishbone_reg #(
     //template: wishbone/register_interface.template
     //marker_template_code
 
-    output logic         ctrl_en_q_o,             // CTRL.EN register output
-    output logic [15: 0] gain_val_q_o,            // GAIN.VAL register output
-    output logic [15: 0] inc_val_q_o,             // INC.VAL register output
-    output logic [17: 0] offset_val_q_o           // OFFSET.VAL register output
+    output logic        ctrl_en_q_o,    // CTRL.EN register output
+    output logic [15:0] gain_val_q_o,   // GAIN.VAL register output
+    output logic [15:0] inc_val_q_o,    // INC.VAL register output
+    output logic [17:0] offset_val_q_o  // OFFSET.VAL register output
 
     //marker_template_end
 );
@@ -51,10 +51,10 @@ module wfg_stim_sine_wishbone_reg #(
             //template: wishbone/reset_registers.template
             //marker_template_code
 
-            ctrl_en_ff               <= 1'b0;
-            gain_val_ff              <= 16'h4000;
-            inc_val_ff               <= 16'h1000;
-            offset_val_ff            <= 18'h0000;
+            ctrl_en_ff    <= 1'b0;
+            gain_val_ff   <= 16'h4000;
+            inc_val_ff    <= 16'h1000;
+            offset_val_ff <= 18'h0000;
 
             //marker_template_end
         end else if ((wbs_stb_i) && (wbs_we_i) && (wbs_cyc_i)) begin
@@ -107,10 +107,10 @@ module wfg_stim_sine_wishbone_reg #(
     //template: wishbone/assign_outputs.template
     //marker_template_code
 
-    assign ctrl_en_q_o              = ctrl_en_ff;
-    assign gain_val_q_o             = gain_val_ff;
-    assign inc_val_q_o              = inc_val_ff;
-    assign offset_val_q_o           = offset_val_ff;
+    assign ctrl_en_q_o    = ctrl_en_ff;
+    assign gain_val_q_o   = gain_val_ff;
+    assign inc_val_q_o    = inc_val_ff;
+    assign offset_val_q_o = offset_val_ff;
 
     //marker_template_end
 endmodule

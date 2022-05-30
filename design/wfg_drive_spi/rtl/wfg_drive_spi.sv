@@ -14,9 +14,9 @@ module wfg_drive_spi #(
 
     // AXI streaming interface
     output logic                       wfg_axis_tready_o,  // O; ready
-    input logic                        wfg_axis_tvalid_i,  // I; valid
-    input logic                        wfg_axis_tlast_i,   // I; last
-    input logic  [AXIS_DATA_WIDTH-1:0] wfg_axis_tdata_i,   // I; data
+    input  logic                       wfg_axis_tvalid_i,  // I; valid
+    input  logic                       wfg_axis_tlast_i,   // I; last
+    input  logic [AXIS_DATA_WIDTH-1:0] wfg_axis_tdata_i,   // I; data
 
     // Control
     input logic ctrl_en_q_i,  // I; SPI enable
@@ -36,16 +36,16 @@ module wfg_drive_spi #(
     input logic test_lpen_q_i,  // I; Internal loop back enable
 
     // SPI IO interface
-    output logic wfg_drive_spi_sclk_o,   // O; clock
-    output logic wfg_drive_spi_cs_no,    // O; chip select
+    output logic wfg_drive_spi_sclk_o,  // O; clock
+    output logic wfg_drive_spi_cs_no,   // O; chip select
     output logic wfg_drive_spi_sdo_o    // O; data out
 );
 
-    typedef enum logic[1:0] {
-        ST_IDLE         = 2'b00,
-        ST_SEND_DATA    = 2'b01,
-        ST_LAST_BIT     = 2'b11,
-        ST_DUMMY        = 2'b10
+    typedef enum logic [1:0] {
+        ST_IDLE      = 2'b00,
+        ST_SEND_DATA = 2'b01,
+        ST_LAST_BIT  = 2'b11,
+        ST_DUMMY     = 2'b10
     } my_uart_states_t;
 
     my_uart_states_t cur_state, next_state;
@@ -98,17 +98,17 @@ module wfg_drive_spi #(
     // Value assignments
     always_ff @(posedge clk, negedge rst_n)
         if (!rst_n) begin
-            counter     <= '0;
-            current_bit <= '0;
-            spi_cs      <= '0;
-            spi_data    <= '0;
-            spi_clk     <= '0;
-            ready       <= '0;
-            clk_div     <= '0;
-            lsbfirst    <= '0;
-            cpol        <= '0;
-            cspol       <= '0;
-            byte_cnt    <= '0;
+            counter          <= '0;
+            current_bit      <= '0;
+            spi_cs           <= '0;
+            spi_data         <= '0;
+            spi_clk          <= '0;
+            ready            <= '0;
+            clk_div          <= '0;
+            lsbfirst         <= '0;
+            cpol             <= '0;
+            cspol            <= '0;
+            byte_cnt         <= '0;
             bytes_to_bits[0] <= 5'd7;
             bytes_to_bits[1] <= 5'd15;
             bytes_to_bits[2] <= 5'd23;
@@ -133,7 +133,7 @@ module wfg_drive_spi #(
 
                     if (transitioning) begin
                         spi_data <= wfg_axis_tdata_i;
-                        ready   <= 1'b1;
+                        ready <= 1'b1;
                         counter <= clk_div;
                         current_bit <= bytes_to_bits[byte_cnt];
                     end else begin

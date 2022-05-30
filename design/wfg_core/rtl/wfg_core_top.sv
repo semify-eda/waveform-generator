@@ -53,9 +53,9 @@ module wfg_core_top #(
         //template: wishbone/assign_to_module.template
         //marker_template_code
 
-        .cfg_subcycle_q_o        (cfg_subcycle_q          ), // CFG.SUBCYCLE register output
-        .cfg_sync_q_o            (cfg_sync_q              ), // CFG.SYNC register output
-        .ctrl_en_q_o             (ctrl_en_q               )  // CTRL.EN register output
+        .cfg_subcycle_q_o(cfg_subcycle_q),  // CFG.SUBCYCLE register output
+        .cfg_sync_q_o    (cfg_sync_q),      // CFG.SYNC register output
+        .ctrl_en_q_o     (ctrl_en_q)        // CTRL.EN register output
 
         //marker_template_end
     );

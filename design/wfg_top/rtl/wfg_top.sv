@@ -137,17 +137,17 @@ module wfg_top #(
         .wbs_ack_o(wfg_drive_spi_ack),
         .wbs_dat_o(wfg_drive_spi_data),
 
-        .wfg_pat_sync_i     (wfg_pat_sync),
-        .wfg_pat_subcycle_i (wfg_pat_subcycle),
+        .wfg_pat_sync_i    (wfg_pat_sync),
+        .wfg_pat_subcycle_i(wfg_pat_subcycle),
 
         .wfg_axis_tready_o(wfg_axis_tready),
-        .wfg_axis_tdata_i ({14'b0, wfg_axis_tdata}), // TODO (32'hDEADBEEF),
+        .wfg_axis_tdata_i ({14'b0, wfg_axis_tdata}),  // TODO (32'hDEADBEEF),
         .wfg_axis_tlast_i (1'b0),
         .wfg_axis_tvalid_i(wfg_axis_tvalid),
 
-        .wfg_drive_spi_sclk_o  (wfg_drive_spi_sclk_o),
-        .wfg_drive_spi_cs_no   (wfg_drive_spi_cs_no),
-        .wfg_drive_spi_sdo_o   (wfg_drive_spi_sdo_o)
+        .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),
+        .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),
+        .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o)
     );
 
 endmodule
