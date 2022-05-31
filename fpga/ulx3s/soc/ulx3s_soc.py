@@ -35,18 +35,12 @@ from litex.soc.cores.cpu import CPUS
 from litescope import LiteScopeAnalyzer
 
 ##############
-from migen import *
+
 from migen.genlib.resetsync import AsyncResetSynchronizer
 
-from litex_boards.platforms import radiona_ulx3s
-
-from litex.build.lattice.trellis import trellis_args, trellis_argdict
-
-from litex.soc.cores.clock import *
-from litex.soc.integration.soc_core import *
-from litex.soc.integration.builder import *
 from litex.soc.cores.led import LedChaser
 from litex.soc.cores.gpio import GPIOOut
+
 from litex.soc.interconnect import *
 from litex.soc.integration.soc import SoCRegion
 ##############
@@ -78,7 +72,12 @@ _io = [
     
     ("spi_sclk", 0, Pins(1)),
     ("spi_cs", 0, Pins(1)),
-    ("spi_sdo", 0, Pins(1))
+    ("spi_sdo", 0, Pins(1)),
+    
+    ("test0", 0, Pins(1)),
+    ("test1", 0, Pins(1)),
+    ("test2", 0, Pins(1)),
+    ("test3", 0, Pins(1))
 ]
 
 # Platform -----------------------------------------------------------------------------------------
@@ -197,13 +196,23 @@ class MySoC(SoCCore):
                 spi_sclk    = platform.request("spi_sclk")
                 spi_cs      = platform.request("spi_cs")
                 spi_sdo     = platform.request("spi_sdo")
+                
+                test_vector_0 = platform.request("test0")
+                test_vector_1 = platform.request("test1")
+                test_vector_2 = platform.request("test2")
+                test_vector_3 = platform.request("test3")
             else:
-                #oled_spi = self.platform.request("oled_spi")
-                #oled_ctl = self.platform.request("oled_ctl")
+                #oled_spi = platform.request("oled_spi")
+                #oled_ctl = platform.request("oled_ctl")
             
-                spi_sclk    = self.platform.request("J2_27n") #oled_spi.clk
-                spi_cs      = self.platform.request("J1_13n") #oled_ctl.csn
-                spi_sdo     = self.platform.request("J2_26n") #oled_spi.mosi
+                spi_sclk    = oled_spi.clk # platform.request("J2_27n")
+                spi_cs      = oled_ctl.csn # platform.request("J1_13n")
+                spi_sdo     = oled_spi.mosi # platform.request("J2_26n")
+                
+                test_vector_0 = platform.request("J2_27n")
+                test_vector_1 = platform.request("J2_27p")
+                test_vector_2 = platform.request("J2_26n")
+                test_vector_3 = platform.request("J2_26p")
             
             platform.add_source("../../../design/wfg_top/rtl/wfg_top.sv")
             platform.add_source("../../../design/wfg_stim_sine/rtl/*.sv")
@@ -223,7 +232,9 @@ class MySoC(SoCCore):
 
                 o_wfg_drive_spi_sclk_o    = spi_sclk,
                 o_wfg_drive_spi_cs_no     = spi_cs,
-                o_wfg_drive_spi_sdo_o     = spi_sdo
+                o_wfg_drive_spi_sdo_o     = spi_sdo,
+                
+                o_test_vector = Cat(test_vector_0, test_vector_1, test_vector_2, test_vector_3)
             )
 
 # Build --------------------------------------------------------------------------------------------
