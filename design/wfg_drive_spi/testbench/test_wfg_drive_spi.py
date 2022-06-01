@@ -39,9 +39,9 @@ async def set_register(dut, wbs, address, data):
     rvalues = [wb.datrd for wb in wbRes]
     dut._log.info(f"Returned values : {rvalues}")
 
-async def configure(dut, wbs, en=1, cnt=3, cpha=0, cpol=0, mstr=1, lsbfirst=0, dff=0, ssctrl=0, sspol=0, oectrl=0):
+async def configure(dut, wbs, en=1, cnt=3, cpol=0, lsbfirst=0, dff=0, sspol=0):
     await set_register(dut, wbs, 0x8, cnt) # Clock divider
-    await set_register(dut, wbs, 0x4, (cpha<<0) | (cpol<<1) | (mstr<<2) | (lsbfirst<<3) | (dff<<4) | (ssctrl<<8) | (sspol<<9) | (oectrl<<10))
+    await set_register(dut, wbs, 0x4, (cpol<<0) | (lsbfirst<<1) | (dff<<2) | (sspol<<4))
     await set_register(dut, wbs, 0x0, en) # Enable SPI
 
 class SimpleSpiSlave(SpiSlaveBase):
@@ -71,8 +71,8 @@ class SimpleSpiSlave(SpiSlaveBase):
     self.latest_value = self.content.to_bytes(self._config.word_width // 8, 'big')
 
 @cocotb.coroutine
-async def spi_test(dut, en, cnt, cpha, cpol, lsbfirst, dff, sspol):
-    dut._log.info(f"Configuration: en={en}, cnt={cnt}, cpha={cpha}, cpol={cpol}, lsbfirst={lsbfirst}, dff={dff}, sspol={sspol}")
+async def spi_test(dut, en, cnt, cpol, lsbfirst, dff, sspol):
+    dut._log.info(f"Configuration: en={en}, cnt={cnt}, cpol={cpol}, lsbfirst={lsbfirst}, dff={dff}, sspol={sspol}")
 
     cocotb.start_soon(Clock(dut.io_wbs_clk, 1/SYSCLK*1e9, units="ns").start())
     cocotb.fork(drive_sync(dut))
@@ -94,16 +94,9 @@ async def spi_test(dut, en, cnt, cpha, cpol, lsbfirst, dff, sspol):
     wbs = WishboneMaster(dut, "io_wbs", dut.io_wbs_clk,
                               width=32,   # size of data bus
                               timeout=10) # in clock cycle number
-    """en      = 1
-    cnt     = 3
-    cpha    = 0 # TODO fix
-    cpol    = 0
-    lsbfirst = 1
-    dff     = 3
-    sspol   = 0"""
 
     # Setup as SPI Master
-    await configure(dut, wbs,  en=en, cnt=cnt, cpha=cpha, cpol=cpol, lsbfirst=lsbfirst, dff=dff, sspol=sspol)
+    await configure(dut, wbs,  en=en, cnt=cnt, cpol=cpol, lsbfirst=lsbfirst, dff=dff, sspol=sspol)
 
     # Create SPI Slave
     spi_signals = SpiSignals(
@@ -118,7 +111,7 @@ async def spi_test(dut, en, cnt, cpha, cpol, lsbfirst, dff, sspol):
         word_width          = (8 * (dff + 1)),          # number of bits in a SPI transaction
         sclk_freq           = SYSCLK/((cnt + 1) * 2),   # clock rate in Hz
         cpol                = cpol,                     # clock idle polarity
-        cpha                = cpha,                     # clock phase (CPHA=True means sample on FallingEdge)
+        cpha                = False,                     # clock phase (CPHA=True means sample on FallingEdge)
         msb_first           = not lsbfirst,             # the order that bits are clocked onto the wire
         data_output_idle    = 1,                        # the idle value of the MOSI or MISO line 
         frame_spacing_ns    = 1                         # the spacing between frames that the master waits for or the slave obeys
@@ -159,7 +152,6 @@ async def spi_test(dut, en, cnt, cpha, cpol, lsbfirst, dff, sspol):
 factory = TestFactory(spi_test)
 factory.add_option("en", [1])
 factory.add_option("cnt", [3])
-factory.add_option("cpha", [0])
 factory.add_option("cpol", [0, 1])
 factory.add_option("lsbfirst", [0, 1])
 factory.add_option("dff", [0,1,2,3])

@@ -4,65 +4,33 @@
             "address": "4'h4",
             "description": "SPI configuration register",
             "entries": {
-                "CPHA": {
+                "CPOL": {
                     "LSB": "0",
                     "MSB": "0",
-                    "access": "rw",
-                    "description": "Clock phase\n  0: The first clock transition is the first data capture edge\n  1: The second clock transition is the first data capture edge",
-                    "hardware": "cfg",
-                    "reset": "1'b0"
-                },
-                "CPOL": {
-                    "LSB": "1",
-                    "MSB": "1",
                     "access": "rw",
                     "description": "Clock polarity\n  0: CK to 0 when idle\n  1: CK to 1 when idle",
                     "hardware": "cfg",
                     "reset": "1'b0"
                 },
                 "DFF": {
-                    "LSB": "4",
-                    "MSB": "5",
+                    "LSB": "2",
+                    "MSB": "3",
                     "access": "rw",
                     "description": "Data frame format\n  00: 8bit\n  01: 16bit\n  10: 24bit\n  11: 32bit",
                     "hardware": "cfg",
                     "reset": "2'b00"
                 },
                 "LSBFIRST": {
-                    "LSB": "3",
-                    "MSB": "3",
+                    "LSB": "1",
+                    "MSB": "1",
                     "access": "rw",
                     "description": "Frame format\n  0: MSB transmitted first\n  1: LSB transmitted first",
                     "hardware": "cfg",
                     "reset": "1'b0"
                 },
-                "MSTR": {
-                    "LSB": "2",
-                    "MSB": "2",
-                    "access": "rw",
-                    "description": "Master selection\n  0: Slave configuration\n  1: Master configuration",
-                    "hardware": "cfg",
-                    "reset": "1'b1"
-                },
-                "OECTRL": {
-                    "LSB": "10",
-                    "MSB": "11",
-                    "access": "rw",
-                    "description": "Output enable control\n  00: Automatically done by HW\n  01: Disabled\n  10: Fixed off\n  11: Fixed on",
-                    "hardware": "cfg",
-                    "reset": "2'b00"
-                },
-                "SSCTRL": {
-                    "LSB": "8",
-                    "MSB": "8",
-                    "access": "rw",
-                    "description": "Slave select control\n  0: Automatically done by HW\n  1: Done by SW",
-                    "hardware": "cfg",
-                    "reset": "1'b0"
-                },
                 "SSPOL": {
-                    "LSB": "9",
-                    "MSB": "9",
+                    "LSB": "4",
+                    "MSB": "4",
                     "access": "rw",
                     "description": "Slave select polarity\n  0: Active low\n  1: Active high",
                     "hardware": "cfg",
@@ -93,20 +61,6 @@
                     "MSB": "0",
                     "access": "rw",
                     "description": "SPI enable",
-                    "hardware": "cfg",
-                    "reset": "1'b0"
-                }
-            }
-        },
-        "TEST": {
-            "address": "4'hC",
-            "description": "Test register",
-            "entries": {
-                "LPEN": {
-                    "LSB": "1",
-                    "MSB": "1",
-                    "access": "rw",
-                    "description": "Internal loop back enable\n  0: Loop back disabled\n  1: Loop back enabled",
                     "hardware": "cfg",
                     "reset": "1'b0"
                 }

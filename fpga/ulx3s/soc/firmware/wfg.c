@@ -4,14 +4,10 @@
 #ifdef WFG_BASE
 
 int cnt = 3;
-int cpha = 0;
 int cpol = 0;
-int mstr = 1;
 int lsbfirst = 0;
 int dff = 3;
-int ssctrl = 0;
 int sspol = 0;
-int oectrl = 0;
 
 /*
 Write to a register of the waveform generator
@@ -27,6 +23,13 @@ The address of the register, can be 0-15
 void wfg_set_register(int peripheral, int address, int value)
 {
     *(volatile int*)(WFG_BASE + (peripheral<<4) + (address & 0xF)) = value;
+    
+    int readback = *(volatile int*)(WFG_BASE + (peripheral<<4) + (address & 0xF));
+    
+    if (readback != value)
+    {
+        printf("Wrong value: %d != %d\n", readback, value);
+    }    
 }
 
 void wfg_inc_cnt(void)
@@ -59,7 +62,7 @@ void wfg_init(void)
 
     // SPI
     wfg_set_register(0x3, 0x8, cnt); // Clock divider
-    wfg_set_register(0x3, 0x4, (cpha<<0) | (cpol<<1) | (mstr<<2) | (lsbfirst<<3) | (dff<<4) | (ssctrl<<8) | (sspol<<9) | (oectrl<<10));
+    wfg_set_register(0x3, 0x4, (cpol<<0) | (lsbfirst<<1) | (dff<<2) | (sspol<<4));
     wfg_set_register(0x3, 0x0, 1); // Enable SPI
 }
 

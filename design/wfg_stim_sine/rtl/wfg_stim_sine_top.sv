@@ -27,12 +27,12 @@ module wfg_stim_sine_top #(
     //data: ../data/wfg_stim_sine_reg.json
     //template: wishbone/instantiate_top.template
     //marker_template_code
-
+    
     logic         ctrl_en_q;               // CTRL.EN register output
     logic [15: 0] gain_val_q;              // GAIN.VAL register output
     logic [15: 0] inc_val_q;               // INC.VAL register output
     logic [17: 0] offset_val_q;            // OFFSET.VAL register output
-
+    
     //marker_template_end
 
     wfg_stim_sine_wishbone_reg wfg_stim_sine_wishbone_reg (
@@ -51,12 +51,12 @@ module wfg_stim_sine_top #(
         //data: ../data/wfg_stim_sine_reg.json
         //template: wishbone/assign_to_module.template
         //marker_template_code
-
-        .ctrl_en_q_o   (ctrl_en_q),    // CTRL.EN register output
-        .gain_val_q_o  (gain_val_q),   // GAIN.VAL register output
-        .inc_val_q_o   (inc_val_q),    // INC.VAL register output
-        .offset_val_q_o(offset_val_q)  // OFFSET.VAL register output
-
+        
+        .ctrl_en_q_o             (ctrl_en_q               ), // CTRL.EN register output
+        .gain_val_q_o            (gain_val_q              ), // GAIN.VAL register output
+        .inc_val_q_o             (inc_val_q               ), // INC.VAL register output
+        .offset_val_q_o          (offset_val_q            )  // OFFSET.VAL register output
+        
         //marker_template_end
     );
 

@@ -23,17 +23,10 @@ module wfg_drive_spi #(
 
     // Configuration
     input logic [7:0] clkcfg_div_q_i,    // I; SPI speed
-    input logic       cfg_cpha_q_i,      // I; Clock phase
     input logic       cfg_cpol_q_i,      // I; Clock polarity
-    input logic       cfg_mstr_q_i,      // I; Master selection
     input logic       cfg_lsbfirst_q_i,  // I; Frame format
     input logic [1:0] cfg_dff_q_i,       // I; Data frame format
-    input logic       cfg_ssctrl_q_i,    // I; Slave select control
     input logic       cfg_sspol_q_i,     // I; Slave select polarity
-    input logic [1:0] cfg_oectrl_q_i,    // I; Output enable conrol
-
-    // Test
-    input logic test_lpen_q_i,  // I; Internal loop back enable
 
     // SPI IO interface
     output logic wfg_drive_spi_sclk_o,  // O; clock
