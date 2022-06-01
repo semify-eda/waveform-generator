@@ -38,9 +38,7 @@ module wfg_drive_spi #(
     // SPI IO interface
     output logic wfg_drive_spi_sclk_o,  // O; clock
     output logic wfg_drive_spi_cs_no,   // O; chip select
-    output logic wfg_drive_spi_sdo_o,   // O; data out
-
-    output logic [9:0] test_vector
+    output logic wfg_drive_spi_sdo_o   // O; data out
 );
 
     typedef enum logic [1:0] {
@@ -199,10 +197,6 @@ module wfg_drive_spi #(
     assign wfg_drive_spi_sdo_o = lsbfirst ? spi_data[0] : spi_data[bytes_to_bits[byte_cnt]];*/
 
     assign wfg_axis_tready_o = ready;
-
-    assign test_vector[0] = wfg_pat_sync_i;
-    assign test_vector[2:1] = cur_state;
-    assign test_vector[3] = transitioning;
 
 endmodule
 `default_nettype wire

@@ -31,9 +31,7 @@ module wfg_drive_spi_top #(
     // SPI IO interface
     output wire wfg_drive_spi_sclk_o,  // O; clock
     output wire wfg_drive_spi_cs_no,   // O; chip select
-    output wire wfg_drive_spi_sdo_o,   // O; data out
-
-    output logic [9:0] test_vector
+    output wire wfg_drive_spi_sdo_o    // O; data out
 );
     // Registers
     //marker_template_start
@@ -121,9 +119,7 @@ module wfg_drive_spi_top #(
         // SPI IO interface
         .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),  // O; clock
         .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),   // O; chip select
-        .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o),   // O; data out
-
-        .test_vector(test_vector)
+        .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o)    // O; data out
     );
 
 endmodule
