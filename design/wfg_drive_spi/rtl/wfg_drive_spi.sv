@@ -38,7 +38,9 @@ module wfg_drive_spi #(
     // SPI IO interface
     output logic wfg_drive_spi_sclk_o,  // O; clock
     output logic wfg_drive_spi_cs_no,   // O; chip select
-    output logic wfg_drive_spi_sdo_o    // O; data out
+    output logic wfg_drive_spi_sdo_o,   // O; data out
+
+    output logic [9:0] test_vector
 );
 
     typedef enum logic [1:0] {
@@ -98,23 +100,31 @@ module wfg_drive_spi #(
     // Value assignments
     always_ff @(posedge clk, negedge rst_n)
         if (!rst_n) begin
-            counter          <= '0;
-            current_bit      <= '0;
-            spi_cs           <= '0;
-            spi_data         <= '0;
-            spi_clk          <= '0;
-            ready            <= '0;
-            clk_div          <= '0;
-            lsbfirst         <= '0;
-            cpol             <= '0;
-            cspol            <= '0;
-            byte_cnt         <= '0;
-            bytes_to_bits[0] <= 5'd7;
-            bytes_to_bits[1] <= 5'd15;
-            bytes_to_bits[2] <= 5'd23;
-            bytes_to_bits[3] <= 5'd31;
+            wfg_drive_spi_sclk_o <= '0;
+            wfg_drive_spi_cs_no  <= '0;
+            wfg_drive_spi_sdo_o  <= '0;
+
+            counter              <= '0;
+            current_bit          <= '0;
+            spi_cs               <= '0;
+            spi_data             <= '0;
+            spi_clk              <= '0;
+            ready                <= '0;
+            clk_div              <= '0;
+            lsbfirst             <= '0;
+            cpol                 <= '0;
+            cspol                <= '0;
+            byte_cnt             <= '0;
+            bytes_to_bits[0]     <= 5'd7;
+            bytes_to_bits[1]     <= 5'd15;
+            bytes_to_bits[2]     <= 5'd23;
+            bytes_to_bits[3]     <= 5'd31;
 
         end else begin
+            wfg_drive_spi_sclk_o <= cpol ? !spi_clk : spi_clk;
+            wfg_drive_spi_cs_no  <= cspol ? spi_cs : !spi_cs;
+            wfg_drive_spi_sdo_o  <= lsbfirst ? spi_data[0] : spi_data[bytes_to_bits[byte_cnt]];
+
             case (next_state)
                 ST_IDLE: begin
                     counter  <= '0;
@@ -173,7 +183,7 @@ module wfg_drive_spi #(
         end
 
     // Registered outputs
-    always_ff @(posedge clk, negedge rst_n)
+    /*always_ff @(posedge clk, negedge rst_n)
         if (!rst_n) begin
             wfg_drive_spi_sclk_o <= '0;
             wfg_drive_spi_cs_no  <= '0;
@@ -182,13 +192,17 @@ module wfg_drive_spi #(
             wfg_drive_spi_sclk_o <= cpol ? !spi_clk : spi_clk;
             wfg_drive_spi_cs_no  <= cspol ? spi_cs : !spi_cs;
             wfg_drive_spi_sdo_o  <= lsbfirst ? spi_data[0] : spi_data[bytes_to_bits[byte_cnt]];
-        end
+        end*/
 
     /*assign wfg_drive_spi_sclk_o = cpol ? !spi_clk : spi_clk;
     assign wfg_drive_spi_cs_no = cspol ? spi_cs : !spi_cs;
     assign wfg_drive_spi_sdo_o = lsbfirst ? spi_data[0] : spi_data[bytes_to_bits[byte_cnt]];*/
 
     assign wfg_axis_tready_o = ready;
+
+    assign test_vector[0] = wfg_pat_sync_i;
+    assign test_vector[2:1] = cur_state;
+    assign test_vector[3] = transitioning;
 
 endmodule
 `default_nettype wire

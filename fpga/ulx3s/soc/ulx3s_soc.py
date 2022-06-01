@@ -202,8 +202,8 @@ class MySoC(SoCCore):
                 test_vector_2 = platform.request("test2")
                 test_vector_3 = platform.request("test3")
             else:
-                #oled_spi = platform.request("oled_spi")
-                #oled_ctl = platform.request("oled_ctl")
+                oled_spi = platform.request("oled_spi")
+                oled_ctl = platform.request("oled_ctl")
             
                 spi_sclk    = oled_spi.clk # platform.request("J2_27n")
                 spi_cs      = oled_ctl.csn # platform.request("J1_13n")

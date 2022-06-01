@@ -18,7 +18,9 @@ module wfg_top #(
 
     output logic wfg_drive_spi_sclk_o,
     output logic wfg_drive_spi_cs_no,
-    output logic wfg_drive_spi_sdo_o
+    output logic wfg_drive_spi_sdo_o,
+
+    output logic [9:0] test_vector
 );
     // Wishbone interconnect
 
@@ -147,7 +149,9 @@ module wfg_top #(
 
         .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),
         .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),
-        .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o)
+        .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o),
+
+        .test_vector(test_vector)
     );
 
 endmodule
