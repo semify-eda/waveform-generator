@@ -55,8 +55,8 @@ module wfg_top #(
     logic wfg_stim_sine_ack;
     logic wfg_drive_spi_ack;
 
-    always @(posedge io_wbs_clk) begin
-        io_wbs_ack <= (wfg_core_ack) || (wfg_stim_sine_ack) || (wfg_drive_spi_ack);
+    always_comb begin
+        io_wbs_ack = (wfg_core_ack) || (wfg_stim_sine_ack) || (wfg_drive_spi_ack);
     end
 
     // Return data
@@ -73,7 +73,7 @@ module wfg_top #(
             wfg_drive_spi_ack:
                 io_wbs_datrd <= wfg_drive_spi_data;
             default:
-                io_wbs_datrd <= 32'b0;
+                io_wbs_datrd <= '0;
         endcase
     end
 
@@ -141,7 +141,7 @@ module wfg_top #(
         .wfg_pat_subcycle_i(wfg_pat_subcycle),
 
         .wfg_axis_tready_o(wfg_axis_tready),
-        .wfg_axis_tdata_i ({14'b0, wfg_axis_tdata}),  // TODO (32'hDEADBEEF),
+        .wfg_axis_tdata_i ({14'b0, wfg_axis_tdata}),
         .wfg_axis_tlast_i (1'b0),
         .wfg_axis_tvalid_i(wfg_axis_tvalid),
 

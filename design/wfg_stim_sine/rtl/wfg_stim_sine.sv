@@ -41,6 +41,9 @@ module wfg_stim_sine (
     typedef enum {
         ST_IDLE,
         ST_CALC,
+        ST_QUADRANT,
+        ST_GAIN,
+        ST_OFFSET,
         ST_DONE
     } wfg_stim_sine_states_t;
 
@@ -59,8 +62,11 @@ module wfg_stim_sine (
                 if (ctrl_en_q_i == 1'b1) next_state = ST_CALC;
             end
             ST_CALC: begin
-                if (iteration == 15) next_state = ST_DONE;
+                if (iteration == 15) next_state = ST_QUADRANT;
             end
+            ST_QUADRANT:    next_state = ST_GAIN;
+            ST_GAIN:        next_state = ST_OFFSET;
+            ST_OFFSET:      next_state = ST_DONE;
             ST_DONE: begin
                 if (wfg_axis_tready_i == 1'b1) next_state = ST_IDLE;
             end
@@ -68,7 +74,7 @@ module wfg_stim_sine (
         endcase
     end
 
-    assign increment = inc_val_q_i[15:0] + phase_in[15:0];
+    assign increment = inc_val_q_i + phase_in;
 
     always_ff @(posedge clk, negedge rst_n) begin
         if (!rst_n) begin
@@ -100,6 +106,9 @@ module wfg_stim_sine (
             sin_17       <= '0;
 
             quadrant     <= '0;
+            sin_18       <= '0;
+            temp         <= '0;
+            overflow_chk <= '0;
 
         end else begin
             valid <= 0;
@@ -109,7 +118,6 @@ module wfg_stim_sine (
                     iteration <= 0;
                     x <= K;
                     y <= '0;
-
 
                     // The first two digits of the input indicate the quadrant
                     quadrant <= increment[15:14];
@@ -131,9 +139,7 @@ module wfg_stim_sine (
 
 
                 end
-                ST_DONE: begin
-                    valid <= 1;
-
+                ST_QUADRANT: begin
                     case (quadrant)
                         2'b00: begin  // The first quadrant
                             sin_17 <= y;  // sin
@@ -151,33 +157,37 @@ module wfg_stim_sine (
                             sin_17 <= 'x;
                         end
                     endcase
+                end
+                ST_GAIN: begin
+                    // Multiplying by gain value - signed multiplication
+                    if (gain_val_q_i[15:0] > 16'h7FFF) begin
+                        temp[34:0] <=   {{16{sin_17[16]}}, sin_17[15:0]} *
+                                        {{16{1'b0}}, 16'h7FFF};
+                    end else begin
+                        temp[34:0] <=   {{16{sin_17[16]}}, sin_17[15:0]} *
+                                        {{16{1'b0}}, gain_val_q_i[15:0]};
+                    end
+                end
+                ST_OFFSET: begin
+                    // Adding the offset value
+                    overflow_chk[17:0] <= temp[31:14] + offset_val_q_i[17:0];
+                end
+                ST_DONE: begin
+                    valid <= 1;
+                    // Underflow check
+                    if (temp[31] && offset_val_q_i[17] && !overflow_chk[17]) begin
+                        sin_18 <= 18'b100000000000000000;
+                        // Overflow check
+                    end else if (!temp[31] && !offset_val_q_i[17] && overflow_chk[17]) begin
+                        sin_18 <= 18'b011111111111111111;
+                    end else begin
+                        sin_18 <= overflow_chk;
+                    end
 
                     if (wfg_axis_tready_i == 1'b1) phase_in <= increment;
                 end
                 default: valid <= 'x;
             endcase
-        end
-    end
-
-    always_comb begin
-        temp[34:0] = {{16{sin_17[16]}}, sin_17[15:0]} * {{16{1'b0}}, gain_val_q_i[15:0]};
-
-        // Multiplying by gain value - signed multiplication
-        if (gain_val_q_i[15:0] > 16'h7FFF) begin
-            temp[34:0] = {{16{sin_17[16]}}, sin_17[15:0]} * {{16{1'b0}}, 16'h7FFF};
-        end
-
-        // Adding the offset value
-        overflow_chk[17:0] = temp[31:14] + offset_val_q_i[17:0];
-
-        sin_18 = overflow_chk;
-
-        // Underflow check
-        if (temp[31] && offset_val_q_i[17] && !overflow_chk[17]) begin
-            sin_18 = 18'b100000000000000000;
-            // Overflow check
-        end else if (!temp[31] && !offset_val_q_i[17] && overflow_chk[17]) begin
-            sin_18 = 18'b011111111111111111;
         end
     end
 

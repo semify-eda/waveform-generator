@@ -23,22 +23,15 @@ module wfg_drive_spi #(
 
     // Configuration
     input logic [7:0] clkcfg_div_q_i,    // I; SPI speed
-    input logic       cfg_cpha_q_i,      // I; Clock phase
     input logic       cfg_cpol_q_i,      // I; Clock polarity
-    input logic       cfg_mstr_q_i,      // I; Master selection
     input logic       cfg_lsbfirst_q_i,  // I; Frame format
     input logic [1:0] cfg_dff_q_i,       // I; Data frame format
-    input logic       cfg_ssctrl_q_i,    // I; Slave select control
     input logic       cfg_sspol_q_i,     // I; Slave select polarity
-    input logic [1:0] cfg_oectrl_q_i,    // I; Output enable conrol
-
-    // Test
-    input logic test_lpen_q_i,  // I; Internal loop back enable
 
     // SPI IO interface
     output logic wfg_drive_spi_sclk_o,  // O; clock
     output logic wfg_drive_spi_cs_no,   // O; chip select
-    output logic wfg_drive_spi_sdo_o    // O; data out
+    output logic wfg_drive_spi_sdo_o   // O; data out
 );
 
     typedef enum logic [1:0] {
@@ -98,23 +91,31 @@ module wfg_drive_spi #(
     // Value assignments
     always_ff @(posedge clk, negedge rst_n)
         if (!rst_n) begin
-            counter          <= '0;
-            current_bit      <= '0;
-            spi_cs           <= '0;
-            spi_data         <= '0;
-            spi_clk          <= '0;
-            ready            <= '0;
-            clk_div          <= '0;
-            lsbfirst         <= '0;
-            cpol             <= '0;
-            cspol            <= '0;
-            byte_cnt         <= '0;
-            bytes_to_bits[0] <= 5'd7;
-            bytes_to_bits[1] <= 5'd15;
-            bytes_to_bits[2] <= 5'd23;
-            bytes_to_bits[3] <= 5'd31;
+            wfg_drive_spi_sclk_o <= '0;
+            wfg_drive_spi_cs_no  <= '0;
+            wfg_drive_spi_sdo_o  <= '0;
+
+            counter              <= '0;
+            current_bit          <= '0;
+            spi_cs               <= '0;
+            spi_data             <= '0;
+            spi_clk              <= '0;
+            ready                <= '0;
+            clk_div              <= '0;
+            lsbfirst             <= '0;
+            cpol                 <= '0;
+            cspol                <= '0;
+            byte_cnt             <= '0;
+            bytes_to_bits[0]     <= 5'd7;
+            bytes_to_bits[1]     <= 5'd15;
+            bytes_to_bits[2]     <= 5'd23;
+            bytes_to_bits[3]     <= 5'd31;
 
         end else begin
+            wfg_drive_spi_sclk_o <= cpol ? !spi_clk : spi_clk;
+            wfg_drive_spi_cs_no  <= cspol ? spi_cs : !spi_cs;
+            wfg_drive_spi_sdo_o  <= lsbfirst ? spi_data[0] : spi_data[bytes_to_bits[byte_cnt]];
+
             case (next_state)
                 ST_IDLE: begin
                     counter  <= '0;
@@ -173,7 +174,7 @@ module wfg_drive_spi #(
         end
 
     // Registered outputs
-    always_ff @(posedge clk, negedge rst_n)
+    /*always_ff @(posedge clk, negedge rst_n)
         if (!rst_n) begin
             wfg_drive_spi_sclk_o <= '0;
             wfg_drive_spi_cs_no  <= '0;
@@ -182,7 +183,7 @@ module wfg_drive_spi #(
             wfg_drive_spi_sclk_o <= cpol ? !spi_clk : spi_clk;
             wfg_drive_spi_cs_no  <= cspol ? spi_cs : !spi_cs;
             wfg_drive_spi_sdo_o  <= lsbfirst ? spi_data[0] : spi_data[bytes_to_bits[byte_cnt]];
-        end
+        end*/
 
     /*assign wfg_drive_spi_sclk_o = cpol ? !spi_clk : spi_clk;
     assign wfg_drive_spi_cs_no = cspol ? spi_cs : !spi_cs;

@@ -78,9 +78,9 @@ async def configure_core(dut, wbs, en, sync_count, subcycle_count):
 async def configure_stim_sine(dut, wbs, en):
     await set_register(dut, wbs, 0x2, 0x0, en) # Enable
 
-async def configure_drive_spi(dut, wbs, en=1, cnt=3, cpha=0, cpol=0, mstr=1, lsbfirst=0, dff=0, ssctrl=0, sspol=0, oectrl=0):
+async def configure_drive_spi(dut, wbs, en=1, cnt=3, cpol=0, lsbfirst=0, dff=0, sspol=0):
     await set_register(dut, wbs, 0x3, 0x8, cnt) # Clock divider
-    await set_register(dut, wbs, 0x3, 0x4, (cpha<<0) | (cpol<<1) | (mstr<<2) | (lsbfirst<<3) | (dff<<4) | (ssctrl<<8) | (sspol<<9) | (oectrl<<10))
+    await set_register(dut, wbs, 0x3, 0x4, (cpol<<0) | (lsbfirst<<1) | (dff<<2) | (sspol<<4))
     await set_register(dut, wbs, 0x3, 0x0, en) # Enable SPI
 
 @cocotb.test()
@@ -121,7 +121,7 @@ async def top_test(dut):
         word_width          = (8 * (dff + 1)),          # number of bits in a SPI transaction
         sclk_freq           = SYSCLK/((cnt + 1) * 2),   # clock rate in Hz
         cpol                = cpol,                     # clock idle polarity
-        cpha                = cpha,                     # clock phase (CPHA=True means sample on FallingEdge)
+        cpha                = False,                     # clock phase (CPHA=True means sample on FallingEdge)
         msb_first           = not lsbfirst,             # the order that bits are clocked onto the wire
         data_output_idle    = 1,                        # the idle value of the MOSI or MISO line 
         frame_spacing_ns    = 1                         # the spacing between frames that the master waits for or the slave obeys
@@ -136,7 +136,7 @@ async def top_test(dut):
     dut._log.info("Configure stim_sine")
     await configure_stim_sine(dut, wbs, en=1)
     dut._log.info("Configure drive_spi")
-    await configure_drive_spi(dut, wbs, en=1, dff=dff, cnt=cnt, cpol=cpol, cpha=cpha, lsbfirst=lsbfirst, sspol=sspol)
+    await configure_drive_spi(dut, wbs, en=1, cnt=cnt, cpol=cpol, lsbfirst=lsbfirst, dff=dff, sspol=sspol)
 
     await long_time
     await short_per
