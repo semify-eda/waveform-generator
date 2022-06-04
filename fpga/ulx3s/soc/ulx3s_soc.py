@@ -156,7 +156,7 @@ class MySoC(SoCCore):
                 self.comb += platform.trace.eq(1)
 
         # Analyzer ---------------------------------------------------------------------------------
-        if with_analyzer:
+        """if with_analyzer:
             analyzer_signals = [
                 # IBus (could also just added as self.cpu.ibus)
                 self.cpu.ibus.stb,
@@ -180,11 +180,11 @@ class MySoC(SoCCore):
             self.submodules.analyzer = LiteScopeAnalyzer(analyzer_signals,
                 depth        = 512,
                 clock_domain = "sys",
-                csr_csv      = "analyzer.csv")
+                csr_csv      = "analyzer.csv")"""
         
         if with_wfg:
             # Add a wb port for external verilog module
-            wfg = wishbone.Interface()
+            wfg = wishbone.Interface(bursting=False)
             self.bus.add_slave(name="wfg", slave=wfg, region=SoCRegion(origin=0x30000000, size=0x0100000)) #, cached=False)) TODO?
 
             if simulate:

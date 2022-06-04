@@ -87,33 +87,37 @@ module wfg_drive_spi_wishbone_reg #(
     end
 
     // Wishbone read from slave
-    always_comb begin
-        wbs_dat_o = '0;
-
-        case (wbs_adr_i)
-            //marker_template_start
-            //data: ../data/wfg_drive_spi_reg.json
-            //template: wishbone/assign_from_registers.template
-            //marker_template_code
-            
-            4'h4:       begin
-                        wbs_dat_o[ 0: 0] = cfg_cpol_ff;
-                        wbs_dat_o[ 3: 2] = cfg_dff_ff;
-                        wbs_dat_o[ 1: 1] = cfg_lsbfirst_ff;
-                        wbs_dat_o[ 4: 4] = cfg_sspol_ff;
+    always_ff @(posedge wb_clk_i) begin
+        if (wb_rst_i) begin
+            wbs_dat_o <= '0;
+        end else begin
+            if (wbs_stb_i && !wbs_we_i && wbs_cyc_i) begin
+                case (wbs_adr_i)
+                    //marker_template_start
+                    //data: ../data/wfg_drive_spi_reg.json
+                    //template: wishbone/assign_from_registers.template
+                    //marker_template_code
+                    
+                    4'h4:       begin
+                                wbs_dat_o[ 0: 0] = cfg_cpol_ff;
+                                wbs_dat_o[ 3: 2] = cfg_dff_ff;
+                                wbs_dat_o[ 1: 1] = cfg_lsbfirst_ff;
+                                wbs_dat_o[ 4: 4] = cfg_sspol_ff;
+                    end
+                    4'h8:       wbs_dat_o[ 7: 0] = clkcfg_div_ff;
+                    4'h0:       wbs_dat_o[ 0: 0] = ctrl_en_ff;
+                    
+                    //marker_template_end
+                    default:    wbs_dat_o = 'X;
+                endcase
             end
-            4'h8:       wbs_dat_o[ 7: 0] = clkcfg_div_ff;
-            4'h0:       wbs_dat_o[ 0: 0] = ctrl_en_ff;
-            
-            //marker_template_end
-            default:    wbs_dat_o = 'X;
-        endcase
+        end
     end
 
     // Acknowledgement
     always_ff @(posedge wb_clk_i) begin
         if (wb_rst_i) wbs_ack_o <= 1'b0;
-        else wbs_ack_o <= wbs_stb_i && wbs_cyc_i;
+        else wbs_ack_o <= wbs_stb_i && wbs_cyc_i & !wbs_ack_o;
     end
 
     //marker_template_start

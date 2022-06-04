@@ -64,16 +64,16 @@ module wfg_top #(
     logic [(BUSW-1):0] wfg_stim_sine_data;
     logic [(BUSW-1):0] wfg_drive_spi_data;
 
-    always @(posedge io_wbs_clk) begin
+    always_comb begin
         unique case (1'b1)
-            wfg_core_ack:
-                io_wbs_datrd <= wfg_core_data;
-            wfg_stim_sine_ack:
-                io_wbs_datrd <= wfg_stim_sine_data;
-            wfg_drive_spi_ack:
-                io_wbs_datrd <= wfg_drive_spi_data;
+            wfg_core_sel:
+                io_wbs_datrd = wfg_core_data;
+            wfg_stim_sine_sel:
+                io_wbs_datrd = wfg_stim_sine_data;
+            wfg_drive_spi_sel:
+                io_wbs_datrd = wfg_drive_spi_data;
             default:
-                io_wbs_datrd <= '0;
+                io_wbs_datrd = 'x;
         endcase
     end
 

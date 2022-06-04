@@ -77,29 +77,33 @@ module wfg_stim_sine_wishbone_reg #(
     end
 
     // Wishbone read from slave
-    always_comb begin
-        wbs_dat_o = '0;
-
-        case (wbs_adr_i)
-            //marker_template_start
-            //data: ../data/wfg_stim_sine_reg.json
-            //template: wishbone/assign_from_registers.template
-            //marker_template_code
-            
-            4'h0:       wbs_dat_o[ 0: 0] = ctrl_en_ff;
-            4'h8:       wbs_dat_o[15: 0] = gain_val_ff;
-            4'h4:       wbs_dat_o[15: 0] = inc_val_ff;
-            4'hC:       wbs_dat_o[17: 0] = offset_val_ff;
-            
-            //marker_template_end
-            default:    wbs_dat_o = 'X;
-        endcase
+    always_ff @(posedge wb_clk_i) begin
+        if (wb_rst_i) begin
+            wbs_dat_o <= '0;
+        end else begin
+            if (wbs_stb_i && !wbs_we_i && wbs_cyc_i) begin
+                case (wbs_adr_i)
+                    //marker_template_start
+                    //data: ../data/wfg_stim_sine_reg.json
+                    //template: wishbone/assign_from_registers.template
+                    //marker_template_code
+                    
+                    4'h0:       wbs_dat_o[ 0: 0] = ctrl_en_ff;
+                    4'h8:       wbs_dat_o[15: 0] = gain_val_ff;
+                    4'h4:       wbs_dat_o[15: 0] = inc_val_ff;
+                    4'hC:       wbs_dat_o[17: 0] = offset_val_ff;
+                    
+                    //marker_template_end
+                    default:    wbs_dat_o = 'X;
+                endcase
+            end
+        end
     end
 
     // Acknowledgement
     always_ff @(posedge wb_clk_i) begin
         if (wb_rst_i) wbs_ack_o <= 1'b0;
-        else wbs_ack_o <= wbs_stb_i && wbs_cyc_i;
+        else wbs_ack_o <= wbs_stb_i && wbs_cyc_i & !wbs_ack_o;
     end
 
     //marker_template_start
