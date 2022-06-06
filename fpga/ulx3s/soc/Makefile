@@ -7,10 +7,10 @@ firmware/firmware_build.bin:
 	cd firmware; make -f build.make clean; make -f build.make
 
 sim-prebuild:
-	python3 ulx3s_soc.py --with-analyzer --sim-debug --gtkwave-savefile --trace --trace-fst --with-wfg --simulate --cpu-type=femtorv
+	python3 ulx3s_soc.py --sim-debug --gtkwave-savefile --trace --trace-fst --with-wfg --simulate
 
 sim: firmware/firmware_sim.bin
-	python3 ulx3s_soc.py --rom-init=firmware/firmware_sim.bin --with-analyzer --sim-debug --gtkwave-savefile --trace --trace-fst --with-wfg --simulate --cpu-type=femtorv
+	python3 ulx3s_soc.py --rom-init=firmware/firmware_sim.bin --sim-debug --gtkwave-savefile --trace --trace-fst --with-wfg --simulate
 
 build-prebuild:
 	python3 ulx3s_soc.py --with-led-chaser --with-wfg --build
