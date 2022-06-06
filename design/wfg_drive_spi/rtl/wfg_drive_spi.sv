@@ -31,7 +31,7 @@ module wfg_drive_spi #(
     // SPI IO interface
     output logic wfg_drive_spi_sclk_o,  // O; clock
     output logic wfg_drive_spi_cs_no,   // O; chip select
-    output logic wfg_drive_spi_sdo_o   // O; data out
+    output logic wfg_drive_spi_sdo_o    // O; data out
 );
 
     typedef enum logic [1:0] {

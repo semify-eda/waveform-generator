@@ -29,11 +29,11 @@ module wfg_core_top #(
     //data: ../data/wfg_core_reg.json
     //template: wishbone/instantiate_top.template
     //marker_template_code
-    
+
     logic [23: 8] cfg_subcycle_q;          // CFG.SUBCYCLE register output
     logic [ 7: 0] cfg_sync_q;              // CFG.SYNC register output
     logic         ctrl_en_q;               // CTRL.EN register output
-    
+
     //marker_template_end
 
     wfg_core_wishbone_reg wfg_core_wishbone_reg (
@@ -52,11 +52,11 @@ module wfg_core_top #(
         //data: ../data/wfg_core_reg.json
         //template: wishbone/assign_to_module.template
         //marker_template_code
-        
-        .cfg_subcycle_q_o        (cfg_subcycle_q          ), // CFG.SUBCYCLE register output
-        .cfg_sync_q_o            (cfg_sync_q              ), // CFG.SYNC register output
-        .ctrl_en_q_o             (ctrl_en_q               )  // CTRL.EN register output
-        
+
+        .cfg_subcycle_q_o(cfg_subcycle_q),  // CFG.SUBCYCLE register output
+        .cfg_sync_q_o    (cfg_sync_q),      // CFG.SYNC register output
+        .ctrl_en_q_o     (ctrl_en_q)        // CTRL.EN register output
+
         //marker_template_end
     );
 

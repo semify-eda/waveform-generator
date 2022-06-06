@@ -12,9 +12,9 @@ begin
         {%- set current_entry = registers[register].entries[entry] -%}
         
         {%- if registers[register].entries|length > 1 -%}
-        {{'{:<12}wbs_dat_o[{:>2}:{:>2}] = {};'.format('', current_entry.MSB, current_entry.LSB, register.lower() + '_' + entry.lower() + '_ff')}}
+        {{'{:<12}wbs_dat_o[{:>2}:{:>2}] <= {};'.format('', current_entry.MSB, current_entry.LSB, register.lower() + '_' + entry.lower() + '_ff')}}
 {% else -%}
-        {{'wbs_dat_o[{:>2}:{:>2}] = {};'.format(current_entry.MSB, current_entry.LSB, register.lower() + '_' + entry.lower() + '_ff')}}
+        {{'wbs_dat_o[{:>2}:{:>2}] <= {};'.format(current_entry.MSB, current_entry.LSB, register.lower() + '_' + entry.lower() + '_ff')}}
 {% endif -%}
 {%- endfor -%}
 

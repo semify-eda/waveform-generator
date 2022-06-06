@@ -38,14 +38,14 @@ module wfg_drive_spi_top #(
     //data: ../data/wfg_drive_spi_reg.json
     //template: wishbone/instantiate_top.template
     //marker_template_code
-    
+
     logic         cfg_cpol_q;              // CFG.CPOL register output
     logic [ 3: 2] cfg_dff_q;               // CFG.DFF register output
     logic         cfg_lsbfirst_q;          // CFG.LSBFIRST register output
     logic         cfg_sspol_q;             // CFG.SSPOL register output
     logic [ 7: 0] clkcfg_div_q;            // CLKCFG.DIV register output
     logic         ctrl_en_q;               // CTRL.EN register output
-    
+
     //marker_template_end
 
     wfg_drive_spi_wishbone_reg wfg_drive_spi_wishbone_reg (
@@ -64,14 +64,14 @@ module wfg_drive_spi_top #(
         //data: ../data/wfg_drive_spi_reg.json
         //template: wishbone/assign_to_module.template
         //marker_template_code
-        
-        .cfg_cpol_q_o            (cfg_cpol_q              ), // CFG.CPOL register output
-        .cfg_dff_q_o             (cfg_dff_q               ), // CFG.DFF register output
-        .cfg_lsbfirst_q_o        (cfg_lsbfirst_q          ), // CFG.LSBFIRST register output
-        .cfg_sspol_q_o           (cfg_sspol_q             ), // CFG.SSPOL register output
-        .clkcfg_div_q_o          (clkcfg_div_q            ), // CLKCFG.DIV register output
-        .ctrl_en_q_o             (ctrl_en_q               )  // CTRL.EN register output
-        
+
+        .cfg_cpol_q_o    (cfg_cpol_q),      // CFG.CPOL register output
+        .cfg_dff_q_o     (cfg_dff_q),       // CFG.DFF register output
+        .cfg_lsbfirst_q_o(cfg_lsbfirst_q),  // CFG.LSBFIRST register output
+        .cfg_sspol_q_o   (cfg_sspol_q),     // CFG.SSPOL register output
+        .clkcfg_div_q_o  (clkcfg_div_q),    // CLKCFG.DIV register output
+        .ctrl_en_q_o     (ctrl_en_q)        // CTRL.EN register output
+
         //marker_template_end
     );
 
