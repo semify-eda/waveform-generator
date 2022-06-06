@@ -146,7 +146,10 @@ class MySoC(SoCCore):
         if with_wfg:
             # Add a wb port for external verilog module
             wfg = wishbone.Interface(bursting=False)
-            self.bus.add_slave(name="wfg", slave=wfg, region=SoCRegion(origin=0x30000000, size=0x0100000)) #, cached=False)) TODO?
+            #self.bus.add_slave(name="wfg", slave=wfg, region=SoCRegion(origin=0x30000000, size=0x0100000)) #, cached=False)) TODO?
+
+            self.add_memory_region("wfg", origin=0x30000000, length=0x0100000, type="cached") # linker
+            self.add_wb_slave(address=0x30000000, interface=wfg)
 
             if simulate:
                 spi_sclk    = platform.request("spi_sclk")
