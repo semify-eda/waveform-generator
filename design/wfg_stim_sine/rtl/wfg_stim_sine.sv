@@ -161,8 +161,7 @@ module wfg_stim_sine (
                 ST_GAIN: begin
                     // Multiplying by gain value - signed multiplication
                     if (gain_val_q_i[15:0] > 16'h7FFF) begin
-                        temp[34:0] <=   {{16{sin_17[16]}}, sin_17[15:0]} *
-                                        {{16{1'b0}}, 16'h7FFF};
+                        temp[34:0] <= {{16{sin_17[16]}}, sin_17[15:0]} * {{16{1'b0}}, 16'h7FFF};
                     end else begin
                         temp[34:0] <=   {{16{sin_17[16]}}, sin_17[15:0]} *
                                         {{16{1'b0}}, gain_val_q_i[15:0]};

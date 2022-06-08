@@ -63,13 +63,6 @@ _io = [
         Subsignal("sink_data",    Pins(8)),
     ),
 
-    # Tristate GPIOs (for sim control/status).
-    ("gpio", 0,
-        Subsignal("oe", Pins(32)),
-        Subsignal("o",  Pins(32)),
-        Subsignal("i",  Pins(32)),
-    ),
-    
     ("spi_sclk", 0, Pins(1)),
     ("spi_cs", 0, Pins(1)),
     ("spi_sdo", 0, Pins(1))
@@ -143,49 +136,20 @@ class MySoC(SoCCore):
                 pads         = platform.request_all("user_led"),
                 sys_clk_freq = sys_clk_freq)
 
-        # GPIO --------------------------------------------------------------------------------------
-        if with_gpio:
-            self.submodules.gpio = GPIOTristate(platform.request("gpio"), with_irq=True)
-            self.irq.add("gpio", use_loc_if_exists=True)
-
         # Simulation debugging ----------------------------------------------------------------------
         if simulate:
             if sim_debug:
                 platform.add_debug(self, reset=1 if trace_reset_on else 0)
             else:
                 self.comb += platform.trace.eq(1)
-
-        # Analyzer ---------------------------------------------------------------------------------
-        if with_analyzer:
-            analyzer_signals = [
-                # IBus (could also just added as self.cpu.ibus)
-                self.cpu.ibus.stb,
-                self.cpu.ibus.cyc,
-                self.cpu.ibus.adr,
-                self.cpu.ibus.we,
-                self.cpu.ibus.ack,
-                self.cpu.ibus.sel,
-                self.cpu.ibus.dat_w,
-                self.cpu.ibus.dat_r,
-                # DBus (could also just added as self.cpu.dbus)
-                self.cpu.dbus.stb,
-                self.cpu.dbus.cyc,
-                self.cpu.dbus.adr,
-                self.cpu.dbus.we,
-                self.cpu.dbus.ack,
-                self.cpu.dbus.sel,
-                self.cpu.dbus.dat_w,
-                self.cpu.dbus.dat_r,
-            ]
-            self.submodules.analyzer = LiteScopeAnalyzer(analyzer_signals,
-                depth        = 512,
-                clock_domain = "sys",
-                csr_csv      = "analyzer.csv")
         
         if with_wfg:
             # Add a wb port for external verilog module
-            wfg = wishbone.Interface()
-            self.bus.add_slave(name="wfg", slave=wfg, region=SoCRegion(origin=0x30000000, size=0x0100000)) #, cached=False)) TODO?
+            wfg = wishbone.Interface(bursting=False)
+            #self.bus.add_slave(name="wfg", slave=wfg, region=SoCRegion(origin=0x30000000, size=0x0100000)) #, cached=False)) TODO?
+
+            self.add_memory_region("wfg", origin=0x30000000, length=0x0100000, type="cached") # linker
+            self.add_wb_slave(address=0x30000000, interface=wfg)
 
             if simulate:
                 spi_sclk    = platform.request("spi_sclk")
@@ -267,7 +231,6 @@ def add_args(parser):
 
     soc_group = parser.add_argument_group(title="SoC options")
     soc_group.add_argument("--rom-init",             default=None,            help="ROM init file (.bin or .json).")
-    soc_group.add_argument("--with-analyzer",        action="store_true",     help="Enable Analyzer support.")
     soc_group.add_argument("--with-led-chaser",      action="store_true",     help="Enable LED chaser.")
     soc_group.add_argument("--with-gpio",            action="store_true",     help="Enable Tristate GPIO (32 pins).")
     soc_group.add_argument("--with-wfg",             action="store_true",     help="Enable the waveform generator module")
@@ -320,7 +283,6 @@ def main():
 
     # SoC ------------------------------------------------------------------------------------------
     soc = MySoC(
-        with_analyzer      = args.with_analyzer,
         with_led_chaser    = args.with_led_chaser,
         with_gpio          = args.with_gpio,
         with_wfg           = args.with_wfg,

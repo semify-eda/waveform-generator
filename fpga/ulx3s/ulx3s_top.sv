@@ -28,8 +28,8 @@ module ulx3s_top (
     assign io_wbs_stb = btn[4];
     assign io_wbs_cyc = btn[5];
     
-    assign led[4] = io_wbs_ack;
-    assign led[5] = | io_wbs_datrd;
+    assign led[3] = io_wbs_ack;
+    assign led[4] = | io_wbs_datrd;
 
     logic wfg_drive_spi_sclk_o;
     logic wfg_drive_spi_cs_no;
@@ -39,7 +39,6 @@ module ulx3s_top (
     assign led[0] = wfg_drive_spi_sclk_o;
     assign led[1] = wfg_drive_spi_cs_no;
     assign led[2] = wfg_drive_spi_sdo_o;
-    assign led[3] = wfg_drive_spi_sdo_en_o;
 
     wfg_top wfg_top (
         .io_wbs_clk(io_wbs_clk),
@@ -54,8 +53,7 @@ module ulx3s_top (
 
         .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),
         .wfg_drive_spi_cs_no(wfg_drive_spi_cs_no),
-        .wfg_drive_spi_sdo_o(wfg_drive_spi_sdo_o),
-        .wfg_drive_spi_sdo_en_o(wfg_drive_spi_sdo_en_o)
+        .wfg_drive_spi_sdo_o(wfg_drive_spi_sdo_o)
     );
 
 endmodule
