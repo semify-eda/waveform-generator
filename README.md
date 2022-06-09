@@ -12,7 +12,9 @@ The generic Waveform Generator is split up into three parts:
 
 Currently the following components are available:
 
+- wfg_core
 - wfg_stim_sine
+- wfg_drive_spi
 
 # Prerequisites
 
