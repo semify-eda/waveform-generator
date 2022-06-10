@@ -186,7 +186,7 @@ async def top_test(dut, sine_inc=0x1000, sine_gain=0x4000, sine_offset=0):
     y_mean_absolute_error = statistics.mean(y_absolute_error)
     print("y_mean_absolute_error: {}".format(y_mean_absolute_error))
 
-    assert(y_mean_absolute_error < 0.001)
+
     
     x_data_highres = np.linspace(x_data[0], x_data[-1], num=100)
     y_calc_highres = test_func(x_data_highres, params[0], params[1], params[2])
@@ -211,11 +211,13 @@ async def top_test(dut, sine_inc=0x1000, sine_gain=0x4000, sine_offset=0):
     fig.savefig("output_inc={}_gain={}_off={}.svg".format(sine_inc, sine_gain, sine_offset))
     fig.savefig("output_inc={}_gain={}_off={}.png".format(sine_inc, sine_gain, sine_offset), dpi=199)
     #plt.show()
+    
+    assert(y_mean_absolute_error < 0.001)
 
 factory = TestFactory(top_test)
 
 factory.add_option("sine_inc", [0x500, 0x1000])
 factory.add_option("sine_gain", [0x4000, 0x2000, 0x6000])
-factory.add_option("sine_offset", [0, 0x10000])
+factory.add_option("sine_offset", [0x0000, 0x8000])
 
 factory.generate_tests()
