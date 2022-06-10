@@ -120,9 +120,9 @@ module wfg_stim_sine (
                     y <= '0;
 
                     // The first two digits of the input indicate the quadrant
-                    quadrant <= increment[15:14];
+                    quadrant <= phase_in[15:14];
                     // z is used to store the angle after transforming to the first quadrant
-                    z <= {3'b0, increment[13:0]};
+                    z <= {3'b0, phase_in[13:0]};
                 end
                 ST_CALC: begin
                     iteration <= iteration + 1;  // TODO check
