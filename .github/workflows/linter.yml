@@ -13,7 +13,7 @@ jobs:
         suggest_fixes: 'false'
         paths: |
           ./design/
-        extra_args: "--check_syntax=true"
+        extra_args: "--check_syntax=true --rules=-unpacked-dimensions-range-ordering"
     - name: Log output
       run: cat verible-verilog-lint.log
     - name: Upload artifact
