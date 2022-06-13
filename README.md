@@ -4,52 +4,42 @@ This repository implements a generic Waveform Generator in SystemVerilog.
 
 # Introduction
 
-The generic Waveform Generator is split up into three parts:
+The Waveform Generator is split up into three parts:
 
 - Stimuli
 - Interconnect
-- Driver
+- Drivers
 
 Currently the following components are available:
 
-- wfg_core
-- wfg_stim_sine
-- wfg_drive_spi
+- `wfg_core`
+- `wfg_stim_sine`
+- `wfg_drive_spi`
 
 # Prerequisites
 
-You will need Python3+ and pip.
+For this project you will need Python3+ and pip.
 
-For the generation of the templates install `jinja2`:
+For the generation of the register files based on templates install `jinja2`:
 
     pip3 install jinja2
 
 The testbench environment for the unit-tests uses `cocotb`. To install it together with the bus interfaces, run:
 
     pip3 install cocotb
-    pip3 install cocotbext-wishbone
     pip3 install cocotbext-axi
     pip3 install cocotbext-spi
+    pip3 install cocotbext-wishbone
 
-To plot the values during functional verification install `matplotlib`:
+To plot the values during functional verification install the following modules:
 
-	pip3 install matplotlib
 	pip3 install scipy
 	pip3 install numpy
+	pip3 install matplotlib
 
-To have more information on assertion fails you can optionally install `pytest`: 
+To get more information on assertion fails you can optionally install `pytest`: 
 
 	pip3 install pytest
-
-# LiteX
-
-To automatically generate documentation about the SoC, install:
-
-	pip3 install sphinx sphinxcontrib-wavedrom
-
-To trace the simulation using `--trace` you need to install:
-
-    pip3 install pyvcd
 
 # Simulation
 
@@ -57,9 +47,9 @@ To run the individual unit tests, issue:
 
 	make unit-test
 
-# Template Generation
+# Template Based Generation
 
-To generate the registers for the wishbone bus, issue:
+To generate the register files for the wishbone bus, issue:
 
 	make templates
 
@@ -76,6 +66,52 @@ This will format the code according to some custom flags.
 To invoke the [verible](https://github.com/chipsalliance/verible) linter, run:
 
 	make lint
+
+# FPGA Prototyping with LiteX
+
+To run the project on an FPGA, [LiteX](https://github.com/enjoy-digital/litex) is used to instantiate the SoC.
+
+Follow the instructions on the GitHub page to install LiteX. After installation don't forget to add the RISC-V toolchain to the PATH variable.
+
+To automatically generate documentation about the SoC, install:
+
+	pip3 install sphinx sphinxcontrib-wavedrom
+
+To trace the simulation using `--trace` you need to install:
+
+    pip3 install pyvcd
+
+## Simulation
+
+To run the simulation with LiteX go to:
+
+`fpga/ulx3s/soc`
+
+First run
+
+	make sim-prebuild
+
+and after that finally:
+
+	make sim
+
+## FPGA Bitstream generation
+
+To build the bitstream with LiteX for the ULX3S go to:
+
+`fpga/ulx3s/soc`
+
+First run
+
+	make build-prebuild
+
+and after that finally:
+
+	make build
+
+To upload the bitstream to the ULX3S board, run:
+
+	make upload
 
 ## License
 
