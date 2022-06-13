@@ -16,7 +16,6 @@ from cocotbext.spi import SpiMaster, SpiSignals, SpiConfig, SpiSlaveBase
 
 CLK_PER_SYNC = 300
 SYSCLK = 100000000
-DATA_CNT = 10
 
 short_per = Timer(100, units="ns")
 long_time = Timer(100, units="us")
@@ -63,11 +62,9 @@ async def set_register(dut, wbs, peripheral_address, address, data):
         dut._log.error("Can not access peripheral registers outside 0xF")
 
     real_address = (peripheral_address<<4) | (address & 0xF)
-
     dut._log.info(f"Set register {real_address} : {data}")
 
     wbRes = await wbs.send_cycle([WBOp(real_address, data)])
-    
     rvalues = [wb.datrd for wb in wbRes]
     dut._log.info(f"Returned values : {rvalues}")
 
@@ -80,7 +77,6 @@ async def configure_stim_sine(dut, wbs, en, inc=0x1000, gain=0x4000, offset=0):
     await set_register(dut, wbs, 0x2, 0x8, gain)
     await set_register(dut, wbs, 0x2, 0xC, offset)
     await set_register(dut, wbs, 0x2, 0x0, en) # Enable
-    
 
 async def configure_drive_spi(dut, wbs, en=1, cnt=3, cpol=0, lsbfirst=0, dff=0, sspol=0):
     await set_register(dut, wbs, 0x3, 0x8, cnt) # Clock divider
@@ -134,7 +130,7 @@ async def top_test(dut, sine_inc=0x1000, sine_gain=0x4000, sine_offset=0):
     
     spi_slave = SimpleSpiSlave(dut, spi_signals, spi_config)
     
-    num_spi_values = (2**16) / sine_inc + 1
+    num_spi_values = int((2**16) / sine_inc + 1)
 
     # Setup core
     dut._log.info("Configure core")
@@ -153,9 +149,9 @@ async def top_test(dut, sine_inc=0x1000, sine_gain=0x4000, sine_offset=0):
 
     params, params_covariance = optimize.curve_fit(test_func, spi_slave.time, spi_slave.values, p0=[70000, 0.00007, -0.5])
     
-    print(params)
-    print(spi_slave.time)
-    print(spi_slave.values)
+    dut._log.info(params)
+    dut._log.info(spi_slave.time)
+    dut._log.info(spi_slave.values)
 
     x_data = np.asarray(spi_slave.time)
     y_data = np.asarray(spi_slave.values)
@@ -181,13 +177,11 @@ async def top_test(dut, sine_inc=0x1000, sine_gain=0x4000, sine_offset=0):
         y_absolute_error.append(abs(output_as_float - calculated_value))
     
     y_mean_squared_error = statistics.mean(y_squared_error)
-    print("y_mean_squared_error: {}".format(y_mean_squared_error))
+    dut._log.info("y_mean_squared_error: {}".format(y_mean_squared_error))
     
     y_mean_absolute_error = statistics.mean(y_absolute_error)
-    print("y_mean_absolute_error: {}".format(y_mean_absolute_error))
+    dut._log.info("y_mean_absolute_error: {}".format(y_mean_absolute_error))
 
-
-    
     x_data_highres = np.linspace(x_data[0], x_data[-1], num=100)
     y_calc_highres = test_func(x_data_highres, params[0], params[1], params[2])
     
