@@ -10,15 +10,15 @@ module wfg_top #(
     input                     io_wbs_rst,
     input        [(BUSW-1):0] io_wbs_adr,
     input        [(BUSW-1):0] io_wbs_datwr,
-    output logic [(BUSW-1):0] io_wbs_datrd,
+    output       [(BUSW-1):0] io_wbs_datrd,
     input                     io_wbs_we,
     input                     io_wbs_stb,
-    output logic              io_wbs_ack,
+    output                    io_wbs_ack,
     input                     io_wbs_cyc,
 
-    output logic wfg_drive_spi_sclk_o,
-    output logic wfg_drive_spi_cs_no,
-    output logic wfg_drive_spi_sdo_o
+    output       wfg_drive_spi_sclk_o,
+    output       wfg_drive_spi_cs_no,
+    output       wfg_drive_spi_sdo_o
 );
     // Wishbone interconnect
 
@@ -55,27 +55,29 @@ module wfg_top #(
     logic wfg_stim_sine_ack;
     logic wfg_drive_spi_ack;
 
-    always_comb begin
-        io_wbs_ack = (wfg_core_ack) || (wfg_stim_sine_ack) || (wfg_drive_spi_ack);
-    end
+    assign io_wbs_ack = (wfg_core_ack) || (wfg_stim_sine_ack) || (wfg_drive_spi_ack);
 
     // Return data
     logic [(BUSW-1):0] wfg_core_data;
     logic [(BUSW-1):0] wfg_stim_sine_data;
     logic [(BUSW-1):0] wfg_drive_spi_data;
 
+    logic [(BUSW-1):0] my_io_wbs_datrd;
+
     always_comb begin
         unique case (1'b1)
             wfg_core_sel:
-                io_wbs_datrd = wfg_core_data;
+                my_io_wbs_datrd = wfg_core_data;
             wfg_stim_sine_sel:
-                io_wbs_datrd = wfg_stim_sine_data;
+                my_io_wbs_datrd = wfg_stim_sine_data;
             wfg_drive_spi_sel:
-                io_wbs_datrd = wfg_drive_spi_data;
+                my_io_wbs_datrd = wfg_drive_spi_data;
             default:
-                io_wbs_datrd = 'x;
+                my_io_wbs_datrd = 'x;
         endcase
     end
+    
+    assign io_wbs_datrd = my_io_wbs_datrd;
 
     // Core synchronisation interface
     logic wfg_pat_sync;

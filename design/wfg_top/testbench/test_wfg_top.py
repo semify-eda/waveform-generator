@@ -83,8 +83,8 @@ async def configure_drive_spi(dut, wbs, en=1, cnt=3, cpol=0, lsbfirst=0, dff=0, 
     await set_register(dut, wbs, 0x3, 0x4, (cpol<<0) | (lsbfirst<<1) | (dff<<2) | (sspol<<4))
     await set_register(dut, wbs, 0x3, 0x0, en) # Enable SPI
 
-@cocotb.coroutine
-async def top_test(dut, sine_inc=0x1000, sine_gain=0x4000, sine_offset=0):
+@cocotb.test()
+async def top_test(dut):
     cocotb.start_soon(Clock(dut.io_wbs_clk, 1/SYSCLK*1e9, units="ns").start())
 
     dut._log.info("Initialize and reset model")
@@ -130,6 +130,11 @@ async def top_test(dut, sine_inc=0x1000, sine_gain=0x4000, sine_offset=0):
     
     spi_slave = SimpleSpiSlave(dut, spi_signals, spi_config)
     
+    # Sine settings
+    sine_inc = 0x1000
+    sine_gain = 0x4000
+    sine_offset = 0
+    
     num_spi_values = int((2**16) / sine_inc + 1)
 
     # Setup core
@@ -139,7 +144,6 @@ async def top_test(dut, sine_inc=0x1000, sine_gain=0x4000, sine_offset=0):
     await configure_stim_sine(dut, wbs, en=1, inc=sine_inc, gain=sine_gain, offset=sine_offset)
     dut._log.info("Configure drive_spi")
     await configure_drive_spi(dut, wbs, en=1, cnt=cnt, cpol=cpol, lsbfirst=lsbfirst, dff=dff, sspol=sspol)
-
 
     while len(spi_slave.values) < num_spi_values:
         await short_per
@@ -207,11 +211,3 @@ async def top_test(dut, sine_inc=0x1000, sine_gain=0x4000, sine_offset=0):
     #plt.show()
     
     assert(y_mean_absolute_error < 0.001)
-
-factory = TestFactory(top_test)
-
-factory.add_option("sine_inc", [0x500, 0x1000])
-factory.add_option("sine_gain", [0x4000, 0x2000, 0x6000])
-factory.add_option("sine_offset", [0x0000, 0x8000])
-
-factory.generate_tests()
