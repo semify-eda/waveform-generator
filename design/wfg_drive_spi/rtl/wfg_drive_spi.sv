@@ -35,10 +35,9 @@ module wfg_drive_spi #(
 );
 
     typedef enum logic [1:0] {
-        ST_IDLE      = 2'b00,
-        ST_SEND_DATA = 2'b01,
-        ST_LAST_BIT  = 2'b11,
-        ST_DUMMY     = 2'b10
+        ST_IDLE,
+        ST_SEND_DATA,
+        ST_LAST_BIT
     } my_uart_states_t;
 
     my_uart_states_t cur_state, next_state;
@@ -72,15 +71,12 @@ module wfg_drive_spi #(
                 if (wfg_pat_sync_i && wfg_axis_tvalid_i && ctrl_en_q_i) next_state = ST_SEND_DATA;
             end
             ST_SEND_DATA: begin
-                if (current_bit == 0 && spi_clk == 1'b1) begin
+                if (counter == 0 && current_bit == 0 && spi_clk) begin
                     next_state = ST_LAST_BIT;
                 end
             end
             ST_LAST_BIT: begin
-                if (counter == 0 && spi_clk == 1'b1) next_state = ST_DUMMY;
-            end
-            ST_DUMMY: begin
-                next_state = ST_IDLE;
+                if (counter == 0) next_state = ST_IDLE;
             end
             default: begin
                 next_state = ST_IDLE;
@@ -120,7 +116,7 @@ module wfg_drive_spi #(
                 ST_IDLE: begin
                     counter  <= '0;
                     spi_clk  <= '0;
-                    spi_cs   <= 1'b0;
+                    spi_cs   <= '0;
                     spi_data <= '0;
 
                     clk_div  <= clkcfg_div_q_i;
@@ -157,13 +153,14 @@ module wfg_drive_spi #(
                     end
                 end
                 ST_LAST_BIT: begin
+                    if (transitioning) begin
+                        counter <= clk_div;
+                    end else begin
+                        counter <= counter - 1;
+                    end
                     spi_cs  <= 1'b1;
+                    spi_clk <= 1'b0;
                     ready   <= 1'b0;
-                    counter <= counter - 1;
-                end
-                ST_DUMMY: begin
-                    spi_cs <= 1'b1;
-                    ready  <= 1'b0;
                 end
                 default: begin
                     spi_cs   <= 'x;
@@ -172,22 +169,6 @@ module wfg_drive_spi #(
                 end
             endcase
         end
-
-    // Registered outputs
-    /*always_ff @(posedge clk, negedge rst_n)
-        if (!rst_n) begin
-            wfg_drive_spi_sclk_o <= '0;
-            wfg_drive_spi_cs_no  <= '0;
-            wfg_drive_spi_sdo_o  <= '0;
-        end else begin
-            wfg_drive_spi_sclk_o <= cpol ? !spi_clk : spi_clk;
-            wfg_drive_spi_cs_no  <= cspol ? spi_cs : !spi_cs;
-            wfg_drive_spi_sdo_o  <= lsbfirst ? spi_data[0] : spi_data[bytes_to_bits[byte_cnt]];
-        end*/
-
-    /*assign wfg_drive_spi_sclk_o = cpol ? !spi_clk : spi_clk;
-    assign wfg_drive_spi_cs_no = cspol ? spi_cs : !spi_cs;
-    assign wfg_drive_spi_sdo_o = lsbfirst ? spi_data[0] : spi_data[bytes_to_bits[byte_cnt]];*/
 
     assign wfg_axis_tready_o = ready;
 

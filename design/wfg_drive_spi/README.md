@@ -17,4 +17,4 @@ The transmission is handled entirely within the module and all SPI signals are g
 A system clock with frequency f = 100 MHz and an asynchronous wfg_sync signal are defined in the cocotb testbench. 
 The Python function random.randint is used to generate a list of random input values. Via a cocotb AXI-Stream master the SPI module receives a new input
 at each sync pulse. The functionality is tested with a test factory that runs through all possible configuration parameters. 
-The SPI module is connected to a cocotb SPI slave which decodes each successful transmission.
+The SPI module is connected to a cocotb SPI interface which decodes each successful transmission.
