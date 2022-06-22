@@ -6,19 +6,19 @@ module wfg_top #(
     parameter int BUSW = 32
 ) (
     // Wishbone interface signals
-    input                     io_wbs_clk,
-    input                     io_wbs_rst,
-    input        [(BUSW-1):0] io_wbs_adr,
-    input        [(BUSW-1):0] io_wbs_datwr,
-    output       [(BUSW-1):0] io_wbs_datrd,
-    input                     io_wbs_we,
-    input                     io_wbs_stb,
-    output                    io_wbs_ack,
-    input                     io_wbs_cyc,
+    input               io_wbs_clk,
+    input               io_wbs_rst,
+    input  [(BUSW-1):0] io_wbs_adr,
+    input  [(BUSW-1):0] io_wbs_datwr,
+    output [(BUSW-1):0] io_wbs_datrd,
+    input               io_wbs_we,
+    input               io_wbs_stb,
+    output              io_wbs_ack,
+    input               io_wbs_cyc,
 
-    output       wfg_drive_spi_sclk_o,
-    output       wfg_drive_spi_cs_no,
-    output       wfg_drive_spi_sdo_o
+    output wfg_drive_spi_sclk_o,
+    output wfg_drive_spi_cs_no,
+    output wfg_drive_spi_sdo_o
 );
     // Wishbone interconnect
 
@@ -76,7 +76,7 @@ module wfg_top #(
                 my_io_wbs_datrd = 'x;
         endcase
     end
-    
+
     assign io_wbs_datrd = my_io_wbs_datrd;
 
     // Core synchronisation interface
