@@ -1,0 +1,68 @@
+{
+    "registers": {
+        "CFG": {
+            "address": "4'h4",
+            "description": "SPI configuration register",
+            "entries": {
+                "BEGIN": {
+                    "LSB": "0",
+                    "MSB": "7",
+                    "access": "rw",
+                    "description": "Select at which subcycle the output occurs, binary encoded",
+                    "hardware": "cfg",
+                    "reset": "0"
+                },
+                "END": {
+                    "LSB": "8",
+                    "MSB": "15",
+                    "access": "rw",
+                    "description": "Select at which subcycle the transition according to PATSEL occurs, binary encoded",
+                    "hardware": "cfg",
+                    "reset": "0"
+                }
+            }
+        },
+        "CTRL": {
+            "address": "4'h0",
+            "description": "Control register",
+            "entries": {
+                "EN": {
+                    "LSB": "0",
+                    "MSB": "31",
+                    "access": "rw",
+                    "description": "Parallel Interface Output enable",
+                    "hardware": "cfg",
+                    "reset": "0"
+                }
+            }
+        },
+        "PATSEL0": {
+            "address": "4'h8",
+            "description": "Low bit of PATSEL",
+            "entries": {
+                "LOW": {
+                    "LSB": "0",
+                    "MSB": "31",
+                    "access": "rw",
+                    "description": "Select Output Format\n  \n   b00: Return to zero (RZ)\n   b01: Return to one (RO)\n   b10: Non return to one (NRZ)\n   B11: Return to complement (RC)\n",
+                    "hardware": "cfg",
+                    "reset": "0"
+                }
+            }
+        },
+        "PATSEL1": {
+            "address": "4'hC",
+            "description": "High bit of PATSEL",
+            "entries": {
+                "HIGH": {
+                    "LSB": "0",
+                    "MSB": "31",
+                    "access": "rw",
+                    "description": "Select Output Format\n  \n   b00: Return to zero (RZ)\n   b01: Return to one (RO)\n   b10: Non return to one (NRZ)\n   B11: Return to complement (RC)\n",
+                    "hardware": "cfg",
+                    "reset": "0"
+                }
+            }
+        }
+    }
+}

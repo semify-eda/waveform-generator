@@ -6,8 +6,7 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.regression import TestFactory
 from cocotb.triggers import Timer, RisingEdge, FallingEdge
-from cocotbext.wishbone.driver import WishboneMaster
-from cocotbext.wishbone.driver import WBOp
+from cocotbext.wishbone.driver import WishboneMaster, WBOp
 from cocotbext.axi import AxiStreamBus, AxiStreamSource
 from cocotbext.spi import SpiMaster, SpiSignals, SpiConfig, SpiSlaveBase
 #from random import randbytes # Possible in Python 3.9+
