@@ -1,0 +1,73 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed May 11 08:07:10 2022
+[*]
+[dumpfile] "/home/leo/Nextcloud/Fachhochschule/Bachelorarbeit/waveform-generator/design/wfg_drive_spi/sim/wfg_drive_spi_tb.vcd"
+[dumpfile_mtime] "Wed May 11 08:06:37 2022"
+[dumpfile_size] 99622
+[savefile] "/home/leo/Nextcloud/Fachhochschule/Bachelorarbeit/waveform-generator/design/wfg_drive_spi/sim/view.gtkw"
+[timestart] 0
+[size] 1920 1011
+[pos] -1 -1
+*-23.000000 3060000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] wfg_drive_spi_tb.
+[treeopen] wfg_drive_spi_tb.wfg_drive_spi_top.
+[sst_width] 227
+[signals_width] 345
+[sst_expanded] 1
+[sst_vpaned_height] 295
+@200
+-Wishbone
+@28
+wfg_drive_spi_tb.io_wbs_clk
+@22
+wfg_drive_spi_tb.io_wbs_adr[31:0]
+wfg_drive_spi_tb.io_wbs_datrd[31:0]
+wfg_drive_spi_tb.io_wbs_datwr[31:0]
+@28
+wfg_drive_spi_tb.io_wbs_ack
+wfg_drive_spi_tb.io_wbs_cyc
+wfg_drive_spi_tb.io_wbs_rst
+wfg_drive_spi_tb.io_wbs_stb
+wfg_drive_spi_tb.io_wbs_we
+@200
+-AXI
+@22
+wfg_drive_spi_tb.wfg_drive_spi_axis_tdata[31:0]
+@28
+wfg_drive_spi_tb.wfg_drive_spi_axis_tlast
+wfg_drive_spi_tb.wfg_drive_spi_axis_tready
+wfg_drive_spi_tb.wfg_drive_spi_axis_tvalid
+@200
+-SPI
+@29
+wfg_drive_spi_tb.wfg_drive_spi_sclk_o
+@28
+wfg_drive_spi_tb.wfg_drive_spi_cs_no
+wfg_drive_spi_tb.wfg_drive_spi_sdo_en_o
+wfg_drive_spi_tb.wfg_drive_spi_sdo_o
+wfg_drive_spi_tb.wfg_pat_sync_i
+wfg_drive_spi_tb.wgf_pat_subcycle_i
+@200
+-Register
+@28
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.cfg_cpha_ff
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.cfg_cpol_ff
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.cfg_dff_ff[5:4]
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.cfg_lsbfirst_ff
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.cfg_mstr_ff
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.cfg_oectrl_ff[11:10]
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.cfg_ssctrl_ff
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.cfg_sspol_ff
+@22
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.clkcfg_div_ff[7:0]
+@28
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.ctrl_en_ff
+@22
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.id_peripheral_type_ff[7:0]
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.id_version_ff[15:8]
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.reginfo_date_ff[17:0]
+@28
+wfg_drive_spi_tb.wfg_drive_spi_top.wfg_drive_spi_wishbone_reg.test_lpen_ff
+[pattern_trace] 1
+[pattern_trace] 0

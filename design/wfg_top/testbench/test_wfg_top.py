@@ -189,16 +189,18 @@ async def top_test(dut):
     x_data_highres = np.linspace(x_data[0], x_data[-1], num=100)
     y_calc_highres = test_func(x_data_highres, params[0], params[1], params[2])
     
-    fig, ax = plt.subplots(2, 1)
-    fig.suptitle('Sine Stimuli and SPI Driver', fontsize=16)
+
     
-    ax[0].scatter(x_data, y_data_float, label='SPI data as float')
+    fig, ax = plt.subplots(2, 1)
+    fig.suptitle('Stimulus: Sine wave generator, Driver: SPI module', fontsize=24)
+    
+    ax[0].scatter(x_data, y_data_float, label='SPI data represented as float')
     #ax[0].plot(x_data_highres, y_calc_highres, label='Fitted function')
-    ax[0].set(xlabel='time in ns', ylabel='value')
+    ax[0].set(xlabel='time in ns', ylabel='Value')
     ax[0].legend(loc='best')
     ax[0].grid()
     
-    ax[1].set(xlabel='time in ns', ylabel='value')
+    ax[1].set(xlabel='time in ns', ylabel='Error')
     ax[1].plot(x_data, y_error, label='error = y_data - y_calc')
     ax[1].legend(loc='best')
     ax[1].grid()

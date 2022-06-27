@@ -52,6 +52,7 @@ module wfg_drive_pat_channel (
                         data_next = !data_ff;
                     end  //if
                 end  //RC
+                default: data_next = 'x;
                 //default: $error("invalid pat_select");
             endcase
         end  //if

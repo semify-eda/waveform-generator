@@ -17,8 +17,8 @@
 //
 
 module wfg_drive_pat #(
-    parameter CHANNELS   = 8,
-    parameter AXIS_WIDTH = 32
+    parameter int CHANNELS   = 8,
+    parameter int AXIS_WIDTH = 32
 ) (
     input logic clk,   // I; System clock
     input logic rst_n, // I; Active low reset
@@ -74,7 +74,7 @@ module wfg_drive_pat #(
 
     genvar k;
     generate
-        for (k = 0; k < CHANNELS; k++) begin
+        for (k = 0; k < CHANNELS; k++) begin : gen_channels
             wfg_drive_pat_channel drv (
                 .clk(clk),
                 .rst_n(rst_n),
