@@ -7,7 +7,7 @@ module wfg_stim_sine (
     input  wire               rst_n,              // reset signal
     input  wire               wfg_axis_tready_i,  // ready signal - AXI
     output wire               wfg_axis_tvalid_o,  // valid signal - AXI
-    output wire signed [17:0] wfg_axis_tdata_o,   // sine output  - AXI
+    output wire signed [31:0] wfg_axis_tdata_o,   // sine output  - AXI
     input  wire               ctrl_en_q_i,        // enable/disable simulation
     input  wire        [15:0] inc_val_q_i,        // angular increment
     input  wire        [15:0] gain_val_q_i,       // sine gain/multiplier

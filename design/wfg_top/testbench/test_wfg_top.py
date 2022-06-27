@@ -83,6 +83,12 @@ async def configure_drive_spi(dut, wbs, en=1, cnt=3, cpol=0, lsbfirst=0, dff=0, 
     await set_register(dut, wbs, 0x3, 0x4, (cpol<<0) | (lsbfirst<<1) | (dff<<2) | (sspol<<4))
     await set_register(dut, wbs, 0x3, 0x0, en) # Enable SPI
 
+async def configure_drive_pat(dut, wbs, en, pat, begin, end):
+    await set_register(dut, wbs, 0x4, 0x4, (begin & 0xFF) | ((end & 0xFF)<<8))
+    await set_register(dut, wbs, 0x4, 0x8, pat[0])
+    await set_register(dut, wbs, 0x4, 0xC, pat[1])
+    await set_register(dut, wbs, 0x4, 0x0, en) # Enable PAT
+
 @cocotb.test()
 async def top_test(dut):
     cocotb.start_soon(Clock(dut.io_wbs_clk, 1/SYSCLK*1e9, units="ns").start())
@@ -144,6 +150,9 @@ async def top_test(dut):
     await configure_stim_sine(dut, wbs, en=1, inc=sine_inc, gain=sine_gain, offset=sine_offset)
     dut._log.info("Configure drive_spi")
     await configure_drive_spi(dut, wbs, en=1, cnt=cnt, cpol=cpol, lsbfirst=lsbfirst, dff=dff, sspol=sspol)
+    dut._log.info("Configure drive_pat")
+    pat = [0xFFFFFFFF, 0xFFFFFFFF]
+    await configure_drive_pat(dut, wbs, en=0xFFFFFFFF, pat=pat, begin=0, end=8)
 
     while len(spi_slave.values) < num_spi_values:
         await short_per

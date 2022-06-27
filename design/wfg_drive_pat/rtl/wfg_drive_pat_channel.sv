@@ -49,7 +49,7 @@ module wfg_drive_pat_channel (
                 end  //NRZ
                 2'b11: begin
                     if (data_ff == '0 || data_ff == '1) begin
-                        data_next = !data_ff;
+                        data_next = !axis_data_ff;
                     end  //if
                 end  //RC
                 default: data_next = 'x;

@@ -35,41 +35,27 @@ module wfg_top #(
     logic wfg_core_sel;
     logic wfg_stim_sine_sel;
     logic wfg_drive_spi_sel;
+    logic wfg_drive_pat_sel;
 
     // Nothing should be assigned to the null page
     assign wfg_core_sel      = (io_wbs_adr[BUSW-1:4] == 28'h01);  // 0x10
     assign wfg_stim_sine_sel = (io_wbs_adr[BUSW-1:4] == 28'h02);  // 0x20
     assign wfg_drive_spi_sel = (io_wbs_adr[BUSW-1:4] == 28'h03);  // 0x30
-
-    // This will be true if nothing is selected
-    logic none_sel;
-    assign none_sel = (!wfg_core_sel) && (!wfg_stim_sine_sel) && (!wfg_drive_spi_sel);
-
-    // The wishbone error signal is true for one clock only, and then it
-    // resets itself
-    logic wb_err;
-    always @(posedge io_wbs_clk) begin
-        wb_err <= (io_wbs_stb) && (none_sel);
-    end
-
-    logic bus_err_address;
-    always @(posedge io_wbs_clk) begin
-        if (wb_err) begin
-            bus_err_address <= io_wbs_adr;
-        end
-    end
+    assign wfg_drive_pat_sel = (io_wbs_adr[BUSW-1:4] == 28'h04);  // 0x40
 
     // Acknowledgement
     logic wfg_core_ack;
     logic wfg_stim_sine_ack;
     logic wfg_drive_spi_ack;
+    logic wfg_drive_pat_ack;
 
-    assign io_wbs_ack = (wfg_core_ack) || (wfg_stim_sine_ack) || (wfg_drive_spi_ack);
+    assign io_wbs_ack = (wfg_core_ack) || (wfg_stim_sine_ack) || (wfg_drive_spi_ack) || (wfg_drive_pat_ack);
 
     // Return data
     logic [(BUSW-1):0] wfg_core_data;
     logic [(BUSW-1):0] wfg_stim_sine_data;
     logic [(BUSW-1):0] wfg_drive_spi_data;
+    logic [(BUSW-1):0] wfg_drive_pat_data;
 
     logic [(BUSW-1):0] my_io_wbs_datrd;
 
@@ -81,6 +67,8 @@ module wfg_top #(
                 my_io_wbs_datrd = wfg_stim_sine_data;
             wfg_drive_spi_sel:
                 my_io_wbs_datrd = wfg_drive_spi_data;
+            wfg_drive_pat_sel:
+                my_io_wbs_datrd = wfg_drive_pat_data;
             default:
                 my_io_wbs_datrd = 'x;
         endcase
@@ -107,10 +95,10 @@ module wfg_top #(
         .wbs_ack_o(wfg_core_ack),
         .wbs_dat_o(wfg_core_data),
 
-        .wfg_pat_sync_o(wfg_pat_sync),
-        .wfg_pat_subcycle_o(wfg_pat_subcycle),
-        .wfg_pat_start_o(wfg_pat_start),
-        .wfg_pat_subcycle_cnt_o(wfg_pat_subcycle_cnt),
+        .wfg_pat_sync_o     (wfg_pat_sync),
+        .wfg_pat_subcycle_o (wfg_pat_subcycle),
+        .wfg_pat_start_o        (wfg_pat_start),
+        .wfg_pat_subcycle_cnt_o (wfg_pat_subcycle_cnt),
         .active_o(active)
     );
 
@@ -165,8 +153,6 @@ module wfg_top #(
     );
 
     logic driver_0_wfg_axis_tready;
-    logic driver_1_wfg_axis_tready;
-    assign driver_1_wfg_axis_tready = 1'b1;
 
     wfg_drive_spi_top wfg_drive_spi_top (
         .wb_clk_i (io_wbs_clk),
@@ -192,6 +178,37 @@ module wfg_top #(
         .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),
         .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o)
     );
+    
+    logic driver_1_wfg_axis_tready;
+    
+    wfg_drive_pat_top #(
+        .CHANNELS(32)
+    ) wfg_drive_pat_top (
+        .wb_clk_i (io_wbs_clk),
+        .wb_rst_i (io_wbs_rst),
+        .wbs_stb_i(io_wbs_stb && wfg_drive_pat_sel),
+        .wbs_cyc_i(io_wbs_cyc),
+        .wbs_we_i (io_wbs_we),
+        .wbs_sel_i(4'b1111),
+        .wbs_dat_i(io_wbs_datwr),
+        .wbs_adr_i(wfg_drive_pat_sel ? io_wbs_adr & 4'hF : 4'h0),
+        .wbs_ack_o(wfg_drive_pat_ack),
+        .wbs_dat_o(wfg_drive_pat_data),
+
+        .wfg_pat_sync_i         (wfg_pat_sync),
+        .wfg_pat_subcycle_cnt_i (wfg_pat_subcycle_cnt),
+
+        .wfg_axis_tready_o(driver_1_wfg_axis_tready),
+        .wfg_axis_tdata_i (driver_1.wfg_axis_tdata),
+        .wfg_axis_tlast_i (1'b0),
+        .wfg_axis_tvalid_i(driver_1.wfg_axis_tvalid),
+
+        .pat_dout_o(wfg_drive_pat_dout_o),
+        .pat_dout_en_o(wfg_drive_pat_dout_en_o)
+    );
+    
+    logic [31:0] wfg_drive_pat_dout_o;
+    logic [31:0] wfg_drive_pat_dout_en_o;
 
 endmodule
 `default_nettype wire
