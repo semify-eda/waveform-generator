@@ -2,6 +2,15 @@
 // SPDX-License-Identifier: Apache-2.0
 
 `default_nettype none
+
+`ifndef WFG_INTERCONNECT_PKG
+`define WFG_INTERCONNECT_PKG
+typedef struct packed {
+    logic wfg_axis_tvalid;
+    logic [31:0] wfg_axis_tdata;
+} axis_t;
+`endif
+
 module wfg_top #(
     parameter int BUSW = 32
 ) (
@@ -105,10 +114,39 @@ module wfg_top #(
         .active_o(active)
     );
 
-    logic wfg_axis_tready;
-    logic wfg_axis_tvalid;
-    logic wfg_axis_tlast;
-    logic [17:0] wfg_axis_tdata; // TODO data size
+    axis_t driver_0;
+    axis_t driver_1;
+
+    wfg_interconnect_top wfg_interconnect_top (
+        .wb_clk_i (io_wbs_clk),
+        .wb_rst_i (io_wbs_rst),
+        .wbs_stb_i(io_wbs_stb),
+        .wbs_cyc_i(io_wbs_cyc),
+        .wbs_we_i (io_wbs_we),
+        .wbs_sel_i(4'b1111),
+        .wbs_dat_i(io_wbs_datwr),
+        .wbs_adr_i(io_wbs_adr),
+        .wbs_ack_o(io_wbs_ack),
+        .wbs_dat_o(io_wbs_datrd),
+
+        .stimulus_0,
+        .stimulus_1,
+
+        .wfg_axis_tready_stimulus_0(stimulus_0_wfg_axis_tready),
+        .wfg_axis_tready_stimulus_1(stimulus_1_wfg_axis_tready),
+
+        .driver_0,
+        .driver_1,
+
+        .wfg_axis_tready_driver_0(driver_0_wfg_axis_tready),
+        .wfg_axis_tready_driver_1(driver_1_wfg_axis_tready)
+    );
+    
+    axis_t stimulus_0;
+    axis_t stimulus_1;
+
+    logic stimulus_0_wfg_axis_tready;
+    logic stimulus_1_wfg_axis_tready;
 
     wfg_stim_sine_top wfg_stim_sine_top (
         .wb_clk_i (io_wbs_clk),
@@ -122,10 +160,15 @@ module wfg_top #(
         .wbs_ack_o(wfg_stim_sine_ack),
         .wbs_dat_o(wfg_stim_sine_data),
 
-        .wfg_axis_tready_i(wfg_axis_tready),
-        .wfg_axis_tvalid_o(wfg_axis_tvalid),
-        .wfg_axis_tdata_o (wfg_axis_tdata)
+        .wfg_axis_tready_i(stimulus_0_wfg_axis_tready),
+        .wfg_axis_tvalid_o(stimulus_0.wfg_axis_tvalid),
+        .wfg_axis_tdata_o (stimulus_0.wfg_axis_tdata)
     );
+
+    logic driver_0_wfg_axis_tready;
+    logic driver_1_wfg_axis_tready;
+    
+    assign driver_1_wfg_axis_tready = 1'b1;
 
     wfg_drive_spi_top wfg_drive_spi_top (
         .wb_clk_i (io_wbs_clk),
@@ -142,10 +185,10 @@ module wfg_top #(
         .wfg_pat_sync_i    (wfg_pat_sync),
         .wfg_pat_subcycle_i(wfg_pat_subcycle),
 
-        .wfg_axis_tready_o(wfg_axis_tready),
-        .wfg_axis_tdata_i ({14'b0, wfg_axis_tdata}),
+        .wfg_axis_tready_o(driver_0_wfg_axis_tready),
+        .wfg_axis_tdata_i (driver_0.wfg_axis_tdata),
         .wfg_axis_tlast_i (1'b0),
-        .wfg_axis_tvalid_i(wfg_axis_tvalid),
+        .wfg_axis_tvalid_i(driver_0.wfg_axis_tvalid),
 
         .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),
         .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),
