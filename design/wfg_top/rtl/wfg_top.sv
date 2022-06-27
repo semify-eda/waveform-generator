@@ -95,11 +95,11 @@ module wfg_top #(
         .wbs_ack_o(wfg_core_ack),
         .wbs_dat_o(wfg_core_data),
 
-        .wfg_pat_sync_o     (wfg_pat_sync),
-        .wfg_pat_subcycle_o (wfg_pat_subcycle),
-        .wfg_pat_start_o        (wfg_pat_start),
-        .wfg_pat_subcycle_cnt_o (wfg_pat_subcycle_cnt),
-        .active_o(active)
+        .wfg_pat_sync_o        (wfg_pat_sync),
+        .wfg_pat_subcycle_o    (wfg_pat_subcycle),
+        .wfg_pat_start_o       (wfg_pat_start),
+        .wfg_pat_subcycle_cnt_o(wfg_pat_subcycle_cnt),
+        .active_o              (active)
     );
 
     axis_t driver_0;
@@ -178,9 +178,9 @@ module wfg_top #(
         .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),
         .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o)
     );
-    
+
     logic driver_1_wfg_axis_tready;
-    
+
     wfg_drive_pat_top #(
         .CHANNELS(32)
     ) wfg_drive_pat_top (
@@ -195,8 +195,8 @@ module wfg_top #(
         .wbs_ack_o(wfg_drive_pat_ack),
         .wbs_dat_o(wfg_drive_pat_data),
 
-        .wfg_pat_sync_i         (wfg_pat_sync),
-        .wfg_pat_subcycle_cnt_i (wfg_pat_subcycle_cnt),
+        .wfg_pat_sync_i        (wfg_pat_sync),
+        .wfg_pat_subcycle_cnt_i(wfg_pat_subcycle_cnt),
 
         .wfg_axis_tready_o(driver_1_wfg_axis_tready),
         .wfg_axis_tdata_i (driver_1.wfg_axis_tdata),
@@ -206,7 +206,7 @@ module wfg_top #(
         .pat_dout_o(wfg_drive_pat_dout_o),
         .pat_dout_en_o(wfg_drive_pat_dout_en_o)
     );
-    
+
     logic [31:0] wfg_drive_pat_dout_o;
     logic [31:0] wfg_drive_pat_dout_en_o;
 
