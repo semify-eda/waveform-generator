@@ -166,7 +166,6 @@ module wfg_top #(
 
     logic driver_0_wfg_axis_tready;
     logic driver_1_wfg_axis_tready;
-    
     assign driver_1_wfg_axis_tready = 1'b1;
 
     wfg_drive_spi_top wfg_drive_spi_top (
