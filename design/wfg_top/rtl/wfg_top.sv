@@ -141,7 +141,6 @@ module wfg_top #(
         .wfg_axis_tready_driver_0(driver_0_wfg_axis_tready),
         .wfg_axis_tready_driver_1(driver_1_wfg_axis_tready)
     );
-    
     axis_t stimulus_0;
     axis_t stimulus_1;
 
