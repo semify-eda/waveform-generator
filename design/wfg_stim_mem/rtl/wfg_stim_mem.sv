@@ -81,7 +81,6 @@ module wfg_stim_mem (
                     end
 
                     data  <= dout1;
-                    valid <= '1;
                 end
                 ST_DONE: begin
                     valid <= '1;
