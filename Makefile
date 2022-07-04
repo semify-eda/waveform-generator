@@ -4,6 +4,8 @@ all: templates
 
 TEMPLATED_FILES := design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv \
                    design/wfg_stim_sine/rtl/wfg_stim_sine_top.sv \
+                   design/wfg_stim_mem/rtl/wfg_stim_mem_wishbone_reg.sv \
+                   design/wfg_stim_mem/rtl/wfg_stim_mem_top.sv \
                    design/wfg_drive_spi/rtl/wfg_drive_spi_top.sv \
                    design/wfg_drive_spi/rtl/wfg_drive_spi_wishbone_reg.sv \
                    design/wfg_drive_pat/rtl/wfg_drive_pat_top.sv \
@@ -15,6 +17,7 @@ TEMPLATED_FILES := design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv \
 
 
 DATA_FILES := design/wfg_stim_sine/data/wfg_stim_sine_reg.csv \
+              design/wfg_stim_mem/data/wfg_stim_mem_reg.csv \
               design/wfg_drive_spi/data/wfg_drive_spi_reg.csv \
               design/wfg_drive_pat/data/wfg_drive_pat_reg.csv \
               design/wfg_interconnect/data/wfg_interconnect_reg.csv \
@@ -30,6 +33,7 @@ templates: ${TEMPLATED_FILES} ${LIBRARIES}
 
 unit-tests:
 	cd design/wfg_stim_sine/sim; make sim
+	cd design/wfg_stim_mem/sim; make sim
 	cd design/wfg_drive_spi/sim; make sim
 	#cd design/wfg_drive_pat/sim; make sim # TODO fix tests
 	cd design/wfg_interconnect/sim; make sim

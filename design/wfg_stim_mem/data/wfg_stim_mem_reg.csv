@@ -1,0 +1,9 @@
+Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
+4'h0,CTRL,,,,,,,Control register for memory unit
+,,EN,rw,cfg,0,0,1'b0,Enables stimuli generation
+4'h4,START,,,,,,,Start register
+,,VAL,rw,cfg,15,0,0,Address start value
+4'h8,END,,,,,,,End register
+,,VAL,rw,cfg,15,0,0,Address end value
+4'hC,INC,,,,,,,Increment register
+,,VAL,rw,cfg,7,0,8'h01,Increment the address with value
