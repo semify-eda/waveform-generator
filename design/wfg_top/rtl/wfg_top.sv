@@ -28,9 +28,9 @@ module wfg_top #(
     output wfg_drive_spi_sclk_o,
     output wfg_drive_spi_cs_no,
     output wfg_drive_spi_sdo_o,
-    
+
     output [31:0] wfg_drive_pat_dout_o,
-    
+
     // Memory interface
     output              csb1,
     output logic [ 9:0] addr1,
@@ -169,9 +169,9 @@ module wfg_top #(
         .wfg_axis_tvalid_o(stimulus_0.wfg_axis_tvalid),
         .wfg_axis_tdata_o (stimulus_0.wfg_axis_tdata)
     );
-    
+
     logic stimulus_1_wfg_axis_tready;
-    
+
     wfg_stim_mem_top wfg_stim_mem_top (
         .wb_clk_i (io_wbs_clk),
         .wb_rst_i (io_wbs_rst),
@@ -187,10 +187,10 @@ module wfg_top #(
         .wfg_axis_tready_i(stimulus_1_wfg_axis_tready),
         .wfg_axis_tvalid_o(stimulus_1.wfg_axis_tvalid),
         .wfg_axis_tdata_o (stimulus_1.wfg_axis_tdata),
-        
-        .csb1             (csb1),
-        .addr1            (addr1),
-        .dout1            (dout1)
+
+        .csb1 (csb1),
+        .addr1(addr1),
+        .dout1(dout1)
     );
 
     logic driver_0_wfg_axis_tready;

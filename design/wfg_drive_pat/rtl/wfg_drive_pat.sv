@@ -81,10 +81,10 @@ module wfg_drive_pat #(
             axis_data_ff  <= '0;
             axis_ready_ff <= '0;
         end else begin
-        
+
             if (pat_sync_i) begin
                 axis_ready_ff <= '1;
-                
+
                 if (wfg_axis_tvalid_i) begin
                     axis_data_ff <= wfg_axis_tdata_i;
                 end

@@ -27,7 +27,7 @@ module wfg_top_tb #(
     output logic wfg_drive_spi_sclk_o,
     output logic wfg_drive_spi_cs_no,
     output logic wfg_drive_spi_sdo_o,
-    
+
     output logic [31:0] wfg_drive_pat_dout_o
 );
 
@@ -53,14 +53,14 @@ module wfg_top_tb #(
         .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),
         .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),
         .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o),
-        
+
         .wfg_drive_pat_dout_o(wfg_drive_pat_dout_o),
-        
+
         .csb1 (csb1),
         .addr1(addr1),
         .dout1(dout1)
     );
-    
+
     initial begin
         $readmemh("memory.hex", mem);
     end

@@ -24,11 +24,11 @@ module wfg_stim_mem (
     logic [31:0] data;
     logic valid;
 
-    assign csb1 = !ctrl_en_q_i;         // Enable the memory
-    assign addr1 = cur_address[9:0];    // Assign address
+    assign csb1              = !ctrl_en_q_i;  // Enable the memory
+    assign addr1             = cur_address[9:0];  // Assign address
 
     assign wfg_axis_tvalid_o = valid;
-    assign wfg_axis_tdata_o = data;
+    assign wfg_axis_tdata_o  = data;
 
     typedef enum {
         ST_IDLE,
@@ -79,7 +79,7 @@ module wfg_stim_mem (
                     end else begin
                         cur_address = cur_address + inc_val_q_i;
                     end
-                    
+
                     data  <= dout1;
                     valid <= '1;
                 end
