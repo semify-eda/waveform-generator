@@ -24,15 +24,16 @@ module wfg_stim_mem (
     logic [31:0] data;
     logic valid;
 
-    assign csb1 = !ctrl_en_q_i;  // Enable the memory
-    assign addr1 = cur_address[9:0];  // Assign address
+    assign csb1 = !ctrl_en_q_i;         // Enable the memory
+    assign addr1 = cur_address[9:0];    // Assign address
 
     assign wfg_axis_tvalid_o = valid;
     assign wfg_axis_tdata_o = data;
 
     typedef enum {
         ST_IDLE,
-        ST_CALC
+        ST_CALC,
+        ST_DONE
     } wfg_stim_mem_states_t;
 
     wfg_stim_mem_states_t cur_state;
@@ -47,10 +48,13 @@ module wfg_stim_mem (
         next_state = cur_state;
         case (cur_state)
             ST_IDLE: begin
-                if (ctrl_en_q_i == 1'b1) next_state = ST_CALC;
+                if (ctrl_en_q_i) next_state = ST_CALC;
             end
             ST_CALC: begin
-                next_state = ST_IDLE;
+                next_state = ST_DONE;
+            end
+            ST_DONE: begin
+                if (wfg_axis_tready_i == 1'b1) next_state = ST_IDLE;
             end
         endcase
     end
@@ -77,6 +81,9 @@ module wfg_stim_mem (
                     end
                     
                     data  <= dout1;
+                    valid <= '1;
+                end
+                ST_DONE: begin
                     valid <= '1;
                 end
                 default: valid <= 'x;

@@ -47,30 +47,13 @@ module wfg_drive_pat #(
 
     assign pat_dout_en_o = ctrl_en_q_i;
 
-    logic [AXIS_WIDTH-1:0] axis_data_next, axis_data_ff;
-    logic axis_ready_next, axis_ready_ff;
+    logic [AXIS_WIDTH-1:0] axis_data_ff;
+    logic axis_ready_ff;
     assign wfg_axis_tready_o = axis_ready_ff;
 
     // -------------------------------------------------------------------------
     // Implementation
     // -------------------------------------------------------------------------
-
-    always_comb begin
-        axis_data_next  = axis_data_ff;
-        axis_ready_next = axis_ready_ff;
-
-        if (pat_sync_i) begin
-            axis_ready_next = '1;
-        end  //if
-
-        if (axis_ready_ff) begin
-            axis_ready_next = '0;
-        end  //if
-
-        if (wfg_axis_tvalid_i) begin
-            axis_data_next = wfg_axis_tdata_i;
-        end
-    end  //always_comb
 
     genvar k;
     generate
@@ -98,8 +81,17 @@ module wfg_drive_pat #(
             axis_data_ff  <= '0;
             axis_ready_ff <= '0;
         end else begin
-            axis_data_ff  <= axis_data_next;
-            axis_ready_ff <= axis_ready_next;
+        
+            if (pat_sync_i) begin
+                axis_ready_ff <= '1;
+                
+                if (wfg_axis_tvalid_i) begin
+                    axis_data_ff <= wfg_axis_tdata_i;
+                end
+            end else begin
+                axis_ready_ff <= '0;
+            end
+
         end
     end  //always_ff
 endmodule
