@@ -77,7 +77,7 @@ module wfg_stim_mem (
                     if (cur_address + inc_val_q_i > end_val_q_i) begin
                         cur_address <= start_val_q_i;
                     end else begin
-                        cur_address = cur_address + inc_val_q_i;
+                        cur_address <= cur_address + inc_val_q_i;
                     end
 
                     data  <= dout1;
