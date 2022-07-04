@@ -158,9 +158,10 @@ module wfg_drive_spi #(
                     end else begin
                         counter <= counter - 1;
                     end
-                    spi_cs  <= 1'b1;
+                    spi_cs <= 1'b1;
                     spi_clk <= 1'b0;
-                    ready   <= 1'b0;
+                    ready <= 1'b0;
+                    spi_data <= 1'b0;
                 end
                 default: begin
                     spi_cs   <= 'x;

@@ -1,0 +1,60 @@
+{
+    "registers": {
+        "CTRL": {
+            "address": "4'h0",
+            "description": "Control register for memory unit",
+            "entries": {
+                "EN": {
+                    "LSB": "0",
+                    "MSB": "0",
+                    "access": "rw",
+                    "description": "Enables stimuli generation",
+                    "hardware": "cfg",
+                    "reset": "1'b0"
+                }
+            }
+        },
+        "END": {
+            "address": "4'h8",
+            "description": "End register",
+            "entries": {
+                "VAL": {
+                    "LSB": "0",
+                    "MSB": "15",
+                    "access": "rw",
+                    "description": "Address end value",
+                    "hardware": "cfg",
+                    "reset": "0"
+                }
+            }
+        },
+        "INC": {
+            "address": "4'hC",
+            "description": "Increment register",
+            "entries": {
+                "VAL": {
+                    "LSB": "0",
+                    "MSB": "7",
+                    "access": "rw",
+                    "description": "Increment the address with value",
+                    "hardware": "cfg",
+                    "reset": "8'h01"
+                }
+            }
+        },
+        "START": {
+            "address": "4'h4",
+            "description": "Start register",
+            "entries": {
+                "VAL": {
+                    "LSB": "0",
+                    "MSB": "15",
+                    "access": "rw",
+                    "description": "Address start value",
+                    "hardware": "cfg",
+                    "reset": "0"
+                }
+            }
+        }
+    }
+}

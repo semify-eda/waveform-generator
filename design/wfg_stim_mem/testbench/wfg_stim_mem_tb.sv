@@ -9,7 +9,7 @@
 `define VL_RD
 `endif
 
-module wfg_top_tb #(
+module wfg_stim_mem_tb #(
     parameter int BUSW = 32
 ) (
     // Wishbone interface signals
@@ -23,12 +23,10 @@ module wfg_top_tb #(
     output              io_wbs_ack,
     input               io_wbs_cyc,
 
-    input  logic wfg_drive_spi_sdi_i,   // for cocotb
-    output logic wfg_drive_spi_sclk_o,
-    output logic wfg_drive_spi_cs_no,
-    output logic wfg_drive_spi_sdo_o,
-
-    output logic [31:0] wfg_drive_pat_dout_o
+    // AXI-Stream interface
+    input         wfg_axis_tready,
+    output        wfg_axis_tvalid,
+    output [31:0] wfg_axis_tdata
 );
 
     logic        csb1;
@@ -39,22 +37,21 @@ module wfg_top_tb #(
 
     logic [31:0] mem[MEM_SIZE];
 
-    wfg_top wfg_top (
-        .io_wbs_clk(io_wbs_clk),
-        .io_wbs_rst(io_wbs_rst),
-        .io_wbs_adr(io_wbs_adr),
-        .io_wbs_datwr(io_wbs_datwr),
-        .io_wbs_datrd(io_wbs_datrd),
-        .io_wbs_we(io_wbs_we),
-        .io_wbs_stb(io_wbs_stb),
-        .io_wbs_ack(io_wbs_ack),
-        .io_wbs_cyc(io_wbs_cyc),
+    wfg_stim_mem_top wfg_stim_mem_top (
+        .wb_clk_i (io_wbs_clk),
+        .wb_rst_i (io_wbs_rst),
+        .wbs_stb_i(io_wbs_stb),
+        .wbs_cyc_i(io_wbs_cyc),
+        .wbs_we_i (io_wbs_we),
+        .wbs_sel_i(4'b1111),
+        .wbs_dat_i(io_wbs_datwr),
+        .wbs_adr_i(io_wbs_adr),
+        .wbs_ack_o(io_wbs_ack),
+        .wbs_dat_o(io_wbs_datrd),
 
-        .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),
-        .wfg_drive_spi_cs_no (wfg_drive_spi_cs_no),
-        .wfg_drive_spi_sdo_o (wfg_drive_spi_sdo_o),
-
-        .wfg_drive_pat_dout_o(wfg_drive_pat_dout_o),
+        .wfg_axis_tready_i(wfg_axis_tready),
+        .wfg_axis_tvalid_o(wfg_axis_tvalid),
+        .wfg_axis_tdata_o (wfg_axis_tdata),
 
         .csb1 (csb1),
         .addr1(addr1),
@@ -72,8 +69,8 @@ module wfg_top_tb #(
     // Dump waves
 `ifndef VERILATOR
     initial begin
-        $dumpfile("wfg_top_tb.vcd");
-        $dumpvars(0, wfg_top_tb);
+        $dumpfile("wfg_stim_mem_tb.vcd");
+        $dumpvars(0, wfg_stim_mem_tb);
     end
 `endif
 
