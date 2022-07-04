@@ -30,7 +30,7 @@ jobs:
         run: |
           cd ~/work/waveform-generator/waveform-generator/
           make templates
-          make unit-tests 
+          make tests 
       - name: Report failures
         run: |
           ! grep failure design/*/sim/results.xml

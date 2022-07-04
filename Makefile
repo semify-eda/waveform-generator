@@ -31,7 +31,7 @@ LIBRARIES := $(DATA_FILES:.csv=.json)
 templates: ${TEMPLATED_FILES} ${LIBRARIES}
 	python3 templating/generator.py --template_dir templating/templates -i ${TEMPLATED_FILES}
 
-unit-tests:
+tests:
 	cd design/wfg_stim_sine/sim; make sim
 	cd design/wfg_stim_mem/sim; make sim
 	cd design/wfg_drive_spi/sim; make sim
