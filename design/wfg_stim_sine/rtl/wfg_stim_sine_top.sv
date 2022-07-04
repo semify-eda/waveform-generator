@@ -20,7 +20,7 @@ module wfg_stim_sine_top #(
     // AXI-Stream interface
     input                wfg_axis_tready_i,
     output               wfg_axis_tvalid_o,
-    output signed [17:0] wfg_axis_tdata_o
+    output signed [31:0] wfg_axis_tdata_o
 );
     // Registers
     //marker_template_start

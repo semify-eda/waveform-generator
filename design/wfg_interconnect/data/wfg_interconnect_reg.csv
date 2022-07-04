@@ -1,0 +1,11 @@
+Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
+4'h0,CTRL,,,,,,,Control register
+,,EN,rw,cfg,0,0,1'b0,Interconnect enable
+4'h4,DRIVER0,,,,,,,Driver configuration register
+,,SELECT,rw,cfg,1,0,0,"Select
+0 – wfg_stim_sine
+1 – wfg_stim_mem"
+4'h8,DRIVER1,,,,,,,Driver configuration register
+,,SELECT,rw,cfg,1,0,0,"Select
+0 – wfg_stim_sine
+1 – wfg_stim_mem"

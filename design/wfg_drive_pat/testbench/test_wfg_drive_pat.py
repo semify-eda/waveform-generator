@@ -100,19 +100,19 @@ class Testbench(object):
         cocotb.fork(self.drive_subcycles())  # count subcycles
 
     async def drive_subcycles(self):
-        self.dut.wgf_pat_subcycle_cnt_i.value = 0
+        self.dut.wfg_pat_subcycle_cnt_i.value = 0
         self.dut.wfg_pat_sync_i.value = 1
         while True:
             await RisingEdge(self.dut.io_wbs_clk)
-            subcycles = self.dut.wgf_pat_subcycle_cnt_i.value
+            subcycles = self.dut.wfg_pat_subcycle_cnt_i.value
             if subcycles == SUBCYCLES_PER_SYNC-2:
-                self.dut.wgf_pat_subcycle_cnt_i.value = subcycles + 1
+                self.dut.wfg_pat_subcycle_cnt_i.value = subcycles + 1
                 self.dut.wfg_pat_sync_i.value = 1
             elif subcycles == SUBCYCLES_PER_SYNC-1:
-                self.dut.wgf_pat_subcycle_cnt_i.value = 0
+                self.dut.wfg_pat_subcycle_cnt_i.value = 0
                 self.dut.wfg_pat_sync_i.value = 0
             else:
-                self.dut.wgf_pat_subcycle_cnt_i.value = subcycles + 1
+                self.dut.wfg_pat_subcycle_cnt_i.value = subcycles + 1
                 self.dut.wfg_pat_sync_i.value = 0
 #========
 

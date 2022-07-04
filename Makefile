@@ -8,12 +8,16 @@ TEMPLATED_FILES := design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv \
                    design/wfg_drive_spi/rtl/wfg_drive_spi_wishbone_reg.sv \
                    design/wfg_drive_pat/rtl/wfg_drive_pat_top.sv \
                    design/wfg_drive_pat/rtl/wfg_drive_pat_wishbone_reg.sv \
+                   design/wfg_interconnect/rtl/wfg_interconnect_top.sv \
+                   design/wfg_interconnect/rtl/wfg_interconnect_wishbone_reg.sv \
                    design/wfg_core/rtl/wfg_core_top.sv \
-                   design/wfg_core/rtl/wfg_core_wishbone_reg.sv
+                   design/wfg_core/rtl/wfg_core_wishbone_reg.sv 
+
 
 DATA_FILES := design/wfg_stim_sine/data/wfg_stim_sine_reg.csv \
               design/wfg_drive_spi/data/wfg_drive_spi_reg.csv \
               design/wfg_drive_pat/data/wfg_drive_pat_reg.csv \
+              design/wfg_interconnect/data/wfg_interconnect_reg.csv \
               design/wfg_core/data/wfg_core_reg.csv
 
 LIBRARIES := $(DATA_FILES:.csv=.json)
@@ -27,8 +31,11 @@ templates: ${TEMPLATED_FILES} ${LIBRARIES}
 unit-tests:
 	cd design/wfg_stim_sine/sim; make sim
 	cd design/wfg_drive_spi/sim; make sim
+	#cd design/wfg_drive_pat/sim; make sim # TODO fix tests
+	cd design/wfg_interconnect/sim; make sim
 	cd design/wfg_core/sim; make sim
 	cd design/wfg_top/sim; make sim
+
 
 lint:
 	verible-verilog-lint --rules=-unpacked-dimensions-range-ordering design/*/*/*.sv
@@ -49,7 +56,7 @@ ulx3s_out.config: ulx3s.json
 	nextpnr-ecp5 --85k --json $< \
 		--lpf fpga/ulx3s/ulx3s_v20.lpf \
 		--package CABGA381 \
-		--textcfg ulx3s_out.config 
+		--textcfg ulx3s_out.config
 
 ulx3s.bit: ulx3s_out.config
 	ecppack ulx3s_out.config ulx3s.bit

@@ -1,0 +1,46 @@
+{
+    "registers": {
+        "CTRL": {
+            "address": "4'h0",
+            "description": "Control register",
+            "entries": {
+                "EN": {
+                    "LSB": "0",
+                    "MSB": "0",
+                    "access": "rw",
+                    "description": "Interconnect enable",
+                    "hardware": "cfg",
+                    "reset": "1'b0"
+                }
+            }
+        },
+        "DRIVER0": {
+            "address": "4'h4",
+            "description": "Driver configuration register",
+            "entries": {
+                "SELECT": {
+                    "LSB": "0",
+                    "MSB": "1",
+                    "access": "rw",
+                    "description": "Select\n0 \u2013 wfg_stim_sine\n1 \u2013 wfg_stim_mem",
+                    "hardware": "cfg",
+                    "reset": "0"
+                }
+            }
+        },
+        "DRIVER1": {
+            "address": "4'h8",
+            "description": "Driver configuration register",
+            "entries": {
+                "SELECT": {
+                    "LSB": "0",
+                    "MSB": "1",
+                    "access": "rw",
+                    "description": "Select\n0 \u2013 wfg_stim_sine\n1 \u2013 wfg_stim_mem",
+                    "hardware": "cfg",
+                    "reset": "0"
+                }
+            }
+        }
+    }
+}
