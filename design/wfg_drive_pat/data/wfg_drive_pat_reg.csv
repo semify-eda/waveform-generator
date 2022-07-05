@@ -1,10 +1,10 @@
 Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
-4'h0,CTRL,,,,,,,Control register
+4'h0,CTRL,,,,,,,Control register for pattern unit
 ,,EN,rw,cfg,31,0,0,Parallel Interface Output enable
-4'h4,CFG,,,,,,,SPI configuration register
+4'h4,CFG,,,,,,,Pattern configuration register
 ,,BEGIN,rw,cfg,7,0,0,"Select at which subcycle the output occurs, binary encoded"
 ,,END,rw,cfg,15,8,0,"Select at which subcycle the transition according to PATSEL occurs, binary encoded"
-4'h8,PATSEL0,,,,,,,Low bit of PATSEL
+4'h8,PATSEL0,,,,,,,Low bits of PATSEL
 ,,LOW,rw,cfg,31,0,0,"Select Output Format
   
    b00: Return to zero (RZ)
@@ -12,7 +12,7 @@ Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
    b10: Non return to one (NRZ)
    B11: Return to complement (RC)
 "
-4'hC,PATSEL1,,,,,,,High bit of PATSEL
+4'hC,PATSEL1,,,,,,,High bits of PATSEL
 ,,HIGH,rw,cfg,31,0,0,"Select Output Format
   
    b00: Return to zero (RZ)

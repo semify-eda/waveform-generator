@@ -1,5 +1,5 @@
 Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
-4'h0,CTRL,,,,,,,ADC control register
+4'h0,CTRL,,,,,,,Control register for SPI unit
 ,,EN,rw,cfg,0,0,1'b0,SPI enable
 4'h4,CFG,,,,,,,SPI configuration register
 ,,CPOL,rw,cfg,0,0,1'b0,"Clock polarity
