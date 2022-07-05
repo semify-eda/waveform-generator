@@ -24,8 +24,8 @@ module wfg_stim_mem_top #(
 
     // Memory interface
     output              csb1,
-    output logic [ 9:0] addr1,
-    input  logic [31:0] dout1
+    output       [ 9:0] addr1,
+    input        [31:0] dout1
 );
     // Registers
     //marker_template_start

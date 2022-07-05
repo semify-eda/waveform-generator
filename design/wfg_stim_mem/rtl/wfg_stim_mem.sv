@@ -17,7 +17,7 @@ module wfg_stim_mem (
 
     // Memory interface
     output              csb1,
-    output logic [ 9:0] addr1,
+    output       [ 9:0] addr1,
     input  logic [31:0] dout1
 );
     logic [15:0] cur_address;
@@ -61,7 +61,7 @@ module wfg_stim_mem (
 
     always_ff @(posedge clk, negedge rst_n) begin
         if (!rst_n) begin
-            cur_address <= start_val_q_i;
+            cur_address <= '0;
             valid <= '0;
             data <= '0;
         end else begin
@@ -80,7 +80,7 @@ module wfg_stim_mem (
                         cur_address <= cur_address + inc_val_q_i;
                     end
 
-                    data  <= dout1;
+                    data <= dout1;
                 end
                 ST_DONE: begin
                     valid <= '1;
