@@ -73,32 +73,32 @@ async def configure_core(dut, wbs, en, sync_count, subcycle_count):
     await set_register(dut, wbs, 0x1, 0x0, en) # Enable
 
 async def configure_interconnect(dut, wbs, en=1, driver0=0, driver1=1):
-    await set_register(dut, wbs, 0x6, 0x4, driver0)
-    await set_register(dut, wbs, 0x6, 0x8, driver1)
-    await set_register(dut, wbs, 0x6, 0x0, en) # Enable
-
-async def configure_stim_sine(dut, wbs, en, inc=0x1000, gain=0x4000, offset=0):
-    await set_register(dut, wbs, 0x2, 0x4, inc)
-    await set_register(dut, wbs, 0x2, 0x8, gain)
-    await set_register(dut, wbs, 0x2, 0xC, offset)
+    await set_register(dut, wbs, 0x2, 0x4, driver0)
+    await set_register(dut, wbs, 0x2, 0x8, driver1)
     await set_register(dut, wbs, 0x2, 0x0, en) # Enable
 
+async def configure_stim_sine(dut, wbs, en, inc=0x1000, gain=0x4000, offset=0):
+    await set_register(dut, wbs, 0x3, 0x4, inc)
+    await set_register(dut, wbs, 0x3, 0x8, gain)
+    await set_register(dut, wbs, 0x3, 0xC, offset)
+    await set_register(dut, wbs, 0x3, 0x0, en) # Enable
+
 async def configure_stim_mem(dut, wbs, en, start, end, inc):
-    await set_register(dut, wbs, 0x5, 0x4, start)
-    await set_register(dut, wbs, 0x5, 0x8, end)
-    await set_register(dut, wbs, 0x5, 0xC, inc)
-    await set_register(dut, wbs, 0x5, 0x0, en) # Enable
+    await set_register(dut, wbs, 0x4, 0x4, start)
+    await set_register(dut, wbs, 0x4, 0x8, end)
+    await set_register(dut, wbs, 0x4, 0xC, inc)
+    await set_register(dut, wbs, 0x4, 0x0, en) # Enable
 
 async def configure_drive_spi(dut, wbs, en=1, cnt=3, cpol=0, lsbfirst=0, dff=0, sspol=0):
-    await set_register(dut, wbs, 0x3, 0x8, cnt) # Clock divider
-    await set_register(dut, wbs, 0x3, 0x4, (cpol<<0) | (lsbfirst<<1) | (dff<<2) | (sspol<<4))
-    await set_register(dut, wbs, 0x3, 0x0, en) # Enable SPI
+    await set_register(dut, wbs, 0x5, 0x8, cnt) # Clock divider
+    await set_register(dut, wbs, 0x5, 0x4, (cpol<<0) | (lsbfirst<<1) | (dff<<2) | (sspol<<4))
+    await set_register(dut, wbs, 0x5, 0x0, en) # Enable SPI
 
 async def configure_drive_pat(dut, wbs, en, pat, begin, end):
-    await set_register(dut, wbs, 0x4, 0x4, (begin & 0xFF) | ((end & 0xFF)<<8))
-    await set_register(dut, wbs, 0x4, 0x8, pat[0])
-    await set_register(dut, wbs, 0x4, 0xC, pat[1])
-    await set_register(dut, wbs, 0x4, 0x0, en) # Enable PAT
+    await set_register(dut, wbs, 0x6, 0x4, (begin & 0xFF) | ((end & 0xFF)<<8))
+    await set_register(dut, wbs, 0x6, 0x8, pat[0])
+    await set_register(dut, wbs, 0x6, 0xC, pat[1])
+    await set_register(dut, wbs, 0x6, 0x0, en) # Enable PAT
 
 async def checkPattern(dut, start, end, inc):
 

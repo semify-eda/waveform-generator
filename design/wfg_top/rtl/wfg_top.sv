@@ -48,11 +48,13 @@ module wfg_top #(
 
     // Nothing should be assigned to the null page
     assign wfg_core_sel      = (io_wbs_adr[BUSW-1:4] == 28'h01);  // 0x10
-    assign wfg_stim_sine_sel = (io_wbs_adr[BUSW-1:4] == 28'h02);  // 0x20
-    assign wfg_drive_spi_sel = (io_wbs_adr[BUSW-1:4] == 28'h03);  // 0x30
-    assign wfg_drive_pat_sel = (io_wbs_adr[BUSW-1:4] == 28'h04);  // 0x40
-    assign wfg_stim_mem_sel  = (io_wbs_adr[BUSW-1:4] == 28'h05);  // 0x50
-    assign wfg_intercnct_sel = (io_wbs_adr[BUSW-1:4] == 28'h06);  // 0x60
+    assign wfg_intercnct_sel = (io_wbs_adr[BUSW-1:4] == 28'h02);  // 0x20
+    assign wfg_stim_sine_sel = (io_wbs_adr[BUSW-1:4] == 28'h03);  // 0x30
+    assign wfg_stim_mem_sel  = (io_wbs_adr[BUSW-1:4] == 28'h04);  // 0x40
+    assign wfg_drive_spi_sel = (io_wbs_adr[BUSW-1:4] == 28'h05);  // 0x50
+    assign wfg_drive_pat_sel = (io_wbs_adr[BUSW-1:4] == 28'h06);  // 0x60
+
+
 
     // Acknowledgement
     logic wfg_core_ack;
