@@ -1,6 +1,7 @@
 default: build
 
-CPU_TYPE = vexriscv
+#CPU_TYPE = vexriscv
+CPU_TYPE = femtorv
 
 firmware/firmware_sim.bin:
 	cd firmware; make -f sim.make clean; make -f sim.make
