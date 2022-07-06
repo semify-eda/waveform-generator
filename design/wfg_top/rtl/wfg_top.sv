@@ -32,9 +32,9 @@ module wfg_top #(
     output [31:0] wfg_drive_pat_dout_o,
 
     // Memory interface
-    output              csb1,
-    output       [ 9:0] addr1,
-    input        [31:0] dout1
+    output        csb1,
+    output [ 9:0] addr1,
+    input  [31:0] dout1
 );
     // Wishbone interconnect
 

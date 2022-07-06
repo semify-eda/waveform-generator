@@ -54,7 +54,7 @@
         },
         "CTRL": {
             "address": "4'h0",
-            "description": "ADC control register",
+            "description": "Control register for SPI unit",
             "entries": {
                 "EN": {
                     "LSB": "0",

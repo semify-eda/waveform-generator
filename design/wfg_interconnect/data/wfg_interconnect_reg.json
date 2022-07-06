@@ -2,7 +2,7 @@
     "registers": {
         "CTRL": {
             "address": "4'h0",
-            "description": "Control register",
+            "description": "Control register for interconnect",
             "entries": {
                 "EN": {
                     "LSB": "0",

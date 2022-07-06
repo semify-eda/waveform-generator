@@ -83,10 +83,10 @@ async def configure_stim_sine(dut, wbs, en, inc=0x1000, gain=0x4000, offset=0):
     await set_register(dut, wbs, 0x3, 0xC, offset)
     await set_register(dut, wbs, 0x3, 0x0, en) # Enable
 
-async def configure_stim_mem(dut, wbs, en, start, end, inc):
+async def configure_stim_mem(dut, wbs, en, start=0x0000, end=0x00FF, inc=0x01, gain=0x0001):
     await set_register(dut, wbs, 0x4, 0x4, start)
     await set_register(dut, wbs, 0x4, 0x8, end)
-    await set_register(dut, wbs, 0x4, 0xC, inc)
+    await set_register(dut, wbs, 0x4, 0xC, gain<<8 | inc)
     await set_register(dut, wbs, 0x4, 0x0, en) # Enable
 
 async def configure_drive_spi(dut, wbs, en=1, cnt=3, cpol=0, lsbfirst=0, dff=0, sspol=0):
@@ -100,7 +100,7 @@ async def configure_drive_pat(dut, wbs, en, pat, begin, end):
     await set_register(dut, wbs, 0x6, 0xC, pat[1])
     await set_register(dut, wbs, 0x6, 0x0, en) # Enable PAT
 
-async def checkPattern(dut, start, end, inc):
+async def checkPattern(dut, start, end, inc, gain):
 
     cur_address = start
 
@@ -111,7 +111,7 @@ async def checkPattern(dut, start, end, inc):
         
         dut._log.info(f"Test: {cur_address} == {value}")
         
-        #assert(cur_address == value)
+        assert(cur_address*gain == value)
         
         cur_address += inc
         
@@ -180,7 +180,7 @@ async def top_test(dut):
     dut._log.info("Configure stim_sine")
     await configure_stim_sine(dut, wbs, en=1, inc=sine_inc, gain=sine_gain, offset=sine_offset)
     dut._log.info("Configure stim_mem")
-    await configure_stim_mem(dut, wbs, en=1, start=0x0000, end=0x000F, inc=0x01)
+    await configure_stim_mem(dut, wbs, en=1, start=0x0000, end=0x000F, inc=0x01, gain=0x0001)
     dut._log.info("Configure drive_spi")
     await configure_drive_spi(dut, wbs, en=1, cnt=cnt, cpol=cpol, lsbfirst=lsbfirst, dff=dff, sspol=sspol)
     dut._log.info("Configure drive_pat")
@@ -188,7 +188,7 @@ async def top_test(dut):
     await configure_drive_pat(dut, wbs, en=0xFFFFFFFF, pat=pat, begin=0, end=8)
 
     # Check pattern
-    cocotb.start_soon(checkPattern(dut, start=0x0000, end=0x000F, inc=0x01))
+    cocotb.start_soon(checkPattern(dut, start=0x0000, end=0x000F, inc=0x01, gain=0x0001))
 
     while len(spi_slave.values) < num_spi_values:
         await short_per

@@ -23,9 +23,10 @@ module wfg_stim_mem_wishbone_reg #(
     //template: wishbone/register_interface.template
     //marker_template_code
 
+    output logic [24:8] cfg_gain_q_o,  // CFG.GAIN register output
+    output logic [ 7:0] cfg_inc_q_o,   // CFG.INC register output
     output logic        ctrl_en_q_o,   // CTRL.EN register output
     output logic [15:0] end_val_q_o,   // END.VAL register output
-    output logic [ 7:0] inc_val_q_o,   // INC.VAL register output
     output logic [15:0] start_val_q_o  // START.VAL register output
 
     //marker_template_end
@@ -36,9 +37,10 @@ module wfg_stim_mem_wishbone_reg #(
     //template: wishbone/instantiate_registers.template
     //marker_template_code
 
+    logic [24: 8] cfg_gain_ff;             // CFG.GAIN FF
+    logic [ 7: 0] cfg_inc_ff;              // CFG.INC FF
     logic         ctrl_en_ff;              // CTRL.EN FF
     logic [15: 0] end_val_ff;              // END.VAL FF
-    logic [ 7: 0] inc_val_ff;              // INC.VAL FF
     logic [15: 0] start_val_ff;            // START.VAL FF
 
     //marker_template_end
@@ -51,9 +53,10 @@ module wfg_stim_mem_wishbone_reg #(
             //template: wishbone/reset_registers.template
             //marker_template_code
 
+            cfg_gain_ff  <= 8'h01;
+            cfg_inc_ff   <= 8'h01;
             ctrl_en_ff   <= 1'b0;
             end_val_ff   <= 0;
-            inc_val_ff   <= 8'h01;
             start_val_ff <= 0;
 
             //marker_template_end
@@ -64,9 +67,12 @@ module wfg_stim_mem_wishbone_reg #(
                 //template: wishbone/assign_to_registers.template
                 //marker_template_code
 
+                4'hC: begin
+                    cfg_gain_ff <= wbs_dat_i[24:8];
+                    cfg_inc_ff  <= wbs_dat_i[7:0];
+                end
                 4'h0:       ctrl_en_ff               <= wbs_dat_i[ 0: 0];
                 4'h8:       end_val_ff               <= wbs_dat_i[15: 0];
-                4'hC:       inc_val_ff               <= wbs_dat_i[ 7: 0];
                 4'h4:       start_val_ff             <= wbs_dat_i[15: 0];
 
                 //marker_template_end
@@ -89,9 +95,12 @@ module wfg_stim_mem_wishbone_reg #(
                     //template: wishbone/assign_from_registers.template
                     //marker_template_code
 
+                    4'hC: begin
+                        wbs_dat_o[24:8] <= cfg_gain_ff;
+                        wbs_dat_o[7:0]  <= cfg_inc_ff;
+                    end
                     4'h0:       wbs_dat_o[ 0: 0] <= ctrl_en_ff;
                     4'h8:       wbs_dat_o[15: 0] <= end_val_ff;
-                    4'hC:       wbs_dat_o[ 7: 0] <= inc_val_ff;
                     4'h4:       wbs_dat_o[15: 0] <= start_val_ff;
 
                     //marker_template_end
@@ -112,9 +121,10 @@ module wfg_stim_mem_wishbone_reg #(
     //template: wishbone/assign_outputs.template
     //marker_template_code
 
+    assign cfg_gain_q_o  = cfg_gain_ff;
+    assign cfg_inc_q_o   = cfg_inc_ff;
     assign ctrl_en_q_o   = ctrl_en_ff;
     assign end_val_q_o   = end_val_ff;
-    assign inc_val_q_o   = inc_val_ff;
     assign start_val_q_o = start_val_ff;
 
     //marker_template_end

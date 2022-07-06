@@ -1,5 +1,27 @@
 {
     "registers": {
+        "CFG": {
+            "address": "4'hC",
+            "description": "Increment register",
+            "entries": {
+                "GAIN": {
+                    "LSB": "8",
+                    "MSB": "24",
+                    "access": "rw",
+                    "description": "Gain value",
+                    "hardware": "cfg",
+                    "reset": "8'h01"
+                },
+                "INC": {
+                    "LSB": "0",
+                    "MSB": "7",
+                    "access": "rw",
+                    "description": "Increment the address with value",
+                    "hardware": "cfg",
+                    "reset": "8'h01"
+                }
+            }
+        },
         "CTRL": {
             "address": "4'h0",
             "description": "Control register for memory unit",
@@ -25,20 +47,6 @@
                     "description": "Address end value",
                     "hardware": "cfg",
                     "reset": "0"
-                }
-            }
-        },
-        "INC": {
-            "address": "4'hC",
-            "description": "Increment register",
-            "entries": {
-                "VAL": {
-                    "LSB": "0",
-                    "MSB": "7",
-                    "access": "rw",
-                    "description": "Increment the address with value",
-                    "hardware": "cfg",
-                    "reset": "8'h01"
                 }
             }
         },

@@ -2,7 +2,7 @@
     "registers": {
         "CFG": {
             "address": "4'h4",
-            "description": "SPI configuration register",
+            "description": "Pattern configuration register",
             "entries": {
                 "BEGIN": {
                     "LSB": "0",
@@ -24,7 +24,7 @@
         },
         "CTRL": {
             "address": "4'h0",
-            "description": "Control register",
+            "description": "Control register for pattern unit",
             "entries": {
                 "EN": {
                     "LSB": "0",
@@ -38,7 +38,7 @@
         },
         "PATSEL0": {
             "address": "4'h8",
-            "description": "Low bit of PATSEL",
+            "description": "Low bits of PATSEL",
             "entries": {
                 "LOW": {
                     "LSB": "0",
@@ -52,7 +52,7 @@
         },
         "PATSEL1": {
             "address": "4'hC",
-            "description": "High bit of PATSEL",
+            "description": "High bits of PATSEL",
             "entries": {
                 "HIGH": {
                     "LSB": "0",

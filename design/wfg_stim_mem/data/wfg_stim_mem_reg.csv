@@ -5,5 +5,6 @@ Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
 ,,VAL,rw,cfg,15,0,0,Address start value
 4'h8,END,,,,,,,End register
 ,,VAL,rw,cfg,15,0,0,Address end value
-4'hC,INC,,,,,,,Increment register
-,,VAL,rw,cfg,7,0,8'h01,Increment the address with value
+4'hC,CFG,,,,,,,Increment register
+,,INC,rw,cfg,7,0,8'h01,Increment the address with value
+,,GAIN,rw,cfg,24,8,8'h01,Gain value

@@ -26,14 +26,14 @@ async def set_register(dut, wbs, peripheral_address, address, data):
     rvalues = [wb.datrd for wb in wbRes]
     dut._log.info(f"Returned values : {rvalues}")
 
-async def configure_stim_mem(dut, wbs, en, start=0x0000, end=0x0000, inc=0x01):
+async def configure_stim_mem(dut, wbs, en, start=0x0000, end=0x0000, inc=0x01, gain=0x0001):
     await set_register(dut, wbs, 0x0, 0x4, start)
     await set_register(dut, wbs, 0x0, 0x8, end)
-    await set_register(dut, wbs, 0x0, 0xC, inc)
+    await set_register(dut, wbs, 0x0, 0xC, gain<<8 | inc)
     await set_register(dut, wbs, 0x0, 0x0, en) # Enable
 
 @cocotb.coroutine
-async def mem_test(dut, start=0x0000, end=0x0000, inc=0x01):
+async def mem_test(dut, start=0x0000, end=0x0000, inc=0x01, gain=0x0001):
     cocotb.start_soon(Clock(dut.io_wbs_clk, 10, units="ns").start())
 
     dut._log.info("Initialize and reset model")
@@ -55,7 +55,7 @@ async def mem_test(dut, start=0x0000, end=0x0000, inc=0x01):
     await short_per
     
     dut._log.info("Configure stim_mem")
-    await configure_stim_mem(dut, wbs, en=1, start=start, end=end, inc=inc)
+    await configure_stim_mem(dut, wbs, en=1, start=start, end=end, inc=inc, gain=gain)
 
     cur_address = start
 
@@ -66,7 +66,7 @@ async def mem_test(dut, start=0x0000, end=0x0000, inc=0x01):
         
         dut._log.info(f"Test: {cur_address} == {value}")
         
-        assert(cur_address == value)
+        assert(cur_address*gain == value)
         
         cur_address += inc
         
@@ -78,5 +78,6 @@ factory = TestFactory(mem_test)
 factory.add_option("start", [0x0000, 0x0010])
 factory.add_option("end", [0x0005, 0x001F])
 factory.add_option("inc", [0x01, 0x02])
+factory.add_option("gain", [0x01, 0x04])
 
 factory.generate_tests()

@@ -23,9 +23,9 @@ module wfg_stim_mem_top #(
     output [31:0] wfg_axis_tdata_o,
 
     // Memory interface
-    output              csb1,
-    output       [ 9:0] addr1,
-    input        [31:0] dout1
+    output        csb1,
+    output [ 9:0] addr1,
+    input  [31:0] dout1
 );
     // Registers
     //marker_template_start
@@ -33,9 +33,10 @@ module wfg_stim_mem_top #(
     //template: wishbone/instantiate_top.template
     //marker_template_code
 
+    logic [24: 8] cfg_gain_q;              // CFG.GAIN register output
+    logic [ 7: 0] cfg_inc_q;               // CFG.INC register output
     logic         ctrl_en_q;               // CTRL.EN register output
     logic [15: 0] end_val_q;               // END.VAL register output
-    logic [ 7: 0] inc_val_q;               // INC.VAL register output
     logic [15: 0] start_val_q;             // START.VAL register output
 
     //marker_template_end
@@ -57,9 +58,10 @@ module wfg_stim_mem_top #(
         //template: wishbone/assign_to_module.template
         //marker_template_code
 
+        .cfg_gain_q_o (cfg_gain_q),  // CFG.GAIN register output
+        .cfg_inc_q_o  (cfg_inc_q),   // CFG.INC register output
         .ctrl_en_q_o  (ctrl_en_q),   // CTRL.EN register output
         .end_val_q_o  (end_val_q),   // END.VAL register output
-        .inc_val_q_o  (inc_val_q),   // INC.VAL register output
         .start_val_q_o(start_val_q)  // START.VAL register output
 
         //marker_template_end
@@ -73,8 +75,9 @@ module wfg_stim_mem_top #(
         .wfg_axis_tdata_o (wfg_axis_tdata_o),   // mem output   - AXI
         .ctrl_en_q_i      (ctrl_en_q),          // enable/disable
         .end_val_q_i      (end_val_q),
-        .inc_val_q_i      (inc_val_q),
         .start_val_q_i    (start_val_q),
+        .cfg_inc_q_i      (cfg_inc_q),
+        .cfg_gain_q_i     (cfg_gain_q),
         .csb1             (csb1),
         .addr1            (addr1),
         .dout1            (dout1)
