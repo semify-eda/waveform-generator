@@ -6,7 +6,7 @@
             "entries": {
                 "GAIN": {
                     "LSB": "8",
-                    "MSB": "24",
+                    "MSB": "23",
                     "access": "rw",
                     "description": "Gain value",
                     "hardware": "cfg",

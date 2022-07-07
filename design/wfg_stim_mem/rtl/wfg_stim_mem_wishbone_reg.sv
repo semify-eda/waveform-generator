@@ -23,7 +23,7 @@ module wfg_stim_mem_wishbone_reg #(
     //template: wishbone/register_interface.template
     //marker_template_code
 
-    output logic [24:8] cfg_gain_q_o,  // CFG.GAIN register output
+    output logic [23:8] cfg_gain_q_o,  // CFG.GAIN register output
     output logic [ 7:0] cfg_inc_q_o,   // CFG.INC register output
     output logic        ctrl_en_q_o,   // CTRL.EN register output
     output logic [15:0] end_val_q_o,   // END.VAL register output
@@ -37,7 +37,7 @@ module wfg_stim_mem_wishbone_reg #(
     //template: wishbone/instantiate_registers.template
     //marker_template_code
 
-    logic [24: 8] cfg_gain_ff;             // CFG.GAIN FF
+    logic [23: 8] cfg_gain_ff;             // CFG.GAIN FF
     logic [ 7: 0] cfg_inc_ff;              // CFG.INC FF
     logic         ctrl_en_ff;              // CTRL.EN FF
     logic [15: 0] end_val_ff;              // END.VAL FF
@@ -68,7 +68,7 @@ module wfg_stim_mem_wishbone_reg #(
                 //marker_template_code
 
                 4'hC: begin
-                    cfg_gain_ff <= wbs_dat_i[24:8];
+                    cfg_gain_ff <= wbs_dat_i[23:8];
                     cfg_inc_ff  <= wbs_dat_i[7:0];
                 end
                 4'h0:       ctrl_en_ff               <= wbs_dat_i[ 0: 0];
@@ -96,7 +96,7 @@ module wfg_stim_mem_wishbone_reg #(
                     //marker_template_code
 
                     4'hC: begin
-                        wbs_dat_o[24:8] <= cfg_gain_ff;
+                        wbs_dat_o[23:8] <= cfg_gain_ff;
                         wbs_dat_o[7:0]  <= cfg_inc_ff;
                     end
                     4'h0:       wbs_dat_o[ 0: 0] <= ctrl_en_ff;

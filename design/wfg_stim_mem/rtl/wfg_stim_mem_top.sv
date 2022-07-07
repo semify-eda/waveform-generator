@@ -33,7 +33,7 @@ module wfg_stim_mem_top #(
     //template: wishbone/instantiate_top.template
     //marker_template_code
 
-    logic [24: 8] cfg_gain_q;              // CFG.GAIN register output
+    logic [23: 8] cfg_gain_q;              // CFG.GAIN register output
     logic [ 7: 0] cfg_inc_q;               // CFG.INC register output
     logic         ctrl_en_q;               // CTRL.EN register output
     logic [15: 0] end_val_q;               // END.VAL register output
