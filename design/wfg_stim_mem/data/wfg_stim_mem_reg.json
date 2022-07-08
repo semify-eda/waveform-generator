@@ -2,7 +2,7 @@
     "registers": {
         "CFG": {
             "address": "4'hC",
-            "description": "Increment register",
+            "description": "Configuration register",
             "entries": {
                 "GAIN": {
                     "LSB": "8",
