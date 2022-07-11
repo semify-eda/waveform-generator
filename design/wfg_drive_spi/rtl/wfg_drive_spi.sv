@@ -9,8 +9,8 @@ module wfg_drive_spi #(
     input logic rst_n, // I; active low reset
 
     // Core synchronisation interface
-    input logic wfg_pat_sync_i,     // I; Sync pulse
-    input logic wfg_pat_subcycle_i, // I; Subcycle pulse
+    input logic wfg_core_sync_i,     // I; Sync pulse
+    input logic wfg_core_subcycle_i, // I; Subcycle pulse
 
     // AXI streaming interface
     output logic                       wfg_axis_tready_o,  // O; ready
@@ -68,7 +68,7 @@ module wfg_drive_spi #(
         next_state = cur_state;
         case (cur_state)
             ST_IDLE: begin
-                if (wfg_pat_sync_i && wfg_axis_tvalid_i && ctrl_en_q_i) next_state = ST_SEND_DATA;
+                if (wfg_core_sync_i && wfg_axis_tvalid_i && ctrl_en_q_i) next_state = ST_SEND_DATA;
             end
             ST_SEND_DATA: begin
                 if (counter == 0 && current_bit == 0 && spi_clk) begin

@@ -19,16 +19,16 @@ short_per = Timer(100, units="ns")
 long_time = Timer(100, units="us")
 
 async def drive_sync(dut):
-    dut.wfg_pat_sync_i.value = 0
+    dut.wfg_core_sync_i.value = 0
     sync_cnt = 0
     while True:
         await RisingEdge(dut.io_wbs_clk)
         if sync_cnt == CLK_PER_SYNC-1:
             sync_cnt = 0
-            dut.wfg_pat_sync_i.value = 1
+            dut.wfg_core_sync_i.value = 1
         else:
             sync_cnt = sync_cnt + 1
-            dut.wfg_pat_sync_i.value = 0
+            dut.wfg_core_sync_i.value = 0
 
 async def set_register(dut, wbs, address, data):
     dut._log.info(f"Set register {address} : {data}")
@@ -122,7 +122,7 @@ async def spi_test(dut, en, cnt, cpol, lsbfirst, dff, sspol):
     await short_per
     await short_per
     
-    #await RisingEdge(dut.wfg_pat_sync_i)
+    #await RisingEdge(dut.wfg_core_sync_i)
 
     axis_source = AxiStreamSource(AxiStreamBus.from_prefix(dut, "wfg_axis"), dut.io_wbs_clk, dut.io_wbs_rst)
 
@@ -137,7 +137,7 @@ async def spi_test(dut, en, cnt, cpol, lsbfirst, dff, sspol):
         # wait for operation to complete
         await axis_source.wait()
 
-        await RisingEdge(dut.wfg_pat_sync_i)
+        await RisingEdge(dut.wfg_core_sync_i)
 
         await short_per
         

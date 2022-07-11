@@ -18,10 +18,10 @@ module wfg_core_top #(
     output [  (BUSW-1):0] wbs_dat_o,
 
     // Core synchronisation interface
-    output wire       wfg_pat_sync_o,          // O; Sync signal
-    output wire       wfg_pat_subcycle_o,      // O; Subcycle signal
-    output wire       wfg_pat_start_o,         // O; Indicate start
-    output wire [7:0] wfg_pat_subcycle_cnt_o,  // O; Subcycle pulse counter
+    output wire       wfg_core_sync_o,          // O; Sync signal
+    output wire       wfg_core_subcycle_o,      // O; Subcycle signal
+    output wire       wfg_core_start_o,         // O; Indicate start
+    output wire [7:0] wfg_core_subcycle_cnt_o,  // O; Subcycle pulse counter
     output wire       active_o                 // O; Active indication signal
 );
     // Registers
@@ -72,10 +72,10 @@ module wfg_core_top #(
         .wfg_subcycle_count_i(cfg_subcycle_q), // I: Subcycle counter threshold
 
         // Output
-        .wfg_pat_sync_o        (wfg_pat_sync_o),          // O; Sync signal
-        .wfg_pat_subcycle_o    (wfg_pat_subcycle_o),      // O; Subcycle signal
-        .wfg_pat_start_o       (wfg_pat_start_o),         // O; Indicate start
-        .wfg_pat_subcycle_cnt_o(wfg_pat_subcycle_cnt_o),  // O; Subcycle pulse counter
+        .wfg_core_sync_o        (wfg_core_sync_o),          // O; Sync signal
+        .wfg_core_subcycle_o    (wfg_core_subcycle_o),      // O; Subcycle signal
+        .wfg_core_start_o       (wfg_core_start_o),         // O; Indicate start
+        .wfg_core_subcycle_cnt_o(wfg_core_subcycle_cnt_o),  // O; Subcycle pulse counter
         .active_o              (active_o)                 // O; Active indication signal
     );
 

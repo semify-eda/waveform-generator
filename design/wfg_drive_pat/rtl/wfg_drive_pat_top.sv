@@ -20,8 +20,8 @@ module wfg_drive_pat_top #(
     output [  (BUSW-1):0] wbs_dat_o,
 
     // Core synchronisation interface
-    input wire        wfg_pat_sync_i,         // I; pat_sync pulse
-    input logic [7:0] wfg_pat_subcycle_cnt_i, // I; subcycle_cnt
+    input wire        wfg_core_sync_i,         // I; pat_sync pulse
+    input logic [7:0] wfg_core_subcycle_cnt_i, // I; subcycle_cnt
 
     // AXI-Stream interface
     output wire wfg_axis_tready_o,
@@ -80,8 +80,8 @@ module wfg_drive_pat_top #(
         .rst_n(!wb_rst_i), // reset signal
 
         // Core synchronisation interface
-        .pat_sync_i        (wfg_pat_sync_i),
-        .pat_subcycle_cnt_i(wfg_pat_subcycle_cnt_i),
+        .wfg_core_sync_i        (wfg_core_sync_i),
+        .wfg_core_subcycle_cnt_i(wfg_core_subcycle_cnt_i),
 
         // AXI streaming interface
         .wfg_axis_tready_o(wfg_axis_tready_o),  // O; ready

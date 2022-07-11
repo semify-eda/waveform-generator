@@ -100,20 +100,20 @@ class Testbench(object):
         cocotb.fork(self.drive_subcycles())  # count subcycles
 
     async def drive_subcycles(self):
-        self.dut.wfg_pat_subcycle_cnt_i.value = 0
-        self.dut.wfg_pat_sync_i.value = 1
+        self.dut.wfg_core_subcycle_cnt_i.value = 0
+        self.dut.wfg_core_sync_i.value = 1
         while True:
             await RisingEdge(self.dut.io_wbs_clk)
             subcycles = self.dut.wfg_pat_subcycle_cnt_i.value
             if subcycles == SUBCYCLES_PER_SYNC-2:
-                self.dut.wfg_pat_subcycle_cnt_i.value = subcycles + 1
-                self.dut.wfg_pat_sync_i.value = 1
+                self.dut.wfg_core_subcycle_cnt_i.value = subcycles + 1
+                self.dut.wfg_core_sync_i.value = 1
             elif subcycles == SUBCYCLES_PER_SYNC-1:
-                self.dut.wfg_pat_subcycle_cnt_i.value = 0
-                self.dut.wfg_pat_sync_i.value = 0
+                self.dut.wfg_core_subcycle_cnt_i.value = 0
+                self.dut.wfg_core_sync_i.value = 0
             else:
-                self.dut.wfg_pat_subcycle_cnt_i.value = subcycles + 1
-                self.dut.wfg_pat_sync_i.value = 0
+                self.dut.wfg_core_subcycle_cnt_i.value = subcycles + 1
+                self.dut.wfg_core_sync_i.value = 0
 #========
 
 def make_expected_output(dut, input, out_begin, out_end, pat_select_i, en_i):
@@ -223,7 +223,7 @@ async def run_test(dut, en=None, pat=None, begin=None, end=None, inputlen=None):
 
         await configure(dut, wbs, en=en, pat=pat, begin=begin, end=end)
 
-        await FallingEdge(dut.wfg_pat_sync_i) # TODO
+        await FallingEdge(dut.wfg_core_sync_i) # TODO
         
         output_mon = OutputMonitor(dut)
         

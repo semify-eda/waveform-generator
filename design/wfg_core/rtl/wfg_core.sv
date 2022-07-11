@@ -12,10 +12,10 @@ module wfg_core (
     input wire [15:0] wfg_subcycle_count_i, // I; Subcycle counter threshold
 
     // Signals
-    output wire       wfg_pat_sync_o,          // O; Sync signal
-    output wire       wfg_pat_subcycle_o,      // O; Subcycle signal
-    output wire       wfg_pat_start_o,         // O; Indicate start
-    output wire [7:0] wfg_pat_subcycle_cnt_o,  // O; Subcycle pulse counter
+    output wire       wfg_core_sync_o,          // O; Sync signal
+    output wire       wfg_core_subcycle_o,      // O; Subcycle signal
+    output wire       wfg_core_start_o,         // O; Indicate start
+    output wire [7:0] wfg_core_subcycle_cnt_o,  // O; Subcycle pulse counter
     output wire       active_o                 // O; Active indication signal
 );
 
@@ -23,14 +23,14 @@ module wfg_core (
     // Definition
     // -------------------------------------------------------------------------
 
-    reg [15:0]   subcycle_count_ff;   // L; counting variable
-    reg [ 7:0]   sync_count_ff;       // L; counting variable
-    reg        temp_subcycle_ff;    // L; Internal subcycle_ff
-    reg        temp_sync_ff;        // L; Internal subcycle_ff
-    reg        subcycle_dly;        // L; Rising edge det subcycle
-    reg        sync_dly;            // L; Rising edge det sync
-    reg        en_i_dly;            // L; Rising edge det enable
-    reg [ 7:0]   subcycle_pls_cnt;    // L; Counts Subcycles
+    logic [15:0]   subcycle_count;   // L; counting variable
+    logic [ 7:0]   sync_count;       // L; counting variable
+    logic        temp_subcycle;    // L; Internal subcycle
+    logic        temp_sync;        // L; Internal subcycle
+    logic        subcycle_dly;        // L; Rising edge det subcycle
+    logic        sync_dly;            // L; Rising edge det sync
+    logic        en_i_dly;            // L; Rising edge det enable
+    logic [ 7:0]   subcycle_pls_cnt;    // L; Counts Subcycles
 
     // -------------------------------------------------------------------------
     // Implementation
@@ -39,49 +39,49 @@ module wfg_core (
     always @(posedge clk, negedge rst_n) begin
 
         if (~rst_n) begin
-            subcycle_count_ff <= 16'd0;
-            sync_count_ff    <=  8'd0;
-            temp_subcycle_ff <=  1'b0;
-            temp_sync_ff    <=  1'b0;
+            subcycle_count <= 16'd0;
+            sync_count    <=  8'd0;
+            temp_subcycle <=  1'b0;
+            temp_sync    <=  1'b0;
             subcycle_pls_cnt  <=  8'd0;
         end else begin
 
             if (en_i) begin
 
-                if (subcycle_count_ff > 0) begin
-                    temp_subcycle_ff  <= temp_subcycle_ff;
-                    subcycle_count_ff <= subcycle_count_ff - 1;
+                if (subcycle_count > 0) begin
+                    temp_subcycle  <= temp_subcycle;
+                    subcycle_count <= subcycle_count - 1;
                 end else begin
-                    temp_subcycle_ff  <= ~temp_subcycle_ff;
-                    subcycle_count_ff <= (wfg_subcycle_count_i);
+                    temp_subcycle  <= ~temp_subcycle;
+                    subcycle_count <= (wfg_subcycle_count_i);
 
-                    if (sync_count_ff > 0) begin
-                        temp_sync_ff  <= temp_sync_ff;
-                        sync_count_ff <= sync_count_ff - 1;
+                    if (sync_count > 0) begin
+                        temp_sync  <= temp_sync;
+                        sync_count <= sync_count - 1;
                     end else begin
-                        temp_sync_ff  <= ~temp_sync_ff;
-                        sync_count_ff <= (wfg_sync_count_i);
+                        temp_sync  <= ~temp_sync;
+                        sync_count <= (wfg_sync_count_i);
                     end
 
                 end
 
-                if (wfg_pat_subcycle_o) begin
+                if (wfg_core_subcycle_o) begin
                     subcycle_pls_cnt <= subcycle_pls_cnt + 1;
                 end
 
             end else begin
-                subcycle_count_ff <= 8'd0;
-                sync_count_ff     <= 8'd0;
-                temp_subcycle_ff  <= 1'b0;
-                temp_sync_ff      <= 1'b0;
+                subcycle_count <= 8'd0;
+                sync_count     <= 8'd0;
+                temp_subcycle  <= 1'b0;
+                temp_sync      <= 1'b0;
                 subcycle_pls_cnt  <= 8'd0;
             end
 
-            subcycle_dly <= temp_subcycle_ff;
-            sync_dly     <= temp_sync_ff;
+            subcycle_dly <= temp_subcycle;
+            sync_dly     <= temp_sync;
             en_i_dly     <= en_i;
 
-            if (wfg_pat_sync_o) begin
+            if (wfg_core_sync_o) begin
                 subcycle_pls_cnt <= 8'd0;
             end
 
@@ -89,11 +89,11 @@ module wfg_core (
 
     end
 
-    assign wfg_pat_subcycle_o     = temp_subcycle_ff & ~subcycle_dly;
-    assign wfg_pat_sync_o         = temp_sync_ff & ~sync_dly;
+    assign wfg_core_subcycle_o     = temp_subcycle & ~subcycle_dly;
+    assign wfg_core_sync_o         = temp_sync & ~sync_dly;
     assign active_o               = en_i;
-    assign wfg_pat_start_o        = en_i & ~en_i_dly;
-    assign wfg_pat_subcycle_cnt_o = subcycle_pls_cnt;
+    assign wfg_core_start_o        = en_i & ~en_i_dly;
+    assign wfg_core_subcycle_cnt_o = subcycle_pls_cnt;
 
 endmodule
 `default_nettype wire

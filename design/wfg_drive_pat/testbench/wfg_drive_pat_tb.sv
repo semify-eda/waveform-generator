@@ -26,8 +26,8 @@ module wfg_drive_pat_tb #(
     input               io_wbs_cyc,
 
     // Core synchronisation interface
-    input logic wfg_pat_sync_i,
-    input logic [7:0] wfg_pat_subcycle_cnt_i,
+    input logic wfg_core_sync_i,
+    input logic [7:0] wfg_core_subcycle_cnt_i,
 
     // AXI-Stream interface
     output wire                        wfg_axis_tready,  // O; ready
@@ -56,8 +56,8 @@ module wfg_drive_pat_tb #(
         .wbs_ack_o(io_wbs_ack),
         .wbs_dat_o(io_wbs_datrd),
 
-        .wfg_pat_sync_i(wfg_pat_sync_i),
-        .wfg_pat_subcycle_cnt_i(wfg_pat_subcycle_cnt_i),
+        .wfg_core_sync_i(wfg_core_sync_i),
+        .wfg_core_subcycle_cnt_i(wfg_core_subcycle_cnt_i),
 
         .wfg_axis_tready_o(wfg_axis_tready),
         .wfg_axis_tdata_i (wfg_axis_tdata),

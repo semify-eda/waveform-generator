@@ -57,17 +57,17 @@ async def core_test(dut, en, sync_count, subcycle_count):
     sync_pulse_count = 0
     clk_count = 0
     
-    await FallingEdge(dut.wfg_pat_sync_o)
+    await FallingEdge(dut.wfg_core_sync_o)
 
     for i in range ((sync_count + 1) * (subcycle_count + 1) * 3):
         await ClockCycles(dut.io_wbs_clk, 1)
         clk_count += 1
    
-        if dut.wfg_pat_sync_o == 1:
+        if dut.wfg_core_sync_o == 1:
             assert ((sync_pulse_count+1) * clk_count) == ((sync_count + 1) * (subcycle_count + 1) * 2)
             break
             
-        if (dut.wfg_pat_subcycle_o == 1):
+        if (dut.wfg_core_subcycle_o == 1):
             sync_pulse_count += 1
             clk_count = 0
 

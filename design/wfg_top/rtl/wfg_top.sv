@@ -98,10 +98,10 @@ module wfg_top #(
     assign io_wbs_datrd = my_io_wbs_datrd;
 
     // Core synchronisation interface
-    logic wfg_pat_sync;
-    logic wfg_pat_subcycle;
-    logic wfg_pat_start;
-    logic [7:0] wfg_pat_subcycle_cnt;
+    logic wfg_core_sync;
+    logic wfg_core_subcycle;
+    logic wfg_core_start;
+    logic [7:0] wfg_core_subcycle_cnt;
     logic active;
 
     wfg_core_top wfg_core_top (
@@ -116,10 +116,10 @@ module wfg_top #(
         .wbs_ack_o(wfg_core_ack),
         .wbs_dat_o(wfg_core_data),
 
-        .wfg_pat_sync_o        (wfg_pat_sync),
-        .wfg_pat_subcycle_o    (wfg_pat_subcycle),
-        .wfg_pat_start_o       (wfg_pat_start),
-        .wfg_pat_subcycle_cnt_o(wfg_pat_subcycle_cnt),
+        .wfg_core_sync_o        (wfg_core_sync),
+        .wfg_core_subcycle_o    (wfg_core_subcycle),
+        .wfg_core_start_o       (wfg_core_start),
+        .wfg_core_subcycle_cnt_o(wfg_core_subcycle_cnt),
         .active_o              (active)
     );
 
@@ -209,8 +209,8 @@ module wfg_top #(
         .wbs_ack_o(wfg_drive_spi_ack),
         .wbs_dat_o(wfg_drive_spi_data),
 
-        .wfg_pat_sync_i    (wfg_pat_sync),
-        .wfg_pat_subcycle_i(wfg_pat_subcycle),
+        .wfg_core_sync_i    (wfg_core_sync),
+        .wfg_core_subcycle_i(wfg_core_subcycle),
 
         .wfg_axis_tready_o(driver_0_wfg_axis_tready),
         .wfg_axis_tdata_i (driver_0.wfg_axis_tdata),
@@ -238,8 +238,8 @@ module wfg_top #(
         .wbs_ack_o(wfg_drive_pat_ack),
         .wbs_dat_o(wfg_drive_pat_data),
 
-        .wfg_pat_sync_i        (wfg_pat_sync),
-        .wfg_pat_subcycle_cnt_i(wfg_pat_subcycle_cnt),
+        .wfg_core_sync_i        (wfg_core_sync),
+        .wfg_core_subcycle_cnt_i(wfg_core_subcycle_cnt),
 
         .wfg_axis_tready_o(driver_1_wfg_axis_tready),
         .wfg_axis_tdata_i (driver_1.wfg_axis_tdata),

@@ -14,7 +14,9 @@ Currently the following components are available:
 
 - `wfg_core`
 - `wfg_stim_sine`
+- `wfg_stim_mem`
 - `wfg_drive_spi`
+- `wfg_drive_pat`
 
 # Prerequisites
 

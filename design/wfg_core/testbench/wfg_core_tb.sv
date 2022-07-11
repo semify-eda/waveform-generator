@@ -24,10 +24,10 @@ module wfg_core_tb #(
     input               io_wbs_cyc,
 
     // Core synchronisation interface
-    output wire       wfg_pat_sync_o,          // O; Sync signal
-    output wire       wfg_pat_subcycle_o,      // O; Subcycle signal
-    output wire       wfg_pat_start_o,         // O; Indicate start
-    output wire [7:0] wfg_pat_subcycle_cnt_o,  // O; Subcycle pulse counter
+    output wire       wfg_core_sync_o,          // O; Sync signal
+    output wire       wfg_core_subcycle_o,      // O; Subcycle signal
+    output wire       wfg_core_start_o,         // O; Indicate start
+    output wire [7:0] wfg_core_subcycle_cnt_o,  // O; Subcycle pulse counter
     output wire       active_o                 // O; Active indication signal
 );
 
@@ -44,10 +44,10 @@ module wfg_core_tb #(
         .wbs_dat_o(io_wbs_datrd),
 
         // Core synchronisation interface
-        .wfg_pat_sync_o(wfg_pat_sync_o),
-        .wfg_pat_subcycle_o(wfg_pat_subcycle_o),
-        .wfg_pat_start_o(wfg_pat_start_o),
-        .wfg_pat_subcycle_cnt_o(wfg_pat_subcycle_cnt_o),
+        .wfg_core_sync_o(wfg_core_sync_o),
+        .wfg_core_subcycle_o(wfg_core_subcycle_o),
+        .wfg_core_start_o(wfg_core_start_o),
+        .wfg_core_subcycle_cnt_o(wfg_core_subcycle_cnt_o),
         .active_o(active_o)
     );
 

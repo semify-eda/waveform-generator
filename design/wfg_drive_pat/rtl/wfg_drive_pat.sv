@@ -23,8 +23,8 @@ module wfg_drive_pat #(
     input logic clk,   // I; System clock
     input logic rst_n, // I; Active low reset
 
-    input logic       pat_sync_i,         // I; Start Pulse for one cycle
-    input logic [7:0] pat_subcycle_cnt_i, // I; Current Subcycle
+    input logic       wfg_core_sync_i,         // I; Start Pulse for one cycle
+    input logic [7:0] wfg_core_subcycle_cnt_i, // I; Current Subcycle
 
     input logic [    CHANNELS-1:0] ctrl_en_q_i,    // I; Enable signal
     input logic [(CHANNELS*2)-1:0] patsel_q_i,     // I; Output pattern selector
@@ -61,7 +61,7 @@ module wfg_drive_pat #(
             wfg_drive_pat_channel drv (
                 .clk(clk),
                 .rst_n(rst_n),
-                .pat_subcycle_cnt_i(pat_subcycle_cnt_i),
+                .wfg_core_subcycle_cnt_i(wfg_core_subcycle_cnt_i),
                 .patsel_q_i({patsel_q_i[k+32], patsel_q_i[k]}),
                 .cfg_begin_q_i(cfg_begin_q_i),
                 .cfg_end_q_i(cfg_end_q_i),
@@ -82,7 +82,7 @@ module wfg_drive_pat #(
             axis_ready_ff <= '0;
         end else begin
 
-            if (pat_sync_i) begin
+            if (wfg_core_sync_i) begin
                 axis_ready_ff <= '1;
 
                 if (wfg_axis_tvalid_i) begin

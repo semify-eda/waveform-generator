@@ -16,7 +16,7 @@ module wfg_drive_pat_channel (
     input logic clk,   // I; System clock
     input logic rst_n, // I; Active low reset
 
-    input logic [7:0] pat_subcycle_cnt_i,
+    input logic [7:0] wfg_core_subcycle_cnt_i,
     input logic [1:0] patsel_q_i,
     input logic [7:0] cfg_begin_q_i,
     input logic [7:0] cfg_end_q_i,
@@ -32,11 +32,11 @@ module wfg_drive_pat_channel (
     always_comb begin
         data_next = data_ff;
 
-        if (pat_subcycle_cnt_i == cfg_begin_q_i) begin
+        if (wfg_core_subcycle_cnt_i == cfg_begin_q_i) begin
             data_next = axis_data_ff;
         end  //if
 
-        if (pat_subcycle_cnt_i == cfg_end_q_i) begin
+        if (wfg_core_subcycle_cnt_i == cfg_end_q_i) begin
             case (patsel_q_i)
                 2'b00: begin
                     data_next = '0;

@@ -25,8 +25,8 @@ module wfg_drive_spi_tb #(
     input               io_wbs_cyc,
 
     // Bus master A interface
-    input logic wfg_pat_sync_i,     // I; Single cycle pulse for write access
-    input logic wgf_pat_subcycle_i, // I; Single cycle pulse for read access
+    input logic wfg_core_sync_i,     // I; Single cycle pulse for write access
+    input logic wgf_core_subcycle_i, // I; Single cycle pulse for read access
 
     // AXI-Stream interface
     output wire                        wfg_axis_tready,  // O; ready
@@ -53,8 +53,8 @@ module wfg_drive_spi_tb #(
         .wbs_ack_o(io_wbs_ack),
         .wbs_dat_o(io_wbs_datrd),
 
-        .wfg_pat_sync_i(wfg_pat_sync_i),
-        .wfg_pat_subcycle_i(wgf_pat_subcycle_i),
+        .wfg_core_sync_i(wfg_core_sync_i),
+        .wfg_core_subcycle_i(wgf_core_subcycle_i),
 
         .wfg_axis_tready_o(wfg_axis_tready),
         .wfg_axis_tdata_i (wfg_axis_tdata),
