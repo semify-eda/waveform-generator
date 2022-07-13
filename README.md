@@ -13,6 +13,8 @@ The Waveform Generator is split up into three parts:
 Currently the following components are available:
 
 - `wfg_core`
+- `wfg_subcore`
+- `wfg_interconnect`
 - `wfg_stim_sine`
 - `wfg_stim_mem`
 - `wfg_drive_spi`
