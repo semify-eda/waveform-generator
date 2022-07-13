@@ -12,6 +12,10 @@ module wfg_drive_spi #(
     input logic wfg_core_sync_i,     // I; Sync pulse
     input logic wfg_core_subcycle_i, // I; Subcycle pulse
 
+    // Subcore synchronisation interface
+    input logic wfg_subcore_sync_i,     // I; Sync pulse
+    input logic wfg_subcore_subcycle_i, // I; Subcycle pulse
+
     // AXI streaming interface
     output logic                       wfg_axis_tready_o,  // O; ready
     input  logic                       wfg_axis_tvalid_i,  // I; valid
@@ -27,6 +31,7 @@ module wfg_drive_spi #(
     input logic       cfg_lsbfirst_q_i,  // I; Frame format
     input logic [1:0] cfg_dff_q_i,       // I; Data frame format
     input logic       cfg_sspol_q_i,     // I; Slave select polarity
+    input logic       cfg_core_sel_q_i,  // I; Core select
 
     // SPI IO interface
     output logic wfg_drive_spi_sclk_o,  // O; clock
@@ -58,6 +63,25 @@ module wfg_drive_spi #(
     logic [1:0] byte_cnt;
     logic [4:0] bytes_to_bits [0:3];
 
+    logic wfg_sync_i;
+    logic wfg_subcycle_i;
+
+    always_comb begin
+        wfg_sync_i = 'x;
+        wfg_subcycle_i = 'x;
+
+        case (cfg_core_sel_q_i)
+            1'b0: begin
+                wfg_sync_i     = wfg_core_sync_i;
+                wfg_subcycle_i = wfg_core_subcycle_i;
+            end
+            1'b1: begin
+                wfg_sync_i     = wfg_subcore_sync_i;
+                wfg_subcycle_i = wfg_subcore_subcycle_i;
+            end
+        endcase
+    end
+
     // Present state logic
     always_ff @(posedge clk, negedge rst_n)
         if (!rst_n) cur_state <= ST_IDLE;
@@ -68,7 +92,7 @@ module wfg_drive_spi #(
         next_state = cur_state;
         case (cur_state)
             ST_IDLE: begin
-                if (wfg_core_sync_i && wfg_axis_tvalid_i && ctrl_en_q_i) next_state = ST_SEND_DATA;
+                if (wfg_sync_i && wfg_axis_tvalid_i && ctrl_en_q_i) next_state = ST_SEND_DATA;
             end
             ST_SEND_DATA: begin
                 if (counter == 0 && current_bit == 0 && spi_clk) begin

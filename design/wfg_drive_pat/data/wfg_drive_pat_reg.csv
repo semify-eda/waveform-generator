@@ -4,6 +4,8 @@ Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
 4'h4,CFG,,,,,,,Pattern configuration register
 ,,BEGIN,rw,cfg,7,0,0,"Select at which subcycle the output occurs, binary encoded"
 ,,END,rw,cfg,15,8,0,"Select at which subcycle the transition according to PATSEL occurs, binary encoded"
+,,CORE_SEL,rw,cfg,16,16,1'b0,"0 : core
+1 : subcore"
 4'h8,PATSEL0,,,,,,,Low bits of PATSEL
 ,,LOW,rw,cfg,31,0,0,"Select Output Format
   

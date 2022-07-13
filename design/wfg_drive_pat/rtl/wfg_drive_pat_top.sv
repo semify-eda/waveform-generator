@@ -20,8 +20,12 @@ module wfg_drive_pat_top #(
     output [  (BUSW-1):0] wbs_dat_o,
 
     // Core synchronisation interface
-    input wire        wfg_core_sync_i,         // I; pat_sync pulse
+    input wire        wfg_core_sync_i,         // I; sync pulse
     input logic [7:0] wfg_core_subcycle_cnt_i, // I; subcycle_cnt
+
+    // Subcore synchronisation interface
+    input logic       wfg_subcore_sync_i,         // I; sync pulse
+    input logic [7:0] wfg_subcore_subcycle_cnt_i, // I; subcycle_cnt
 
     // AXI-Stream interface
     output wire wfg_axis_tready_o,
@@ -39,6 +43,7 @@ module wfg_drive_pat_top #(
     //marker_template_code
 
     logic [ 7: 0] cfg_begin_q;             // CFG.BEGIN register output
+    logic         cfg_core_sel_q;          // CFG.CORE_SEL register output
     logic [15: 8] cfg_end_q;               // CFG.END register output
     logic [31: 0] ctrl_en_q;               // CTRL.EN register output
     logic [31: 0] patsel0_low_q;           // PATSEL0.LOW register output
@@ -63,11 +68,12 @@ module wfg_drive_pat_top #(
         //template: wishbone/assign_to_module.template
         //marker_template_code
 
-        .cfg_begin_q_o   (cfg_begin_q),    // CFG.BEGIN register output
-        .cfg_end_q_o     (cfg_end_q),      // CFG.END register output
-        .ctrl_en_q_o     (ctrl_en_q),      // CTRL.EN register output
-        .patsel0_low_q_o (patsel0_low_q),  // PATSEL0.LOW register output
-        .patsel1_high_q_o(patsel1_high_q)  // PATSEL1.HIGH register output
+        .cfg_begin_q_o   (cfg_begin_q),     // CFG.BEGIN register output
+        .cfg_core_sel_q_o(cfg_core_sel_q),  // CFG.CORE_SEL register output
+        .cfg_end_q_o     (cfg_end_q),       // CFG.END register output
+        .ctrl_en_q_o     (ctrl_en_q),       // CTRL.EN register output
+        .patsel0_low_q_o (patsel0_low_q),   // PATSEL0.LOW register output
+        .patsel1_high_q_o(patsel1_high_q)   // PATSEL1.HIGH register output
 
         //marker_template_end
     );
@@ -83,6 +89,10 @@ module wfg_drive_pat_top #(
         .wfg_core_sync_i        (wfg_core_sync_i),
         .wfg_core_subcycle_cnt_i(wfg_core_subcycle_cnt_i),
 
+        // Subcore synchronisation interface
+        .wfg_subcore_sync_i        (wfg_subcore_sync_i),
+        .wfg_subcore_subcycle_cnt_i(wfg_subcore_subcycle_cnt_i),
+
         // AXI streaming interface
         .wfg_axis_tready_o(wfg_axis_tready_o),  // O; ready
         .wfg_axis_tvalid_i(wfg_axis_tvalid_i),  // I; valid
@@ -93,9 +103,10 @@ module wfg_drive_pat_top #(
         .ctrl_en_q_i(ctrl_en_q),  // I; pat enable
 
         // Configuration
-        .cfg_begin_q_i(cfg_begin_q),
-        .cfg_end_q_i  (cfg_end_q),
-        .patsel_q_i   ({patsel1_high_q, patsel0_low_q}),
+        .cfg_begin_q_i   (cfg_begin_q),
+        .cfg_end_q_i     (cfg_end_q),
+        .patsel_q_i      ({patsel1_high_q, patsel0_low_q}),
+        .cfg_core_sel_q_i(cfg_core_sel_q),
 
         // Output
         .pat_dout_o   (pat_dout_o),

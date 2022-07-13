@@ -23,11 +23,12 @@ module wfg_drive_pat_wishbone_reg #(
     //template: wishbone/register_interface.template
     //marker_template_code
 
-    output logic [ 7:0] cfg_begin_q_o,    // CFG.BEGIN register output
-    output logic [15:8] cfg_end_q_o,      // CFG.END register output
-    output logic [31:0] ctrl_en_q_o,      // CTRL.EN register output
-    output logic [31:0] patsel0_low_q_o,  // PATSEL0.LOW register output
-    output logic [31:0] patsel1_high_q_o  // PATSEL1.HIGH register output
+    output logic [ 7:0] cfg_begin_q_o,     // CFG.BEGIN register output
+    output logic        cfg_core_sel_q_o,  // CFG.CORE_SEL register output
+    output logic [15:8] cfg_end_q_o,       // CFG.END register output
+    output logic [31:0] ctrl_en_q_o,       // CTRL.EN register output
+    output logic [31:0] patsel0_low_q_o,   // PATSEL0.LOW register output
+    output logic [31:0] patsel1_high_q_o   // PATSEL1.HIGH register output
 
     //marker_template_end
 );
@@ -38,6 +39,7 @@ module wfg_drive_pat_wishbone_reg #(
     //marker_template_code
 
     logic [ 7: 0] cfg_begin_ff;            // CFG.BEGIN FF
+    logic         cfg_core_sel_ff;         // CFG.CORE_SEL FF
     logic [15: 8] cfg_end_ff;              // CFG.END FF
     logic [31: 0] ctrl_en_ff;              // CTRL.EN FF
     logic [31: 0] patsel0_low_ff;          // PATSEL0.LOW FF
@@ -54,6 +56,7 @@ module wfg_drive_pat_wishbone_reg #(
             //marker_template_code
 
             cfg_begin_ff    <= 0;
+            cfg_core_sel_ff <= 1'b0;
             cfg_end_ff      <= 0;
             ctrl_en_ff      <= 0;
             patsel0_low_ff  <= 0;
@@ -68,8 +71,9 @@ module wfg_drive_pat_wishbone_reg #(
                 //marker_template_code
 
                 4'h4: begin
-                    cfg_begin_ff <= wbs_dat_i[7:0];
-                    cfg_end_ff   <= wbs_dat_i[15:8];
+                    cfg_begin_ff    <= wbs_dat_i[7:0];
+                    cfg_core_sel_ff <= wbs_dat_i[16:16];
+                    cfg_end_ff      <= wbs_dat_i[15:8];
                 end
                 4'h0:       ctrl_en_ff               <= wbs_dat_i[31: 0];
                 4'h8:       patsel0_low_ff           <= wbs_dat_i[31: 0];
@@ -96,8 +100,9 @@ module wfg_drive_pat_wishbone_reg #(
                     //marker_template_code
 
                     4'h4: begin
-                        wbs_dat_o[7:0]  <= cfg_begin_ff;
-                        wbs_dat_o[15:8] <= cfg_end_ff;
+                        wbs_dat_o[7:0]   <= cfg_begin_ff;
+                        wbs_dat_o[16:16] <= cfg_core_sel_ff;
+                        wbs_dat_o[15:8]  <= cfg_end_ff;
                     end
                     4'h0:       wbs_dat_o[31: 0] <= ctrl_en_ff;
                     4'h8:       wbs_dat_o[31: 0] <= patsel0_low_ff;
@@ -122,6 +127,7 @@ module wfg_drive_pat_wishbone_reg #(
     //marker_template_code
 
     assign cfg_begin_q_o    = cfg_begin_ff;
+    assign cfg_core_sel_q_o = cfg_core_sel_ff;
     assign cfg_end_q_o      = cfg_end_ff;
     assign ctrl_en_q_o      = ctrl_en_ff;
     assign patsel0_low_q_o  = patsel0_low_ff;

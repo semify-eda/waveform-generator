@@ -23,6 +23,7 @@ module wfg_drive_spi_wishbone_reg #(
     //template: wishbone/register_interface.template
     //marker_template_code
 
+    output logic       cfg_core_sel_q_o,  // CFG.CORE_SEL register output
     output logic       cfg_cpol_q_o,      // CFG.CPOL register output
     output logic [3:2] cfg_dff_q_o,       // CFG.DFF register output
     output logic       cfg_lsbfirst_q_o,  // CFG.LSBFIRST register output
@@ -38,6 +39,7 @@ module wfg_drive_spi_wishbone_reg #(
     //template: wishbone/instantiate_registers.template
     //marker_template_code
 
+    logic         cfg_core_sel_ff;         // CFG.CORE_SEL FF
     logic         cfg_cpol_ff;             // CFG.CPOL FF
     logic [ 3: 2] cfg_dff_ff;              // CFG.DFF FF
     logic         cfg_lsbfirst_ff;         // CFG.LSBFIRST FF
@@ -55,6 +57,7 @@ module wfg_drive_spi_wishbone_reg #(
             //template: wishbone/reset_registers.template
             //marker_template_code
 
+            cfg_core_sel_ff <= 1'b0;
             cfg_cpol_ff     <= 1'b0;
             cfg_dff_ff      <= 2'b00;
             cfg_lsbfirst_ff <= 1'b0;
@@ -71,6 +74,7 @@ module wfg_drive_spi_wishbone_reg #(
                 //marker_template_code
 
                 4'h4: begin
+                    cfg_core_sel_ff <= wbs_dat_i[5:5];
                     cfg_cpol_ff     <= wbs_dat_i[0:0];
                     cfg_dff_ff      <= wbs_dat_i[3:2];
                     cfg_lsbfirst_ff <= wbs_dat_i[1:1];
@@ -100,6 +104,7 @@ module wfg_drive_spi_wishbone_reg #(
                     //marker_template_code
 
                     4'h4: begin
+                        wbs_dat_o[5:5] <= cfg_core_sel_ff;
                         wbs_dat_o[0:0] <= cfg_cpol_ff;
                         wbs_dat_o[3:2] <= cfg_dff_ff;
                         wbs_dat_o[1:1] <= cfg_lsbfirst_ff;
@@ -126,6 +131,7 @@ module wfg_drive_spi_wishbone_reg #(
     //template: wishbone/assign_outputs.template
     //marker_template_code
 
+    assign cfg_core_sel_q_o = cfg_core_sel_ff;
     assign cfg_cpol_q_o     = cfg_cpol_ff;
     assign cfg_dff_q_o      = cfg_dff_ff;
     assign cfg_lsbfirst_q_o = cfg_lsbfirst_ff;

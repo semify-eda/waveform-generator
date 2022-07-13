@@ -16,7 +16,7 @@ module wfg_subcore (
     output wire       wfg_subcore_subcycle_o,      // O; Subcycle signal
     output wire       wfg_subcore_start_o,         // O; Indicate start
     output wire [7:0] wfg_subcore_subcycle_cnt_o,  // O; Subcycle pulse counter
-    output wire       active_o                 // O; Active indication signal
+    output wire       active_o                     // O; Active indication signal
 );
 
     // -------------------------------------------------------------------------
@@ -70,11 +70,11 @@ module wfg_subcore (
                 end
 
             end else begin
-                subcycle_count <= 8'd0;
-                sync_count     <= 8'd0;
-                temp_subcycle  <= 1'b0;
-                temp_sync      <= 1'b0;
-                subcycle_pls_cnt  <= 8'd0;
+                subcycle_count   <= 8'd0;
+                sync_count       <= 8'd0;
+                temp_subcycle    <= 1'b0;
+                temp_sync        <= 1'b0;
+                subcycle_pls_cnt <= 8'd0;
             end
 
             subcycle_dly <= temp_subcycle;
@@ -91,7 +91,7 @@ module wfg_subcore (
 
     assign wfg_subcore_subcycle_o     = temp_subcycle & ~subcycle_dly;
     assign wfg_subcore_sync_o         = temp_sync & ~sync_dly;
-    assign active_o               = en_i;
+    assign active_o                   = en_i;
     assign wfg_subcore_start_o        = en_i & ~en_i_dly;
     assign wfg_subcore_subcycle_cnt_o = subcycle_pls_cnt;
 

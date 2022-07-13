@@ -28,7 +28,7 @@ module wfg_core_tb #(
     output wire       wfg_core_subcycle_o,      // O; Subcycle signal
     output wire       wfg_core_start_o,         // O; Indicate start
     output wire [7:0] wfg_core_subcycle_cnt_o,  // O; Subcycle pulse counter
-    output wire       active_o                 // O; Active indication signal
+    output wire       active_o                  // O; Active indication signal
 );
 
     wfg_core_top wfg_core_top (

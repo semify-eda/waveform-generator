@@ -16,6 +16,8 @@ Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
 ,,SSPOL,rw,cfg,4,4,1'b0,"Slave select polarity
   0: Active low
   1: Active high"
+,,CORE_SEL,rw,cfg,5,5,1'b0,"0 : core
+1 : subcore"
 4'h8,CLKCFG,,,,,,,SPI clock configuration register
 ,,DIV,rw,cfg,7,0,0,"SPI Clock divider.
 Divider ratio is 2*DIV+1"

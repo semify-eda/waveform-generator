@@ -22,7 +22,7 @@ module wfg_subcore_top #(
     output wire       wfg_subcore_subcycle_o,      // O; Subcycle signal
     output wire       wfg_subcore_start_o,         // O; Indicate start
     output wire [7:0] wfg_subcore_subcycle_cnt_o,  // O; Subcycle pulse counter
-    output wire       active_o                 // O; Active indication signal
+    output wire       active_o                     // O; Active indication signal
 );
     // Registers
     //marker_template_start
@@ -76,7 +76,7 @@ module wfg_subcore_top #(
         .wfg_subcore_subcycle_o    (wfg_subcore_subcycle_o),      // O; Subcycle signal
         .wfg_subcore_start_o       (wfg_subcore_start_o),         // O; Indicate start
         .wfg_subcore_subcycle_cnt_o(wfg_subcore_subcycle_cnt_o),  // O; Subcycle pulse counter
-        .active_o              (active_o)                 // O; Active indication signal
+        .active_o                  (active_o)                     // O; Active indication signal
     );
 
 endmodule

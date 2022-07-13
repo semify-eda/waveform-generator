@@ -12,6 +12,14 @@
                     "hardware": "cfg",
                     "reset": "0"
                 },
+                "CORE_SEL": {
+                    "LSB": "16",
+                    "MSB": "16",
+                    "access": "rw",
+                    "description": "0 : core\n1 : subcore",
+                    "hardware": "cfg",
+                    "reset": "1'b0"
+                },
                 "END": {
                     "LSB": "8",
                     "MSB": "15",

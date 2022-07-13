@@ -104,7 +104,7 @@ class Testbench(object):
         self.dut.wfg_core_sync_i.value = 1
         while True:
             await RisingEdge(self.dut.io_wbs_clk)
-            subcycles = self.dut.wfg_pat_subcycle_cnt_i.value
+            subcycles = self.dut.wfg_core_subcycle_cnt_i.value
             if subcycles == SUBCYCLES_PER_SYNC-2:
                 self.dut.wfg_core_subcycle_cnt_i.value = subcycles + 1
                 self.dut.wfg_core_sync_i.value = 1

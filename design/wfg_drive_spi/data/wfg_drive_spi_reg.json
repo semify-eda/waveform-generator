@@ -4,6 +4,14 @@
             "address": "4'h4",
             "description": "SPI configuration register",
             "entries": {
+                "CORE_SEL": {
+                    "LSB": "5",
+                    "MSB": "5",
+                    "access": "rw",
+                    "description": "0 : core\n1 : subcore",
+                    "hardware": "cfg",
+                    "reset": "1'b0"
+                },
                 "CPOL": {
                     "LSB": "0",
                     "MSB": "0",

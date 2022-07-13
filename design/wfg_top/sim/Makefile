@@ -2,6 +2,7 @@
 SRC := $(wildcard ../rtl/*.sv)
 SRC += $(wildcard ../testbench/*.sv)
 SRC += $(wildcard ../../wfg_core/rtl/*.sv)
+SRC += $(wildcard ../../wfg_subcore/rtl/*.sv)
 SRC += $(wildcard ../../wfg_interconnect/rtl/*.sv)
 SRC += $(wildcard ../../wfg_stim_sine/rtl/*.sv)
 SRC += $(wildcard ../../wfg_stim_mem/rtl/*.sv)
