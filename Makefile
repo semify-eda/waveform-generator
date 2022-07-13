@@ -13,7 +13,9 @@ TEMPLATED_FILES := design/wfg_stim_sine/rtl/wfg_stim_sine_wishbone_reg.sv \
                    design/wfg_interconnect/rtl/wfg_interconnect_top.sv \
                    design/wfg_interconnect/rtl/wfg_interconnect_wishbone_reg.sv \
                    design/wfg_core/rtl/wfg_core_top.sv \
-                   design/wfg_core/rtl/wfg_core_wishbone_reg.sv 
+                   design/wfg_core/rtl/wfg_core_wishbone_reg.sv \
+                   design/wfg_subcore/rtl/wfg_subcore_top.sv \
+                   design/wfg_subcore/rtl/wfg_subcore_wishbone_reg.sv
 
 
 DATA_FILES := design/wfg_stim_sine/data/wfg_stim_sine_reg.csv \
@@ -21,7 +23,8 @@ DATA_FILES := design/wfg_stim_sine/data/wfg_stim_sine_reg.csv \
               design/wfg_drive_spi/data/wfg_drive_spi_reg.csv \
               design/wfg_drive_pat/data/wfg_drive_pat_reg.csv \
               design/wfg_interconnect/data/wfg_interconnect_reg.csv \
-              design/wfg_core/data/wfg_core_reg.csv
+              design/wfg_core/data/wfg_core_reg.csv \
+              design/wfg_subcore/data/wfg_subcore_reg.csv
 
 LIBRARIES := $(DATA_FILES:.csv=.json)
 
@@ -38,6 +41,7 @@ tests:
 	#cd design/wfg_drive_pat/sim; make sim # TODO fix tests
 	cd design/wfg_interconnect/sim; make sim
 	cd design/wfg_core/sim; make sim
+	cd design/wfg_subcore/sim; make sim
 	cd design/wfg_top/sim; make sim
 
 

@@ -1,0 +1,40 @@
+{
+    "registers": {
+        "CFG": {
+            "address": "4'h4",
+            "description": "Core configuration register",
+            "entries": {
+                "SUBCYCLE": {
+                    "LSB": "8",
+                    "MSB": "23",
+                    "access": "rw",
+                    "description": "Subcycle pulse clock divider.\nCount clk until threshold is reached",
+                    "hardware": "cfg",
+                    "reset": "0"
+                },
+                "SYNC": {
+                    "LSB": "0",
+                    "MSB": "7",
+                    "access": "rw",
+                    "description": "Sync pulse clock divider.\nCount clk until threshold is reached",
+                    "hardware": "cfg",
+                    "reset": "0"
+                }
+            }
+        },
+        "CTRL": {
+            "address": "4'h0",
+            "description": "Core control register",
+            "entries": {
+                "EN": {
+                    "LSB": "0",
+                    "MSB": "0",
+                    "access": "rw",
+                    "description": "Core enable",
+                    "hardware": "cfg",
+                    "reset": "1'b0"
+                }
+            }
+        }
+    }
+}

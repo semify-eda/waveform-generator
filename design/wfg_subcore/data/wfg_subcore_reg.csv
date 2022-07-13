@@ -1,0 +1,8 @@
+Address,RegName,BitName,Access,HW,MSB,LSB,Reset,Description
+4'h0,CTRL,,,,,,,Core control register
+,,EN,rw,cfg,0,0,1'b0,Core enable
+4'h4,CFG,,,,,,,Core configuration register
+,,SYNC,rw,cfg,7,0,0,"Sync pulse clock divider.
+Count clk until threshold is reached"
+,,SUBCYCLE,rw,cfg,23,8,0,"Subcycle pulse clock divider.
+Count clk until threshold is reached"
