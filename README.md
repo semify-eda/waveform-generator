@@ -10,6 +10,8 @@ The Waveform Generator is split up into three parts:
 - Interconnect
 - Drivers
 
+![Waveform Generator](img/WFG.png)
+
 Currently the following components are available:
 
 - `wfg_core`
