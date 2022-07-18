@@ -53,37 +53,44 @@ void wfg_init(void)
 {
     //*(volatile int*)(WFG_BASE) = 0xDEADBEEF;
 
-    int sync_count = 16;
-    int subcycle_count = 16;
+    int core_sync_count = 16;
+    int core_subcycle_count = 16;
+    
+    int subcore_sync_count = 32;
+    int subcore_subcycle_count = 16;
 
     // Core
-    wfg_set_register(0x1, 0x4, (sync_count << 0) | (subcycle_count << 8));
+    wfg_set_register(0x1, 0x4, (core_sync_count << 0) | (core_subcycle_count << 8));
     wfg_set_register(0x1, 0x0, 1); // Enable
     
-    // Interconnect
-    wfg_set_register(0x2, 0x4, 0); // Driver0
-    wfg_set_register(0x2, 0x8, 1); // Driver1
+    // Subcore
+    wfg_set_register(0x2, 0x4, (subcore_sync_count << 0) | (subcore_subcycle_count << 8));
     wfg_set_register(0x2, 0x0, 1); // Enable
     
-    // Sine
+    // Interconnect
+    wfg_set_register(0x3, 0x4, 0); // Driver0
+    wfg_set_register(0x3, 0x8, 1); // Driver1
     wfg_set_register(0x3, 0x0, 1); // Enable
     
-    // Mem
-    wfg_set_register(0x4, 0x4, 0x4); // Start
-    wfg_set_register(0x4, 0x8, 0xF); // End
-    wfg_set_register(0x4, 0xC, 0x2); // Increment
+    // Sine
     wfg_set_register(0x4, 0x0, 1); // Enable
+    
+    // Mem
+    wfg_set_register(0x5, 0x4, 0x4); // Start
+    wfg_set_register(0x5, 0x8, 0xF); // End
+    wfg_set_register(0x5, 0xC, 0x2); // Increment
+    wfg_set_register(0x5, 0x0, 1); // Enable
 
     // SPI
-    wfg_set_register(0x5, 0x8, cnt); // Clock divider
-    wfg_set_register(0x5, 0x4, (cpol<<0) | (lsbfirst<<1) | (dff<<2) | (sspol<<4));
-    wfg_set_register(0x5, 0x0, 1); // Enable SPI
+    wfg_set_register(0x6, 0x8, cnt); // Clock divider
+    wfg_set_register(0x6, 0x4, (cpol<<0) | (lsbfirst<<1) | (dff<<2) | (sspol<<4));
+    wfg_set_register(0x6, 0x0, 1); // Enable SPI
     
     // Pattern
-    wfg_set_register(0x6, 0x4, (0) | (8<<8) ); // Start:End
-    wfg_set_register(0x6, 0x8, 0xFFFFFFFF); // Low bit
-    wfg_set_register(0x6, 0xC, 0xFFFFFFFF); // High bit
-    wfg_set_register(0x6, 0x0, 0xFFFFFFFF); // Enable all bits
+    wfg_set_register(0x7, 0x4, (0) | (8<<8) ); // Start:End
+    wfg_set_register(0x7, 0x8, 0xFFFFFFFF); // Low bit
+    wfg_set_register(0x7, 0xC, 0xFFFFFFFF); // High bit
+    wfg_set_register(0x7, 0x0, 0xFFFFFFFF); // Enable all bits
 }
 
 #endif

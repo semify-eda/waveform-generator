@@ -164,13 +164,14 @@ class MySoC(SoCCore):
                 spi_cs      = oled_ctl.csn
                 spi_sdo     = oled_spi.mosi
             
-            platform.add_source("../../../design/wfg_top/rtl/wfg_top.sv")
-            platform.add_source("../../../design/wfg_core/rtl/*.sv")
-            platform.add_source("../../../design/wfg_interconnect/rtl/*.sv")
-            platform.add_source("../../../design/wfg_stim_sine/rtl/*.sv")
-            platform.add_source("../../../design/wfg_stim_mem/rtl/*.sv")
-            platform.add_source("../../../design/wfg_drive_spi/rtl/*.sv")
-            platform.add_source("../../../design/wfg_drive_pat/rtl/*.sv")
+            platform.add_source("../../design/wfg_top/rtl/wfg_top.sv")
+            platform.add_source("../../design/wfg_core/rtl/*.sv")
+            platform.add_source("../../design/wfg_subcore/rtl/*.sv")
+            platform.add_source("../../design/wfg_interconnect/rtl/*.sv")
+            platform.add_source("../../design/wfg_stim_sine/rtl/*.sv")
+            platform.add_source("../../design/wfg_stim_mem/rtl/*.sv")
+            platform.add_source("../../design/wfg_drive_spi/rtl/*.sv")
+            platform.add_source("../../design/wfg_drive_pat/rtl/*.sv")
             
             self.specials += Instance("wfg_top",
                 i_io_wbs_clk      = self.crg.cd_sys.clk,
