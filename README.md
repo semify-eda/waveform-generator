@@ -2,7 +2,7 @@
 
 This repository implements a generic Waveform Generator in SystemVerilog.
 
-# Introduction
+## Introduction
 
 The Waveform Generator is split up into three parts:
 
@@ -20,7 +20,7 @@ Currently the following components are available:
 - `wfg_drive_spi`
 - `wfg_drive_pat`
 
-# Prerequisites
+## Prerequisites
 
 For this project you will need Python3+ and pip.
 
@@ -45,19 +45,19 @@ To get more information on assertion fails you can optionally install `pytest`:
 
 	pip3 install pytest
 
-# Simulation
+## Simulation
 
 To run the individual unit tests, issue:
 
-	make unit-test
+	make tests
 
-# Template Based Generation
+## Template Based Generation
 
 To generate the register files for the wishbone bus, issue:
 
 	make templates
 
-# Code Formatting
+## Code Formatting
 
 To ensure consistent formatting, [verible](https://github.com/chipsalliance/verible) is used as a SystemVerilog formatter tool.
 
@@ -65,13 +65,13 @@ To ensure consistent formatting, [verible](https://github.com/chipsalliance/veri
 
 This will format the code according to some custom flags.
 
-# Invoke Linter
+## Invoke Linter
 
 To invoke the [verible](https://github.com/chipsalliance/verible) linter, run:
 
 	make lint
 
-# FPGA Prototyping with LiteX
+## FPGA Prototyping with LiteX
 
 To run the project on an FPGA, [LiteX](https://github.com/enjoy-digital/litex) is used to instantiate the SoC.
 
@@ -85,11 +85,11 @@ To trace the simulation using `--trace` you need to install:
 
     pip3 install pyvcd
 
-## Simulation
+### Simulation
 
 To run the simulation with LiteX go to:
 
-`fpga/ulx3s/soc`
+`fpga/ulx3s_soc`
 
 First run
 
@@ -99,11 +99,11 @@ and after that finally:
 
 	make sim
 
-## FPGA Bitstream generation
+### FPGA Bitstream generation
 
 To build the bitstream with LiteX for the ULX3S go to:
 
-`fpga/ulx3s/soc`
+`fpga/ulx3s_soc`
 
 First run
 
@@ -115,7 +115,25 @@ and after that finally:
 
 To upload the bitstream to the ULX3S board, run:
 
-	make upload
+	make only-upload
+
+## View FPGA Utilization
+
+To view the FPGA utilization of only the Waveform Generator with nextpnr, issue the command:
+
+	nextpnr-view
+
+Next, a window will open. In the top menu, choose the following actions one after another:
+
+- Pack
+- Place
+- Route
+
+After this you can just take a screenshot of the finished design.
+
+It will look like this:
+
+![ULX3S Utilization](img/utilization.png)
 
 ## License
 
