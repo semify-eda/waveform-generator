@@ -99,6 +99,10 @@ and after that finally:
 
 	make sim
 
+The output of the simulation window should be:
+
+![LiteX simulation](img/litex.png)
+
 ### FPGA Bitstream generation
 
 To build the bitstream with LiteX for the ULX3S go to:
