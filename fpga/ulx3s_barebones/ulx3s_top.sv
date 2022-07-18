@@ -39,8 +39,25 @@ module ulx3s_top (
     assign led[0] = wfg_drive_spi_sclk_o;
     assign led[1] = wfg_drive_spi_cs_no;
     assign led[2] = wfg_drive_spi_sdo_o;
+    
+    logic [31:0] wfg_drive_pat_dout_o;
+    
+    assign led[5] = | wfg_drive_pat_dout_o[7:0];
+    
+    // Memory interface
+    logic        csb1;
+    logic [ 9:0] addr1;
+    logic [31:0] dout1;
+    
+    localparam MEM_SIZE = 2 ** 10;
 
-    wfg_top wfg_top (
+    logic [31:0] mem[MEM_SIZE];
+    
+    always_ff @(negedge io_wbs_clk) begin
+        if (!csb1) dout1 <= mem[addr1];
+    end
+
+    (*  keep *) wfg_top wfg_top (
         .io_wbs_clk(io_wbs_clk),
         .io_wbs_rst(io_wbs_rst),
         .io_wbs_adr(io_wbs_adr),
@@ -53,7 +70,13 @@ module ulx3s_top (
 
         .wfg_drive_spi_sclk_o(wfg_drive_spi_sclk_o),
         .wfg_drive_spi_cs_no(wfg_drive_spi_cs_no),
-        .wfg_drive_spi_sdo_o(wfg_drive_spi_sdo_o)
+        .wfg_drive_spi_sdo_o(wfg_drive_spi_sdo_o),
+        
+        .wfg_drive_pat_dout_o(wfg_drive_pat_dout_o),
+        
+        .csb1(csb1),
+        .addr1(addr1),
+        .dout1(dout1)
     );
 
 endmodule
